@@ -1,0 +1,31 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "prod": "npm run production",
+        "production": "mix --production"
+    },
+    "devDependencies": {
+        "autoprefixer": "^10.2.5",
+        "axios": "^0.21",
+        "laravel-mix": "^6.0.6",
+        "lodash": "^4.17.19",
+        "postcss": "^8.2.9",
+        "tailwindcss": "^2.1.1",
+        "ts-loader": "^8.1.0",
+        "typescript": "^4.2.4",
+        "webpack-cli": "^4.6.0"
+    },
+    "dependencies": {
+        "@inertiajs/inertia": "^0.8.6",
+        "@inertiajs/inertia-react": "^0.5.11",
+        "@types/react": "^17.0.3",
+        "@types/react-dom": "^17.0.3",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2"
+    }
+}
