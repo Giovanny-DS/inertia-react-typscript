@@ -1,10 +1,10 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 interface Props {
   className?: string;
 }
 
-export default function CheckPassesIcon({ className }: Props): ReactElement {
+export const CheckPassesIcon: React.FC<Props> = ({ className }) => {
   return (
     <svg
       className={['w-5 h-5', className].join(' ')}
@@ -21,4 +21,4 @@ export default function CheckPassesIcon({ className }: Props): ReactElement {
       />
     </svg>
   );
-}
+};

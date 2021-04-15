@@ -1,12 +1,12 @@
 import { Transition } from '@headlessui/react';
-import React, { ReactNode, ReactElement } from 'react';
+import React, { ReactNode } from 'react';
 
-interface ActionMessageProps {
+interface Props {
   on: boolean;
   children: ReactNode;
 }
 
-export default function ActionMessage({ on, children, ...rest }: ActionMessageProps): ReactElement {
+export const ActionMessage: React.FC<Props> = ({ on, children, ...rest }) => {
   return (
     <div>
       <Transition
@@ -24,4 +24,4 @@ export default function ActionMessage({ on, children, ...rest }: ActionMessagePr
       </Transition>
     </div>
   );
-}
+};

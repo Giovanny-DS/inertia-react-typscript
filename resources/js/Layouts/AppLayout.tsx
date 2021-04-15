@@ -1,7 +1,7 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 
-interface AppLayoutProps {}
+interface Props {}
 
-export function AppLayout({}: AppLayoutProps): ReactElement {
+export const AppLayout: React.FC<Props> = () => {
   return <div></div>;
-}
+};

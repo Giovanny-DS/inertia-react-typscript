@@ -1,12 +1,15 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import logo from './../assets/logo.svg';
 
-interface Props {}
+interface Props {
+  alt?: string;
+  className?: string;
+}
 
-export default function ApplicationLogo({}: Props): ReactElement {
+export const ApplicationLogo: React.FC<Props> = ({ alt, className, ...rest }) => {
   return (
     <div>
-      <img src={logo} alt="" />
+      <img src={logo} {...rest} />
     </div>
   );
-}
+};

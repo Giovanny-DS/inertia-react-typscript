@@ -1,10 +1,10 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 interface Props {
   className?: string;
 }
 
-export default function CheckInfoIcon({ className }: Props): ReactElement {
+export const CheckInfoIcon: React.FC<Props> = ({ className }) => {
   return (
     <svg
       className={['w-5 h-5', className].join(' ')}
@@ -17,4 +17,4 @@ export default function CheckInfoIcon({ className }: Props): ReactElement {
       <path d="M13.2 6.00001H10.8V8.40003H13.2V6.00001Z" />
     </svg>
   );
-}
+};

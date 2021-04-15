@@ -1,12 +1,12 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Transition } from '@headlessui/react';
-import CheckFailIcon from './CheckFailIcon';
-import CheckPassesIcon from './CheckPassesIcon';
-import CheckInfoIcon from './CheckInfoIcon';
-import CheckWarningIcon from './CheckWarningIcon';
-import CheckCancelIcon from './CheckCancelIcon';
+import { CheckFailIcon } from './CheckFailIcon';
+import { CheckPassesIcon } from './CheckPassesIcon';
+import { CheckInfoIcon } from './CheckInfoIcon';
+import { CheckWarningIcon } from './CheckWarningIcon';
+import { CheckCancelIcon } from './CheckCancelIcon';
 
-interface BannerProps {
+interface Props {
   message: string;
   onClose: CallableFunction;
   autoDeletion?: Boolean;
@@ -14,13 +14,13 @@ interface BannerProps {
   time?: number;
 }
 
-export default function ActionBanner({
+export const ActionBanner: React.FC<Props> = ({
   message,
   onClose,
   autoDeletion = false,
   type = 'success',
   time = 3000,
-}: BannerProps): ReactElement {
+}) => {
   useEffect(() => {
     if (autoDeletion) {
       const deletionTimeout = setTimeout(() => {
@@ -100,13 +100,6 @@ export default function ActionBanner({
                   onClick={() => onClose()}
                 >
                   <CheckCancelIcon className={type === 'warning' ? 'text-black' : 'text-white'} />
-                  {/* <svg
-                    className="w-5 h-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  ></svg> */}
                 </button>
               </div>
             </div>
@@ -115,4 +108,4 @@ export default function ActionBanner({
       </Transition>
     </div>
   );
-}
+};

@@ -1,11 +1,11 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React from 'react';
 
 interface Props {
-  logo?: ReactNode;
-  children: ReactNode;
+  logo?: React.ReactNode;
+  children: React.ReactNode;
 }
 
-export default function AuthenticationCard({ logo, children, ...rest }: Props): ReactElement {
+export const AuthenticationCard: React.FC<Props> = ({ logo, children, ...rest }) => {
   return (
     <div className="flex flex-col items-center min-h-screen pt-6 bg-gray-100 sm:justify-center sm:pt-0" {...rest}>
       {logo && <div>{logo}</div>}
@@ -14,4 +14,4 @@ export default function AuthenticationCard({ logo, children, ...rest }: Props): 
       </div>
     </div>
   );
-}
+};

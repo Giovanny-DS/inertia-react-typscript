@@ -4159,31 +4159,26 @@ var __importStar = this && this.__importStar || function (mod) {
   return result;
 };
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
+exports.ActionBanner = void 0;
 
 var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
 var react_2 = __webpack_require__(/*! @headlessui/react */ "./node_modules/@headlessui/react/dist/headlessui.esm.js");
 
-var CheckFailIcon_1 = __importDefault(__webpack_require__(/*! ./CheckFailIcon */ "./resources/js/Components/CheckFailIcon.tsx"));
+var CheckFailIcon_1 = __webpack_require__(/*! ./CheckFailIcon */ "./resources/js/Components/CheckFailIcon.tsx");
 
-var CheckPassesIcon_1 = __importDefault(__webpack_require__(/*! ./CheckPassesIcon */ "./resources/js/Components/CheckPassesIcon.tsx"));
+var CheckPassesIcon_1 = __webpack_require__(/*! ./CheckPassesIcon */ "./resources/js/Components/CheckPassesIcon.tsx");
 
-var CheckInfoIcon_1 = __importDefault(__webpack_require__(/*! ./CheckInfoIcon */ "./resources/js/Components/CheckInfoIcon.tsx"));
+var CheckInfoIcon_1 = __webpack_require__(/*! ./CheckInfoIcon */ "./resources/js/Components/CheckInfoIcon.tsx");
 
-var CheckWarningIcon_1 = __importDefault(__webpack_require__(/*! ./CheckWarningIcon */ "./resources/js/Components/CheckWarningIcon.tsx"));
+var CheckWarningIcon_1 = __webpack_require__(/*! ./CheckWarningIcon */ "./resources/js/Components/CheckWarningIcon.tsx");
 
-var CheckCancelIcon_1 = __importDefault(__webpack_require__(/*! ./CheckCancelIcon */ "./resources/js/Components/CheckCancelIcon.tsx"));
+var CheckCancelIcon_1 = __webpack_require__(/*! ./CheckCancelIcon */ "./resources/js/Components/CheckCancelIcon.tsx");
 
-function ActionBanner(_ref) {
+var ActionBanner = function ActionBanner(_ref) {
   var message = _ref.message,
       onClose = _ref.onClose,
       _ref$autoDeletion = _ref.autoDeletion,
@@ -4220,13 +4215,13 @@ function ActionBanner(_ref) {
     className: "flex items-center flex-1 w-0 min-w-0"
   }, react_1["default"].createElement("span", {
     className: ['flex p-2 rounded-lg', type === 'success' ? 'bg-green-600' : type === 'danger' ? 'bg-red-600' : type === 'info' ? 'bg-blue-600' : 'bg-yellow-400'].join(' ')
-  }, type === 'success' ? react_1["default"].createElement(CheckPassesIcon_1["default"], {
+  }, type === 'success' ? react_1["default"].createElement(CheckPassesIcon_1.CheckPassesIcon, {
     className: "text-white"
-  }) : type === 'danger' ? react_1["default"].createElement(CheckFailIcon_1["default"], {
+  }) : type === 'danger' ? react_1["default"].createElement(CheckFailIcon_1.CheckFailIcon, {
     className: "text-white"
-  }) : type === 'info' ? react_1["default"].createElement(CheckInfoIcon_1["default"], {
+  }) : type === 'info' ? react_1["default"].createElement(CheckInfoIcon_1.CheckInfoIcon, {
     className: "text-white"
-  }) : react_1["default"].createElement(CheckWarningIcon_1["default"], {
+  }) : react_1["default"].createElement(CheckWarningIcon_1.CheckWarningIcon, {
     className: "text-black"
   })), react_1["default"].createElement("p", {
     className: ['ml-3 text-sm font-medium truncate', type === 'warning' ? 'text-black' : 'text-white'].join(' ')
@@ -4239,12 +4234,12 @@ function ActionBanner(_ref) {
     onClick: function onClick() {
       return onClose();
     }
-  }, react_1["default"].createElement(CheckCancelIcon_1["default"], {
+  }, react_1["default"].createElement(CheckCancelIcon_1.CheckCancelIcon, {
     className: type === 'warning' ? 'text-black' : 'text-white'
   }))))))));
-}
+};
 
-exports.default = ActionBanner;
+exports.ActionBanner = ActionBanner;
 
 /***/ }),
 
@@ -4279,10 +4274,11 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
+exports.CheckCancelIcon = void 0;
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-function CheckCancelIcon(_a) {
+var CheckCancelIcon = function CheckCancelIcon(_a) {
   var className = _a.className,
       rest = __rest(_a, ["className"]);
 
@@ -4298,9 +4294,9 @@ function CheckCancelIcon(_a) {
     strokeWidth: "2",
     d: "M6 18L18 6M6 6l12 12"
   }));
-}
+};
 
-exports.default = CheckCancelIcon;
+exports.CheckCancelIcon = CheckCancelIcon;
 
 /***/ }),
 
@@ -4335,10 +4331,11 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
+exports.CheckFailIcon = void 0;
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-function CheckFailIcon(_a) {
+var CheckFailIcon = function CheckFailIcon(_a) {
   var className = _a.className,
       rest = __rest(_a, ["className"]);
 
@@ -4352,9 +4349,9 @@ function CheckFailIcon(_a) {
   }), react_1["default"].createElement("path", {
     d: "M16.1056 14.7798L13.3258 12L16.1056 9.22021C16.4717 8.85412 16.4718 8.26054 16.1057 7.8944C15.7395 7.52826 15.1459 7.52831 14.7799 7.8944L12 10.6742L9.2202 7.8944C8.85416 7.52826 8.26049 7.52826 7.89439 7.8944C7.5283 8.26054 7.5283 8.85412 7.89444 9.22021L10.6742 12L7.89444 14.7798C7.5283 15.1459 7.52825 15.7395 7.89439 16.1056C8.26063 16.4718 8.8542 16.4716 9.2202 16.1056L12 13.3258L14.7799 16.1056C15.1458 16.4717 15.7395 16.4717 16.1057 16.1056C16.4718 15.7394 16.4718 15.1459 16.1056 14.7798Z"
   }));
-}
+};
 
-exports.default = CheckFailIcon;
+exports.CheckFailIcon = CheckFailIcon;
 
 /***/ }),
 
@@ -4376,10 +4373,11 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
+exports.CheckInfoIcon = void 0;
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-function CheckInfoIcon(_ref) {
+var CheckInfoIcon = function CheckInfoIcon(_ref) {
   var className = _ref.className;
   return react_1["default"].createElement("svg", {
     className: ['w-5 h-5', className].join(' '),
@@ -4393,9 +4391,9 @@ function CheckInfoIcon(_ref) {
   }), react_1["default"].createElement("path", {
     d: "M13.2 6.00001H10.8V8.40003H13.2V6.00001Z"
   }));
-}
+};
 
-exports.default = CheckInfoIcon;
+exports.CheckInfoIcon = CheckInfoIcon;
 
 /***/ }),
 
@@ -4417,10 +4415,11 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
+exports.CheckPassesIcon = void 0;
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-function CheckPassesIcon(_ref) {
+var CheckPassesIcon = function CheckPassesIcon(_ref) {
   var className = _ref.className;
   return react_1["default"].createElement("svg", {
     className: ['w-5 h-5', className].join(' '),
@@ -4434,9 +4433,9 @@ function CheckPassesIcon(_ref) {
     strokeWidth: "2",
     d: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
   }));
-}
+};
 
-exports.default = CheckPassesIcon;
+exports.CheckPassesIcon = CheckPassesIcon;
 
 /***/ }),
 
@@ -4458,10 +4457,11 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
+exports.CheckWarningIcon = void 0;
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-function CheckWarningIcon(_ref) {
+var CheckWarningIcon = function CheckWarningIcon(_ref) {
   var className = _ref.className;
   return react_1["default"].createElement("svg", {
     className: ['w-5 h-5', className].join(' '),
@@ -4475,9 +4475,9 @@ function CheckWarningIcon(_ref) {
     strokeWidth: "2",
     d: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
   }));
-}
+};
 
-exports.default = CheckWarningIcon;
+exports.CheckWarningIcon = CheckWarningIcon;
 
 /***/ }),
 
@@ -4536,19 +4536,13 @@ var __importStar = this && this.__importStar || function (mod) {
   return result;
 };
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
 
 var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-var ActionBanner_1 = __importDefault(__webpack_require__(/*! ../Components/ActionBanner */ "./resources/js/Components/ActionBanner.tsx"));
+var ActionBanner_1 = __webpack_require__(/*! ../Components/ActionBanner */ "./resources/js/Components/ActionBanner.tsx");
 
 var Home = function Home() {
   var _react_1$useState = react_1.useState('test'),
@@ -4556,9 +4550,14 @@ var Home = function Home() {
       message = _react_1$useState2[0],
       setMessage = _react_1$useState2[1];
 
+  var _react_1$useState3 = react_1.useState(true),
+      _react_1$useState4 = _slicedToArray(_react_1$useState3, 2),
+      show = _react_1$useState4[0],
+      setShow = _react_1$useState4[1];
+
   var foo = 'React';
   var bar = 'TypeScript';
-  return react_1["default"].createElement("div", null, react_1["default"].createElement(ActionBanner_1["default"], {
+  return react_1["default"].createElement("div", null, react_1["default"].createElement(ActionBanner_1.ActionBanner, {
     type: "warning",
     message: message,
     onClose: function onClose() {
