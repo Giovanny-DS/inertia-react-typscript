@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import Banner from './../Components/Banner';
+import ActionBanner from '../Components/ActionBanner';
+import CheckInfoIcon from './../Components/CheckInfoIcon';
 
 const Home = () => {
   const [message, setMessage] = useState('test');
@@ -8,8 +9,7 @@ const Home = () => {
 
   return (
     <div>
-      {/* <Banner message={message} onClose={() => setMessage('')}></Banner> */}
-      hi!
+      <ActionBanner type="warning" message={message} onClose={() => setMessage('')}></ActionBanner>
     </div>
   );
 };
