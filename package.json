@@ -21,6 +21,7 @@
         "webpack-cli": "^4.6.0"
     },
     "dependencies": {
+        "@headlessui/react": "^0.3.2",
         "@inertiajs/inertia": "^0.8.6",
         "@inertiajs/inertia-react": "^0.5.11",
         "@types/react": "^17.0.3",

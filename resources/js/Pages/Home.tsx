@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from 'react';
+import Banner from './../Components/Banner';
 
 const Home = () => {
-    let foo: string = "React";
-    const bar: string = "TypeScript";
+  const [message, setMessage] = useState('test');
+  let foo: string = 'React';
+  const bar: string = 'TypeScript';
 
-    return (
-        <h1>
-            Hello {foo} + {bar}
-        </h1>
-    );
+  return (
+    <div>
+      {/* <Banner message={message} onClose={() => setMessage('')}></Banner> */}
+      hi!
+    </div>
+  );
 };
 
 export default Home;
