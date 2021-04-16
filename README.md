@@ -1,4 +1,4 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-jetstream.svg"></p>
+<p align="center" style="margin-top: 5px;"><img src="https://laravel.com/assets/img/components/logo-jetstream.svg"></p>
 
 ## Information
 
