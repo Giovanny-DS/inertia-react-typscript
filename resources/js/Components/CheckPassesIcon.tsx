@@ -1,8 +1,8 @@
 import React from 'react';
 
-interface Props {
+type Props = {
   className?: string;
-}
+};
 
 export const CheckPassesIcon: React.FC<Props> = ({ className }) => {
   return (

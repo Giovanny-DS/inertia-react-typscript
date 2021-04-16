@@ -1,10 +1,10 @@
 import { Transition } from '@headlessui/react';
 import React from 'react';
 
-interface Props {
+type Props = {
   on: boolean;
   children: React.ReactNode;
-}
+};
 
 export const ActionMessage: React.FC<Props> = ({ on = false, children, ...rest }) => {
   return (

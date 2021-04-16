@@ -1,9 +1,9 @@
 import React from 'react';
 import { ApplicationLogo } from './ApplicationLogo';
 
-interface Props {
+type Props = {
   children?: React.ReactNode;
-}
+};
 
 export const AuthenticationCardLogo: React.FC<Props> = ({ children, ...rest }) => {
   return (

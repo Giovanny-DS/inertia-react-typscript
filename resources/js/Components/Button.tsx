@@ -1,12 +1,12 @@
 import React, { PropsWithChildren } from 'react';
 
-interface Props {
+type Props = {
   type?: 'button' | 'submit' | 'reset';
   variant?: 'primary' | 'secondary' | 'danger' | 'clean';
   className?: string;
   disabled?: boolean;
   onClick: CallableFunction;
-}
+};
 const color = {
   primary:
     'inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25',
@@ -23,7 +23,7 @@ export const Button: React.FC<React.PropsWithChildren<Props>> = ({
   className,
   children,
   onClick,
-  ...props
+  ...rest
 }) => {
   return (
     <button
@@ -31,10 +31,9 @@ export const Button: React.FC<React.PropsWithChildren<Props>> = ({
       className={[color[variant], className].join(' ')}
       onClick={(e) => onClick?.(e)}
       disabled={disabled}
+      {...rest}
     >
       {children}
     </button>
   );
 };
-
-export default Button;

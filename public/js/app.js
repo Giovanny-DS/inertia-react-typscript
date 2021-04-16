@@ -4116,10 +4116,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./resources/js/Components/ActionBanner.tsx":
-/*!**************************************************!*\
-  !*** ./resources/js/Components/ActionBanner.tsx ***!
-  \**************************************************/
+/***/ "./resources/js/Components/Banner.tsx":
+/*!********************************************!*\
+  !*** ./resources/js/Components/Banner.tsx ***!
+  \********************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -4174,7 +4174,7 @@ var __importStar = this && this.__importStar || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.ActionBanner = void 0;
+exports.Banner = void 0;
 
 var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
@@ -4190,7 +4190,7 @@ var CheckWarningIcon_1 = __webpack_require__(/*! ./CheckWarningIcon */ "./resour
 
 var CheckCancelIcon_1 = __webpack_require__(/*! ./CheckCancelIcon */ "./resources/js/Components/CheckCancelIcon.tsx");
 
-var ActionBanner = function ActionBanner(_ref) {
+var Banner = function Banner(_ref) {
   var message = _ref.message,
       onClose = _ref.onClose,
       _ref$autoDeletion = _ref.autoDeletion,
@@ -4260,7 +4260,7 @@ var ActionBanner = function ActionBanner(_ref) {
   }))))))));
 };
 
-exports.ActionBanner = ActionBanner;
+exports.Banner = Banner;
 
 /***/ }),
 
@@ -4502,99 +4502,6 @@ exports.CheckWarningIcon = CheckWarningIcon;
 
 /***/ }),
 
-/***/ "./resources/js/Pages/Home.tsx":
-/*!*************************************!*\
-  !*** ./resources/js/Pages/Home.tsx ***!
-  \*************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function get() {
-      return m[k];
-    }
-  });
-} : function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  o[k2] = m[k];
-});
-
-var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
-  Object.defineProperty(o, "default", {
-    enumerable: true,
-    value: v
-  });
-} : function (o, v) {
-  o["default"] = v;
-});
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-  }
-
-  __setModuleDefault(result, mod);
-
-  return result;
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-
-var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
-
-var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var ActionBanner_1 = __webpack_require__(/*! ../Components/ActionBanner */ "./resources/js/Components/ActionBanner.tsx");
-
-var Home = function Home() {
-  var _react_1$useState = react_1.useState('test'),
-      _react_1$useState2 = _slicedToArray(_react_1$useState, 2),
-      message = _react_1$useState2[0],
-      setMessage = _react_1$useState2[1];
-
-  var _react_1$useState3 = react_1.useState(true),
-      _react_1$useState4 = _slicedToArray(_react_1$useState3, 2),
-      show = _react_1$useState4[0],
-      setShow = _react_1$useState4[1];
-
-  var foo = 'React';
-  var bar = 'TypeScript';
-  var page = inertia_react_1.usePage();
-  console.log(page);
-  return react_1["default"].createElement("div", null, react_1["default"].createElement(ActionBanner_1.ActionBanner, {
-    type: "warning",
-    message: message,
-    onClose: function onClose() {
-      return setMessage('');
-    }
-  }));
-};
-
-exports.default = Home;
-
-/***/ }),
-
 /***/ "./resources/js/Pages/Welcome.tsx":
 /*!****************************************!*\
   !*** ./resources/js/Pages/Welcome.tsx ***!
@@ -4658,7 +4565,7 @@ var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./nod
 
 var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-var ActionBanner_1 = __webpack_require__(/*! ../Components/ActionBanner */ "./resources/js/Components/ActionBanner.tsx");
+var Banner_1 = __webpack_require__(/*! ../Components/Banner */ "./resources/js/Components/Banner.tsx");
 
 var Welcome = function Welcome() {
   var _react_1$useState = react_1.useState('test'),
@@ -4670,7 +4577,7 @@ var Welcome = function Welcome() {
   var bar = 'TypeScript';
   var page = inertia_react_1.usePage();
   console.log(page);
-  return react_1["default"].createElement("div", null, react_1["default"].createElement(ActionBanner_1.ActionBanner, {
+  return react_1["default"].createElement("div", null, react_1["default"].createElement(Banner_1.Banner, {
     type: "warning",
     message: message,
     onClose: function onClose() {
@@ -36968,8 +36875,6 @@ module.exports = function getSideChannel() {
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var map = {
-	"./Home": "./resources/js/Pages/Home.tsx",
-	"./Home.tsx": "./resources/js/Pages/Home.tsx",
 	"./Welcome": "./resources/js/Pages/Welcome.tsx",
 	"./Welcome.tsx": "./resources/js/Pages/Welcome.tsx"
 };

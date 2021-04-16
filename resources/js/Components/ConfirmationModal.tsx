@@ -1,14 +1,14 @@
 import React from 'react';
 import { Modal } from './Modal';
 
-interface Props {
+type Props = {
   show: boolean;
   title?: string | React.ReactNode;
   content?: string | React.ReactNode;
   footer?: string | React.ReactNode;
   closeable?: boolean;
   onClose?: CallableFunction;
-}
+};
 
 export const ConfirmationModal: React.FC<Props> = ({ show, title, content, footer, closeable = true, onClose }) => {
   return (

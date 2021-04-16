@@ -7,21 +7,15 @@ import { CheckWarningIcon } from './CheckWarningIcon';
 import { CheckCancelIcon } from './CheckCancelIcon';
 import { usePage } from '@inertiajs/inertia-react';
 
-interface Props {
+type Props = {
   message: string;
   onClose: CallableFunction;
   autoDeletion?: Boolean;
   type?: 'success' | 'danger' | 'warning' | 'info';
   time?: number;
-}
+};
 
-export const Banner: React.FC<Props> = ({
-  message,
-  onClose,
-  autoDeletion = false,
-  type = 'success',
-  time = 3000,
-}) => {
+export const Banner: React.FC<Props> = ({ message, onClose, autoDeletion = false, type = 'success', time = 3000 }) => {
   const [show, setShow] = useState(true);
   useEffect(() => {
     if (autoDeletion) {

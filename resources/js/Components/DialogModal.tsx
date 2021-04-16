@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
 import { Modal } from './Modal';
 
-interface Props {
+type Props = {
   on: boolean;
   title?: string | React.ReactNode;
   content?: string | React.ReactNode;
   footer?: string | React.ReactNode;
   closeable?: boolean;
-}
+};
 
-const DialogModal: React.FC<Props> = ({ on, content, footer, closeable = true, title = 'modal title', children }) => {
+export const DialogModal: React.FC<Props> = ({
+  on,
+  content,
+  footer,
+  closeable = true,
+  title = 'modal title',
+  children,
+}) => {
   const [show, setShow] = useState(on);
   return (
     <Modal show={show} closeable={closeable} onClose={() => setShow(false)}>
@@ -23,5 +30,3 @@ const DialogModal: React.FC<Props> = ({ on, content, footer, closeable = true, t
     </Modal>
   );
 };
-
-export default DialogModal;

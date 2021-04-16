@@ -3,11 +3,11 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import { Teleport } from './Teleport';
 
-interface Props {
+type Props = {
   show: boolean;
   closeable?: boolean;
   onClose?: CallableFunction;
-}
+};
 
 export const Modal: React.FC<Props> = ({ children, show, closeable = true, onClose }) => {
   return (

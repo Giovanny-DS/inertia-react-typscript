@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface Props {}
+type Props = {};
 
 export const AppLayout: React.FC<Props> = () => {
   return <div></div>;

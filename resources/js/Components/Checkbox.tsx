@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { DetailedHTMLProps, InputHTMLAttributes } from 'react';
 
-interface Props {
+type Props = React.ComponentPropsWithoutRef<'input'> & {
   value?: string;
-  onChange: CallableFunction;
   className?: string;
-}
+};
 
 export const Checkbox: React.FC<Props> = ({ value = '', onChange, className = '' }) => {
   return (
