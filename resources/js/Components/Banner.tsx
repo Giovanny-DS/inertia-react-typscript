@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Transition } from '@headlessui/react';
 import { CheckFailIcon } from './CheckFailIcon';
 import { CheckPassesIcon } from './CheckPassesIcon';
 import { CheckInfoIcon } from './CheckInfoIcon';
 import { CheckWarningIcon } from './CheckWarningIcon';
 import { CheckCancelIcon } from './CheckCancelIcon';
+import { usePage } from '@inertiajs/inertia-react';
 
 interface Props {
   message: string;
@@ -14,13 +15,14 @@ interface Props {
   time?: number;
 }
 
-export const ActionBanner: React.FC<Props> = ({
+export const Banner: React.FC<Props> = ({
   message,
   onClose,
   autoDeletion = false,
   type = 'success',
   time = 3000,
 }) => {
+  const [show, setShow] = useState(true);
   useEffect(() => {
     if (autoDeletion) {
       const deletionTimeout = setTimeout(() => {
@@ -31,10 +33,15 @@ export const ActionBanner: React.FC<Props> = ({
       };
     }
   }, [onClose, time, autoDeletion]);
+
+  //   const { flash } = usePage().props.jetstream || {};
+  //   const style = flash?.bannerStyle || 'success';
+  //   const message = flash?.banner || '';
+
   return (
     <div>
       <Transition
-        show={message ? true : false}
+        show={show}
         enter={'transition-all transform ease-in duration-300'}
         enterFrom="-translate-y-12"
         enterTo="translate-y-0"

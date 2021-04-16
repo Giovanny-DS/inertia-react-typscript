@@ -1,26 +1,16 @@
 import { Transition } from '@headlessui/react';
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 interface Props {
   on: boolean;
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
-export const ActionMessage: React.FC<Props> = ({ on, children, ...rest }) => {
+export const ActionMessage: React.FC<Props> = ({ on = false, children, ...rest }) => {
   return (
-    <div>
-      <Transition
-        show={on}
-        enter={'transition-opacity ease-in duration-300'}
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave={'transition-opacity ease-in duration-150'}
-        leaveFrom="opacity-0"
-        leaveTo="opacity-100"
-      >
-        <div className="text-sm text-gray-600" {...rest}>
-          {children}
-        </div>
+    <div {...rest}>
+      <Transition show={on} leave="transition ease-in duration-1000" leaveFrom="opacity-100" leaveTo="opacity-0">
+        <div className="text-sm text-gray-600">{children}</div>
       </Transition>
     </div>
   );

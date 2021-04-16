@@ -11,7 +11,6 @@ interface Props {
 }
 
 export const Modal: React.FC<Props> = ({ children, show, closeable = true, onClose }) => {
-  //   const findNamedSlot = (name, children) => React.Children.toArray(children).find((child) => child.props.name === name);
   return (
     <Teleport to="#app">
       <Transition show={show} leave="duration-200">
