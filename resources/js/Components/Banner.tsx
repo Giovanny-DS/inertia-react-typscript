@@ -9,14 +9,21 @@ import { usePage } from '@inertiajs/inertia-react';
 
 type Props = {
   message: string;
+  on: boolean;
   onClose: CallableFunction;
   autoDeletion?: Boolean;
   type?: 'success' | 'danger' | 'warning' | 'info';
   time?: number;
 };
 
-export const Banner: React.FC<Props> = ({ message, onClose, autoDeletion = false, type = 'success', time = 3000 }) => {
-  const [show, setShow] = useState(true);
+export const Banner: React.FC<Props> = ({
+  on,
+  message,
+  onClose,
+  autoDeletion = false,
+  type = 'success',
+  time = 3000,
+}) => {
   useEffect(() => {
     if (autoDeletion) {
       const deletionTimeout = setTimeout(() => {
@@ -35,7 +42,7 @@ export const Banner: React.FC<Props> = ({ message, onClose, autoDeletion = false
   return (
     <div>
       <Transition
-        show={show}
+        show={on}
         enter={'transition-all transform ease-in duration-300'}
         enterFrom="-translate-y-12"
         enterTo="translate-y-0"

@@ -1,24 +1,30 @@
-const colors = require('tailwindcss/colors')
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
     mode: 'jit',
     purge: [
-        './resources/**/*.blade.php',
-        './resources/**/*.js',
-        './resources/**/*.vue',
-        './resources/**/*.jsx',
-        './resources/**/*.tsx',
+        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+        './vendor/laravel/jetstream/**/*.blade.php',
         './storage/framework/views/*.php',
+        './resources/views/**/*.blade.php',
+        './resources/js/**/*.tsx',
+        './resources/js/**/*.jsx',
+        './resources/js/**/*.js',
     ],
-    darkMode: false, // or 'media' or 'class'
+
     theme: {
         extend: {
-            colors: {
-                yellow: colors.yellow,
+            fontFamily: {
+                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
         },
     },
+
     variants: {
-        extend: {},
+        extend: {
+            opacity: ['disabled'],
+        },
     },
-    plugins: [],
-}
+
+    plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+};

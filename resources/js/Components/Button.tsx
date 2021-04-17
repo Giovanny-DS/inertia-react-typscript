@@ -5,7 +5,7 @@ type Props = {
   variant?: 'primary' | 'secondary' | 'danger' | 'clean';
   className?: string;
   disabled?: boolean;
-  onClick: CallableFunction;
+  onClick?: CallableFunction;
 };
 const color = {
   primary:
@@ -18,7 +18,7 @@ const color = {
 };
 export const Button: React.FC<React.PropsWithChildren<Props>> = ({
   type = 'submit',
-  variant = 'secondary',
+  variant = 'primary',
   disabled = false,
   className,
   children,
@@ -29,7 +29,7 @@ export const Button: React.FC<React.PropsWithChildren<Props>> = ({
     <button
       type={type}
       className={[color[variant], className].join(' ')}
-      onClick={(e) => onClick?.(e)}
+      {...(onclick ? { onclick } : {})}
       disabled={disabled}
       {...rest}
     >
