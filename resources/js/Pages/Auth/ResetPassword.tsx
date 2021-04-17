@@ -54,7 +54,7 @@ const ResetPassword: React.FC<Props> = ({ email, token }) => {
             type="email"
             className="block w-full mt-1"
             value={formEmail}
-            onChange={(value) => setFormEmail(value)}
+            onChange={(e) => setFormEmail(e.target.value)}
             required
             autoFocus
           />
@@ -67,7 +67,7 @@ const ResetPassword: React.FC<Props> = ({ email, token }) => {
             type="password"
             className="block w-full mt-1"
             value={password}
-            onChange={(value) => setPassword(value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
             autoComplete="new-password"
           />
@@ -80,7 +80,7 @@ const ResetPassword: React.FC<Props> = ({ email, token }) => {
             type="password"
             className="block w-full mt-1"
             value={passwordConfirmation}
-            onChange={(value) => setPasswordConfirmation(value)}
+            onChange={(e) => setPasswordConfirmation(e.target.value)}
             required
             autoComplete="new-password"
           />

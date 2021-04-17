@@ -48,7 +48,7 @@ const ForgotPassword = ({ status = '' }) => {
             type="email"
             className="block w-full mt-1"
             value={email}
-            onChange={(value) => setEmail(value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
             autoFocus
           />

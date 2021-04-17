@@ -17,7 +17,7 @@ const Dropdown: React.FC<Props> = ({ trigger, contentClasses, width = '', align,
     };
   }, []);
   const toggle = () => {
-    setOpen((prev) => !prev);
+    setOpen((open) => !open);
   };
   const closeOnEscape = (e: KeyboardEvent) => {
     if (open && e.key === 'Escape') {
@@ -33,28 +33,34 @@ const Dropdown: React.FC<Props> = ({ trigger, contentClasses, width = '', align,
 
   return (
     <div className="relative">
-      <div onClick={() => toggle}>{trigger}</div>
+      <div onClick={toggle}>{trigger}</div>
 
       {/* <!-- Full Screen Dropdown Overlay --> */}
-      <div v-show="open" className="fixed inset-0 z-40" onClick={() => toggle}></div>
-
-      <Transition
-        show={open}
-        enter="transition ease-out duration-200"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <div
-          className={['absolute z-50 mt-2 rounded-md shadow-lg', widthClass, alignmentClasses].join(' ')}
-          style={{ display: 'none' }}
-          onClick={() => toggle}
-        >
-          <div className={['rounded-md ring-1 ring-black ring-opacity-5', contentClasses].join(' ')}>{children}</div>
-        </div>
-      </Transition>
+      {open && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={toggle}></div>
+          <Transition
+            show={open}
+            enter="transition ease-out duration-200"
+            enterFrom="transform opacity-0 scale-95"
+            enterTo="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="transform opacity-100 scale-100"
+            leaveTo="transform opacity-0 scale-95"
+          >
+            <div
+              className={['absolute z-50 mt-2 rounded-md shadow-lg bg-white', widthClass(), alignmentClasses()].join(
+                ' '
+              )}
+              onClick={() => toggle}
+            >
+              <div className={['rounded-md ring-1 ring-black ring-opacity-5', contentClasses].join(' ')}>
+                {children}
+              </div>
+            </div>
+          </Transition>
+        </>
+      )}
     </div>
   );
 };

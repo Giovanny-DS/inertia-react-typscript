@@ -56,7 +56,7 @@ const Register = () => {
             type="text"
             className="block w-full mt-1"
             value={name}
-            onChange={(value) => setName(value)}
+            onChange={(e) => setName(e.target.value)}
             required
             autoFocus
             autoComplete="name"
@@ -70,7 +70,7 @@ const Register = () => {
             type="email"
             className="block w-full mt-1"
             value={email}
-            onChange={(value) => setEmail(value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
@@ -82,7 +82,7 @@ const Register = () => {
             type="password"
             className="block w-full mt-1"
             value={password}
-            onChange={(value) => setPassword(value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
             autoComplete="new-password"
           />
@@ -95,7 +95,7 @@ const Register = () => {
             type="password"
             className="block w-full mt-1"
             value={passwordConfirmation}
-            onChange={(value) => setPasswordConfirmation(value)}
+            onChange={(e) => setPasswordConfirmation(e.target.value)}
             required
             autoComplete="new-password"
           />
@@ -105,7 +105,7 @@ const Register = () => {
           <div className="mt-4">
             <Label htmlFor="terms">
               <div className="flex items-center">
-                <Checkbox name="terms" id="terms" checked={terms} onChange={(value) => setTerms(value)} />
+                <Checkbox name="terms" id="terms" checked={terms} onChange={(e) => setTerms(e.target.value)} />
                 <div className="ml-2">
                   I agree to the
                   <a

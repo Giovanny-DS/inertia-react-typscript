@@ -16,9 +16,11 @@ const AppLayout: React.FC<Props> = ({ header, children }) => {
   const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
   const [bannerToggle, setBannerToggle] = useState(false);
   //@ts-ignore
-  const { user, jetstream, flash } = usePage().props;
+  const { user, jetstream } = usePage().props;
+  const { flash } = jetstream;
   const allTeams = user.allTeams;
   const currentTeam = user.current_team;
+  console.log(flash);
   useEffect(() => {
     if (flash.message) {
       setBannerToggle(true);
@@ -43,7 +45,7 @@ const AppLayout: React.FC<Props> = ({ header, children }) => {
   };
   return (
     <div>
-      <Banner on={bannerToggle} message={flash.message} onClose={() => setBannerToggle(false)} />
+      <Banner on={bannerToggle} message={flash?.message} onClose={() => setBannerToggle(false)} />
       <div className="min-h-screen bg-gray-100">
         <nav className="bg-white border-b border-gray-100">
           {/* <!-- Primary Navigation Menu --> */}

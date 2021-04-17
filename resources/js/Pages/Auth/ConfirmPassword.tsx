@@ -42,7 +42,7 @@ const ConfirmPassword = () => {
             type="password"
             className="block w-full mt-1"
             value={password}
-            onChange={(value) => setPassword(value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
             autoComplete="current-password"
             autoFocus

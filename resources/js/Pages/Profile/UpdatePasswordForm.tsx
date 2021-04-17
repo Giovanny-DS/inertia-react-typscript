@@ -67,7 +67,7 @@ const UpdatePasswordForm: React.FC<Props> = ({ ...props }) => {
               type="password"
               className="block w-full mt-1"
               value={currentPassword}
-              onChange={(value) => setCurrentPassword(value)}
+              onChange={(e) => setCurrentPassword(e.target.value)}
               autoComplete="current-password"
             />
             <InputError message={errors?.updatePassword?.current_password} className="mt-2" />
@@ -81,7 +81,7 @@ const UpdatePasswordForm: React.FC<Props> = ({ ...props }) => {
               type="password"
               className="block w-full mt-1"
               value={password}
-              onChange={(value) => setPassword(value)}
+              onChange={(e) => setPassword(e.target.value)}
               autoComplete="new-password"
             />
             <InputError message={errors?.updatePassword?.password} className="mt-2" />
@@ -94,7 +94,7 @@ const UpdatePasswordForm: React.FC<Props> = ({ ...props }) => {
               type="password"
               className="block w-full mt-1"
               value={passwordConfirmation}
-              onChange={(value) => setPasswordConfirmation(value)}
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
               autoComplete="new-password"
             />
             <InputError message={errors?.updatePassword?.password_confirmation} className="mt-2" />

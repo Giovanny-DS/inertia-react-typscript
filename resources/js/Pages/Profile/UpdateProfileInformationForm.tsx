@@ -147,7 +147,7 @@ const UpdateProfileInformationForm: React.FC<Props> = ({ user }) => {
               type="text"
               className="block w-full mt-1"
               value={name}
-              onChange={(value) => setName(value)}
+              onChange={(e) => setName(e.target.value)}
               autoComplete="name"
             />
             <InputError message={errors?.updateProfileInformation?.name} className="mt-2" />
@@ -161,7 +161,7 @@ const UpdateProfileInformationForm: React.FC<Props> = ({ user }) => {
               type="email"
               className="block w-full mt-1"
               value={email}
-              onChange={(value) => setEmail(value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <InputError message={errors?.updateProfileInformation?.email} className="mt-2" />
           </div>

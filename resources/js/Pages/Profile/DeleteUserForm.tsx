@@ -72,7 +72,7 @@ const DeleteUserForm: React.FC<Props> = ({ ...props }) => {
                     className="block w-3/4 mt-1"
                     placeholder="Password"
                     value={password}
-                    onChange={(value) => setPassword(value)}
+                    onChange={(e) => setPassword(e.target.value)}
                     onKeyPress={useKeyPress('Enter', deleteUser)}
                   />
 

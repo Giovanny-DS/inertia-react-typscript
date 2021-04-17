@@ -54,7 +54,7 @@ const TwoFactorChallenge = () => {
               inputMode="numeric"
               className="block w-full mt-1"
               value={code}
-              onChange={(value) => setCode(value)}
+              onChange={(e) => setCode(e.target.value)}
               autoFocus
               autoComplete="one-time-code"
             />
@@ -67,7 +67,7 @@ const TwoFactorChallenge = () => {
               type="text"
               className="block w-full mt-1"
               value={recoveryCode}
-              onChange={(value) => setRecoveryCode(value)}
+              onChange={(e) => setRecoveryCode(e.target.value)}
               autoComplete="one-time-code"
             />
           </div>

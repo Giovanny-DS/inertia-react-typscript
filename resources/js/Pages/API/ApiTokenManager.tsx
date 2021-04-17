@@ -129,7 +129,7 @@ const ApiTokenManager: React.FC<Props> = ({ tokens, availablePermissions, defaul
                 type="text"
                 className="block w-full mt-1"
                 value={createApiTokenForm.data.name}
-                onChange={(value) => createApiTokenForm.setField('name', value)}
+                onChange={(e) => createApiTokenForm.setField('name', e.target.value)}
                 autoFocus
               />
               <InputError message={createApiTokenForm.errors.name} className="mt-2" />
