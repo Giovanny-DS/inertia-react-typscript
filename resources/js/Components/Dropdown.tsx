@@ -8,7 +8,7 @@ type Props = {
   trigger?: string | React.ReactNode;
 };
 
-export const Dropdown: React.FC<Props> = ({ trigger, contentClasses, width = '', align, children }) => {
+const Dropdown: React.FC<Props> = ({ trigger, contentClasses, width = '', align, children }) => {
   const [open, setOpen] = useState(false);
   useEffect(() => {
     window.addEventListener('keydown', (e) => closeOnEscape(e));
@@ -58,3 +58,4 @@ export const Dropdown: React.FC<Props> = ({ trigger, contentClasses, width = '',
     </div>
   );
 };
+export default Dropdown;

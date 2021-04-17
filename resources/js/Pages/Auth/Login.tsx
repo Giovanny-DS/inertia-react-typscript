@@ -1,14 +1,14 @@
 import React from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import { InertiaLink } from '@inertiajs/inertia-react';
-import { AuthenticationCard } from '../../Components/AuthenticationCard';
-import { AuthenticationCardLogo } from '../../Components/AuthenticationCardLogo';
-import { ValidationErrors } from '../../Components/ValidationErrors';
-import { Input } from '../../Components/Input';
-import { Label } from '../../Components/Label';
-import { Button } from '../../Components/Button';
-import { Checkbox } from '../../Components/Checkbox';
-import useForm from '../../hooks/useForm';
+import AuthenticationCard from '../../Components/AuthenticationCard';
+import AuthenticationCardLogo from '../../Components/AuthenticationCardLogo';
+import ValidationErrors from '../../Components/ValidationErrors';
+import Input from '../../Components/Input';
+import Label from '../../Components/Label';
+import Button from '../../Components/Button';
+import Checkbox from '../../Components/Checkbox';
+import useForm from '../../Hooks/useForm';
 
 type Props = {
   status?: string;
@@ -68,7 +68,7 @@ const Login = ({ status = '', canResetPassword }: Props) => {
             type="email"
             className="block w-full mt-1"
             value={email}
-            onChange={(value) => setEmail(value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
             autoFocus
           />
@@ -81,7 +81,7 @@ const Login = ({ status = '', canResetPassword }: Props) => {
             type="password"
             className="block w-full mt-1"
             value={password}
-            onChange={(value) => setPassword(value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
             autoComplete="current-password"
           />
@@ -89,7 +89,7 @@ const Login = ({ status = '', canResetPassword }: Props) => {
 
         <div className="block mt-4">
           <label className="flex items-center">
-            <Checkbox name="remember" checked={remember} onChange={(value) => setRemember(value)} />
+            <Checkbox name="remember" checked={remember} onChange={(e) => setRemember(e.target.value)} />
             <span className="ml-2 text-sm text-gray-600">Remember me</span>
           </label>
         </div>
@@ -103,7 +103,7 @@ const Login = ({ status = '', canResetPassword }: Props) => {
                 className="text-sm text-gray-600 underline hover:text-gray-900"
               >
                 Forgot your password?
-              </InertiaLink>{' '}
+              </InertiaLink>
             </>
           ) : null}
           <Button className={['ml-4', isProcessing ? 'opacity-25' : ''].join(' ')} disabled={isProcessing}>

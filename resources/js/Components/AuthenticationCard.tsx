@@ -5,7 +5,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export const AuthenticationCard: React.FC<Props> = ({ logo, children, ...rest }) => {
+const AuthenticationCard: React.FC<Props> = ({ logo, children, ...rest }) => {
   return (
     <div className="flex flex-col items-center min-h-screen pt-6 bg-gray-100 sm:justify-center sm:pt-0" {...rest}>
       {logo && <div>{logo}</div>}
@@ -15,3 +15,4 @@ export const AuthenticationCard: React.FC<Props> = ({ logo, children, ...rest })
     </div>
   );
 };
+export default AuthenticationCard;

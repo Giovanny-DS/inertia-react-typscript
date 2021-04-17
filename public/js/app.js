@@ -1,6 +1,2264 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./node_modules/@headlessui/react/dist/headlessui.esm.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@headlessui/react/dist/headlessui.esm.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Listbox": () => (/* binding */ Listbox),
+/* harmony export */   "Menu": () => (/* binding */ Menu),
+/* harmony export */   "Switch": () => (/* binding */ Switch),
+/* harmony export */   "Transition": () => (/* binding */ Transition)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+  return arr2;
+}
+
+function _createForOfIteratorHelperLoose(o, allowArrayLike) {
+  var it;
+
+  if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
+    if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
+      if (it) o = it;
+      var i = 0;
+      return function () {
+        if (i >= o.length) return {
+          done: true
+        };
+        return {
+          done: false,
+          value: o[i++]
+        };
+      };
+    }
+
+    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+
+  it = o[Symbol.iterator]();
+  return it.next.bind(it);
+}
+
+var useIsoMorphicEffect = typeof window !== 'undefined' ? react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect : react__WEBPACK_IMPORTED_MODULE_0__.useEffect;
+
+// didn't take care of the Suspense case. To fix this we used the approach the @reach-ui/auto-id
+// uses.
+//
+// Credits: https://github.com/reach/reach-ui/blob/develop/packages/auto-id/src/index.tsx
+
+var state = {
+  serverHandoffComplete: false
+};
+var id = 0;
+
+function generateId() {
+  return ++id;
+}
+
+function useId() {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(state.serverHandoffComplete ? generateId : null),
+      id = _useState[0],
+      setId = _useState[1];
+
+  useIsoMorphicEffect(function () {
+    if (id === null) setId(generateId());
+  }, [id]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (state.serverHandoffComplete === false) state.serverHandoffComplete = true;
+  }, []);
+  return id != null ? '' + id : undefined;
+}
+
+function useIsInitialRender() {
+  var initial = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(true);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    initial.current = false;
+  }, []);
+  return initial.current;
+}
+
+function match(value, lookup) {
+  if (value in lookup) {
+    var returnValue = lookup[value];
+
+    for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+      args[_key - 2] = arguments[_key];
+    }
+
+    return typeof returnValue === 'function' ? returnValue.apply(void 0, args) : returnValue;
+  }
+
+  var error = new Error("Tried to handle \"" + value + "\" but there is no handler defined. Only defined handlers are: " + Object.keys(lookup).map(function (key) {
+    return "\"" + key + "\"";
+  }).join(', ') + ".");
+  if (Error.captureStackTrace) Error.captureStackTrace(error, match);
+  throw error;
+}
+
+function useIsMounted() {
+  var mounted = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(true);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    return function () {
+      mounted.current = false;
+    };
+  }, []);
+  return mounted;
+}
+
+var Features;
+
+(function (Features) {
+  /** No features at all */
+  Features[Features["None"] = 0] = "None";
+  /**
+   * When used, this will allow us to use one of the render strategies.
+   *
+   * **The render strategies are:**
+   *    - **Unmount**   _(Will unmount the component.)_
+   *    - **Hidden**    _(Will hide the component using the [hidden] attribute.)_
+   */
+
+  Features[Features["RenderStrategy"] = 1] = "RenderStrategy";
+  /**
+   * When used, this will allow the user of our component to be in control. This can be used when
+   * you want to transition based on some state.
+   */
+
+  Features[Features["Static"] = 2] = "Static";
+})(Features || (Features = {}));
+
+var RenderStrategy;
+
+(function (RenderStrategy) {
+  RenderStrategy[RenderStrategy["Unmount"] = 0] = "Unmount";
+  RenderStrategy[RenderStrategy["Hidden"] = 1] = "Hidden";
+})(RenderStrategy || (RenderStrategy = {}));
+
+function render(props, propsBag, defaultTag, features, visible) {
+  if (visible === void 0) {
+    visible = true;
+  }
+
+  // Visible always render
+  if (visible) return _render(props, propsBag, defaultTag);
+  var featureFlags = features != null ? features : Features.None;
+
+  if (featureFlags & Features.Static) {
+    var _props$static = props["static"],
+        isStatic = _props$static === void 0 ? false : _props$static,
+        rest = _objectWithoutPropertiesLoose(props, ["static"]); // When the `static` prop is passed as `true`, then the user is in control, thus we don't care about anything else
+
+
+    if (isStatic) return _render(rest, propsBag, defaultTag);
+  }
+
+  if (featureFlags & Features.RenderStrategy) {
+    var _match;
+
+    var _props$unmount = props.unmount,
+        unmount = _props$unmount === void 0 ? true : _props$unmount,
+        _rest = _objectWithoutPropertiesLoose(props, ["unmount"]);
+
+    var strategy = unmount ? RenderStrategy.Unmount : RenderStrategy.Hidden;
+    return match(strategy, (_match = {}, _match[RenderStrategy.Unmount] = function () {
+      return null;
+    }, _match[RenderStrategy.Hidden] = function () {
+      return _render(_extends({}, _rest, {
+        hidden: true,
+        style: {
+          display: 'none'
+        }
+      }), propsBag, defaultTag);
+    }, _match));
+  } // No features enabled, just render
+
+
+  return _render(props, propsBag, defaultTag);
+}
+
+function _render(props, bag, tag) {
+  var _ref;
+
+  var _omit = omit(props, ['unmount', 'static']),
+      _omit$as = _omit.as,
+      Component = _omit$as === void 0 ? tag : _omit$as,
+      children = _omit.children,
+      _omit$refName = _omit.refName,
+      refName = _omit$refName === void 0 ? 'ref' : _omit$refName,
+      passThroughProps = _objectWithoutPropertiesLoose(_omit, ["as", "children", "refName"]); // This allows us to use `<HeadlessUIComponent as={MyComopnent} refName="innerRef" />`
+
+
+  var refRelatedProps = props.ref !== undefined ? (_ref = {}, _ref[refName] = props.ref, _ref) : {};
+  var resolvedChildren = typeof children === 'function' ? children(bag) : children;
+
+  if (Component === react__WEBPACK_IMPORTED_MODULE_0__.Fragment) {
+    if (Object.keys(passThroughProps).length > 0) {
+      if (Array.isArray(resolvedChildren) && resolvedChildren.length > 1) {
+        var err = new Error('You should only render 1 child');
+        if (Error.captureStackTrace) Error.captureStackTrace(err, _render);
+        throw err;
+      }
+
+      if (!(0,react__WEBPACK_IMPORTED_MODULE_0__.isValidElement)(resolvedChildren)) {
+        var _err = new Error("You should render an element as a child. Did you forget the as=\"...\" prop?");
+
+        if (Error.captureStackTrace) Error.captureStackTrace(_err, _render);
+        throw _err;
+      }
+
+      return (0,react__WEBPACK_IMPORTED_MODULE_0__.cloneElement)(resolvedChildren, Object.assign({}, // Filter out undefined values so that they don't override the existing values
+      mergeEventFunctions(compact(omit(passThroughProps, ['ref'])), resolvedChildren.props, ['onClick']), refRelatedProps));
+    }
+  }
+
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Component, Object.assign({}, omit(passThroughProps, ['ref']), Component !== react__WEBPACK_IMPORTED_MODULE_0__.Fragment && refRelatedProps), resolvedChildren);
+}
+/**
+ * We can use this function for the following useCase:
+ *
+ * <Menu.Item> <button onClick={console.log} /> </Menu.Item>
+ *
+ * Our `Menu.Item` will have an internal `onClick`, if you passthrough an `onClick` to the actual
+ * `Menu.Item` component we will call it correctly. However, when we have an `onClick` on the actual
+ * first child, that one should _also_ be called (but before this implementation, it was just
+ * overriding the `onClick`). But it is only when we *render* that we have access to the existing
+ * props of this component.
+ *
+ * It's a bit hacky, and not that clean, but it is something internal and we have tests to rely on
+ * so that we can refactor this later (if needed).
+ */
+
+
+function mergeEventFunctions(passThroughProps, existingProps, functionsToMerge) {
+  var clone = Object.assign({}, passThroughProps);
+
+  var _loop = function _loop() {
+    var func = _step.value;
+
+    if (passThroughProps[func] !== undefined && existingProps[func] !== undefined) {
+      var _Object$assign;
+
+      Object.assign(clone, (_Object$assign = {}, _Object$assign[func] = function (event) {
+        // Props we control
+        if (!event.defaultPrevented) passThroughProps[func](event); // Existing props on the component
+
+        if (!event.defaultPrevented) existingProps[func](event);
+      }, _Object$assign));
+    }
+  };
+
+  for (var _iterator = _createForOfIteratorHelperLoose(functionsToMerge), _step; !(_step = _iterator()).done;) {
+    _loop();
+  }
+
+  return clone;
+}
+/**
+ * This is a hack, but basically we want to keep the full 'API' of the component, but we do want to
+ * wrap it in a forwardRef so that we _can_ passthrough the ref
+ */
+
+
+function forwardRefWithAs(component) {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(component);
+}
+
+function compact(object) {
+  var clone = Object.assign({}, object);
+
+  for (var key in clone) {
+    if (clone[key] === undefined) delete clone[key];
+  }
+
+  return clone;
+}
+
+function omit(object, keysToOmit) {
+  if (keysToOmit === void 0) {
+    keysToOmit = [];
+  }
+
+  var clone = Object.assign({}, object);
+
+  for (var _iterator2 = _createForOfIteratorHelperLoose(keysToOmit), _step2; !(_step2 = _iterator2()).done;) {
+    var key = _step2.value;
+    if (key in clone) delete clone[key];
+  }
+
+  return clone;
+}
+
+function once(cb) {
+  var state = {
+    called: false
+  };
+  return function () {
+    if (state.called) return;
+    state.called = true;
+    return cb.apply(void 0, arguments);
+  };
+}
+
+function disposables() {
+  var disposables = [];
+  var api = {
+    requestAnimationFrame: function (_requestAnimationFrame) {
+      function requestAnimationFrame() {
+        return _requestAnimationFrame.apply(this, arguments);
+      }
+
+      requestAnimationFrame.toString = function () {
+        return _requestAnimationFrame.toString();
+      };
+
+      return requestAnimationFrame;
+    }(function () {
+      var raf = requestAnimationFrame.apply(void 0, arguments);
+      api.add(function () {
+        return cancelAnimationFrame(raf);
+      });
+    }),
+    nextFrame: function nextFrame() {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      api.requestAnimationFrame(function () {
+        api.requestAnimationFrame.apply(api, args);
+      });
+    },
+    setTimeout: function (_setTimeout) {
+      function setTimeout() {
+        return _setTimeout.apply(this, arguments);
+      }
+
+      setTimeout.toString = function () {
+        return _setTimeout.toString();
+      };
+
+      return setTimeout;
+    }(function () {
+      var timer = setTimeout.apply(void 0, arguments);
+      api.add(function () {
+        return clearTimeout(timer);
+      });
+    }),
+    add: function add(cb) {
+      disposables.push(cb);
+    },
+    dispose: function dispose() {
+      for (var _iterator = _createForOfIteratorHelperLoose(disposables.splice(0)), _step; !(_step = _iterator()).done;) {
+        var dispose = _step.value;
+        dispose();
+      }
+    }
+  };
+  return api;
+}
+
+function addClasses(node) {
+  var _node$classList;
+
+  for (var _len = arguments.length, classes = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    classes[_key - 1] = arguments[_key];
+  }
+
+  node && classes.length > 0 && (_node$classList = node.classList).add.apply(_node$classList, classes);
+}
+
+function removeClasses(node) {
+  var _node$classList2;
+
+  for (var _len2 = arguments.length, classes = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+    classes[_key2 - 1] = arguments[_key2];
+  }
+
+  node && classes.length > 0 && (_node$classList2 = node.classList).remove.apply(_node$classList2, classes);
+}
+
+var Reason;
+
+(function (Reason) {
+  Reason["Finished"] = "finished";
+  Reason["Cancelled"] = "cancelled";
+})(Reason || (Reason = {}));
+
+function waitForTransition(node, done) {
+  var d = disposables();
+  if (!node) return d.dispose; // Safari returns a comma separated list of values, so let's sort them and take the highest value.
+
+  var _getComputedStyle = getComputedStyle(node),
+      transitionDuration = _getComputedStyle.transitionDuration,
+      transitionDelay = _getComputedStyle.transitionDelay;
+
+  var _map = [transitionDuration, transitionDelay].map(function (value) {
+    var _value$split$filter$m = value.split(',') // Remove falseys we can't work with
+    .filter(Boolean) // Values are returned as `0.3s` or `75ms`
+    .map(function (v) {
+      return v.includes('ms') ? parseFloat(v) : parseFloat(v) * 1000;
+    }).sort(function (a, z) {
+      return z - a;
+    }),
+        _value$split$filter$m2 = _value$split$filter$m[0],
+        resolvedValue = _value$split$filter$m2 === void 0 ? 0 : _value$split$filter$m2;
+
+    return resolvedValue;
+  }),
+      durationMs = _map[0],
+      delaysMs = _map[1]; // Waiting for the transition to end. We could use the `transitionend` event, however when no
+  // actual transition/duration is defined then the `transitionend` event is not fired.
+  //
+  // TODO: Downside is, when you slow down transitions via devtools this timeout is still using the
+  // full 100% speed instead of the 25% or 10%.
+
+
+  if (durationMs !== 0) {
+    d.setTimeout(function () {
+      done(Reason.Finished);
+    }, durationMs + delaysMs);
+  } else {
+    // No transition is happening, so we should cleanup already. Otherwise we have to wait until we
+    // get disposed.
+    done(Reason.Finished);
+  } // If we get disposed before the timeout runs we should cleanup anyway
+
+
+  d.add(function () {
+    return done(Reason.Cancelled);
+  });
+  return d.dispose;
+}
+
+function transition(node, base, from, to, done) {
+  var d = disposables();
+
+  var _done = done !== undefined ? once(done) : function () {};
+
+  addClasses.apply(void 0, [node].concat(base, from));
+  d.nextFrame(function () {
+    removeClasses.apply(void 0, [node].concat(from));
+    addClasses.apply(void 0, [node].concat(to));
+    d.add(waitForTransition(node, function (reason) {
+      removeClasses.apply(void 0, [node].concat(to, base));
+      return _done(reason);
+    }));
+  }); // Once we get disposed, we should ensure that we cleanup after ourselves. In case of an unmount,
+  // the node itself will be nullified and will be a no-op. In case of a full transition the classes
+  // are already removed which is also a no-op. However if you go from enter -> leave mid-transition
+  // then we have some leftovers that should be cleaned.
+
+  d.add(function () {
+    return removeClasses.apply(void 0, [node].concat(base, from, to));
+  }); // When we get disposed early, than we should also call the done method but switch the reason.
+
+  d.add(function () {
+    return _done(Reason.Cancelled);
+  });
+  return d.dispose;
+}
+
+function useSplitClasses(classes) {
+  if (classes === void 0) {
+    classes = '';
+  }
+
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    return classes.split(' ').filter(function (className) {
+      return className.trim().length > 1;
+    });
+  }, [classes]);
+}
+
+var TransitionContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)(null);
+TransitionContext.displayName = 'TransitionContext';
+var TreeStates;
+
+(function (TreeStates) {
+  TreeStates["Visible"] = "visible";
+  TreeStates["Hidden"] = "hidden";
+})(TreeStates || (TreeStates = {}));
+
+function useTransitionContext() {
+  var context = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(TransitionContext);
+
+  if (context === null) {
+    throw new Error('A <Transition.Child /> is used but it is missing a parent <Transition />.');
+  }
+
+  return context;
+}
+
+function useParentNesting() {
+  var context = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(NestingContext);
+
+  if (context === null) {
+    throw new Error('A <Transition.Child /> is used but it is missing a parent <Transition />.');
+  }
+
+  return context;
+}
+
+var NestingContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)(null);
+NestingContext.displayName = 'NestingContext';
+
+function hasChildren(bag) {
+  if ('children' in bag) return hasChildren(bag.children);
+  return bag.current.filter(function (_ref) {
+    var state = _ref.state;
+    return state === TreeStates.Visible;
+  }).length > 0;
+}
+
+function useNesting(done) {
+  var doneRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(done);
+  var transitionableChildren = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)([]);
+  var mounted = useIsMounted();
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    doneRef.current = done;
+  }, [done]);
+  var unregister = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (childId, strategy) {
+    var _match;
+
+    if (strategy === void 0) {
+      strategy = RenderStrategy.Hidden;
+    }
+
+    var idx = transitionableChildren.current.findIndex(function (_ref2) {
+      var id = _ref2.id;
+      return id === childId;
+    });
+    if (idx === -1) return;
+    match(strategy, (_match = {}, _match[RenderStrategy.Unmount] = function () {
+      transitionableChildren.current.splice(idx, 1);
+    }, _match[RenderStrategy.Hidden] = function () {
+      transitionableChildren.current[idx].state = TreeStates.Hidden;
+    }, _match));
+
+    if (!hasChildren(transitionableChildren) && mounted.current) {
+      doneRef.current == null ? void 0 : doneRef.current();
+    }
+  }, [doneRef, mounted, transitionableChildren]);
+  var register = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (childId) {
+    var child = transitionableChildren.current.find(function (_ref3) {
+      var id = _ref3.id;
+      return id === childId;
+    });
+
+    if (!child) {
+      transitionableChildren.current.push({
+        id: childId,
+        state: TreeStates.Visible
+      });
+    } else if (child.state !== TreeStates.Visible) {
+      child.state = TreeStates.Visible;
+    }
+
+    return function () {
+      return unregister(childId, RenderStrategy.Unmount);
+    };
+  }, [transitionableChildren, unregister]);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    return {
+      children: transitionableChildren,
+      register: register,
+      unregister: unregister
+    };
+  }, [register, unregister, transitionableChildren]);
+}
+
+function noop() {}
+
+var eventNames = ['beforeEnter', 'afterEnter', 'beforeLeave', 'afterLeave'];
+
+function ensureEventHooksExist(events) {
+  return eventNames.reduce(function (all, eventName) {
+    all[eventName] = events[eventName] || noop;
+    return all;
+  }, {});
+}
+
+function useEvents(events) {
+  var eventsRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(ensureEventHooksExist(events));
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    eventsRef.current = ensureEventHooksExist(events);
+  }, [events]);
+  return eventsRef;
+} // ---
+
+
+var DEFAULT_TRANSITION_CHILD_TAG = 'div';
+var TransitionChildRenderFeatures = Features.RenderStrategy;
+
+function TransitionChild(props) {
+  var beforeEnter = props.beforeEnter,
+      afterEnter = props.afterEnter,
+      beforeLeave = props.beforeLeave,
+      afterLeave = props.afterLeave,
+      enter = props.enter,
+      enterFrom = props.enterFrom,
+      enterTo = props.enterTo,
+      leave = props.leave,
+      leaveFrom = props.leaveFrom,
+      leaveTo = props.leaveTo,
+      rest = _objectWithoutPropertiesLoose(props, ["beforeEnter", "afterEnter", "beforeLeave", "afterLeave", "enter", "enterFrom", "enterTo", "leave", "leaveFrom", "leaveTo"]);
+
+  var container = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(TreeStates.Visible),
+      state = _useState[0],
+      setState = _useState[1];
+
+  var strategy = rest.unmount ? RenderStrategy.Unmount : RenderStrategy.Hidden;
+
+  var _useTransitionContext = useTransitionContext(),
+      show = _useTransitionContext.show,
+      appear = _useTransitionContext.appear;
+
+  var _useParentNesting = useParentNesting(),
+      register = _useParentNesting.register,
+      unregister = _useParentNesting.unregister;
+
+  var initial = useIsInitialRender();
+  var id = useId();
+  var isTransitioning = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
+  var nesting = useNesting(function () {
+    // When all children have been unmounted we can only hide ourselves if and only if we are not
+    // transitioning ourserlves. Otherwise we would unmount before the transitions are finished.
+    if (!isTransitioning.current) {
+      setState(TreeStates.Hidden);
+      unregister(id);
+      events.current.afterLeave();
+    }
+  });
+  useIsoMorphicEffect(function () {
+    if (!id) return;
+    return register(id);
+  }, [register, id]);
+  useIsoMorphicEffect(function () {
+    var _match2;
+
+    // If we are in another mode than the Hidden mode then ignore
+    if (strategy !== RenderStrategy.Hidden) return;
+    if (!id) return; // Make sure that we are visible
+
+    if (show && state !== TreeStates.Visible) {
+      setState(TreeStates.Visible);
+      return;
+    }
+
+    match(state, (_match2 = {}, _match2[TreeStates.Hidden] = function () {
+      return unregister(id);
+    }, _match2[TreeStates.Visible] = function () {
+      return register(id);
+    }, _match2));
+  }, [state, id, register, unregister, show, strategy]);
+  var enterClasses = useSplitClasses(enter);
+  var enterFromClasses = useSplitClasses(enterFrom);
+  var enterToClasses = useSplitClasses(enterTo);
+  var leaveClasses = useSplitClasses(leave);
+  var leaveFromClasses = useSplitClasses(leaveFrom);
+  var leaveToClasses = useSplitClasses(leaveTo);
+  var events = useEvents({
+    beforeEnter: beforeEnter,
+    afterEnter: afterEnter,
+    beforeLeave: beforeLeave,
+    afterLeave: afterLeave
+  });
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (state === TreeStates.Visible && container.current === null) {
+      throw new Error('Did you forget to passthrough the `ref` to the actual DOM node?');
+    }
+  }, [container, state]); // Skipping initial transition
+
+  var skip = initial && !appear;
+  useIsoMorphicEffect(function () {
+    var node = container.current;
+    if (!node) return;
+    if (skip) return;
+    isTransitioning.current = true;
+    if (show) events.current.beforeEnter();
+    if (!show) events.current.beforeLeave();
+    return show ? transition(node, enterClasses, enterFromClasses, enterToClasses, function (reason) {
+      isTransitioning.current = false;
+      if (reason === Reason.Finished) events.current.afterEnter();
+    }) : transition(node, leaveClasses, leaveFromClasses, leaveToClasses, function (reason) {
+      isTransitioning.current = false;
+      if (reason !== Reason.Finished) return; // When we don't have children anymore we can safely unregister from the parent and hide
+      // ourselves.
+
+      if (!hasChildren(nesting)) {
+        setState(TreeStates.Hidden);
+        unregister(id);
+        events.current.afterLeave();
+      }
+    });
+  }, [events, id, isTransitioning, unregister, nesting, container, skip, show, enterClasses, enterFromClasses, enterToClasses, leaveClasses, leaveFromClasses, leaveToClasses]);
+  var propsBag = {};
+  var propsWeControl = {
+    ref: container
+  };
+  var passthroughProps = rest;
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(NestingContext.Provider, {
+    value: nesting
+  }, render(_extends({}, passthroughProps, propsWeControl), propsBag, DEFAULT_TRANSITION_CHILD_TAG, TransitionChildRenderFeatures, state === TreeStates.Visible));
+}
+
+function Transition(props) {
+  // @ts-expect-error
+  var show = props.show,
+      _props$appear = props.appear,
+      appear = _props$appear === void 0 ? false : _props$appear,
+      unmount = props.unmount,
+      passthroughProps = _objectWithoutPropertiesLoose(props, ["show", "appear", "unmount"]);
+
+  if (![true, false].includes(show)) {
+    throw new Error('A <Transition /> is used but it is missing a `show={true | false}` prop.');
+  }
+
+  var _useState2 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(show ? TreeStates.Visible : TreeStates.Hidden),
+      state = _useState2[0],
+      setState = _useState2[1];
+
+  var nestingBag = useNesting(function () {
+    setState(TreeStates.Hidden);
+  });
+  var initial = useIsInitialRender();
+  var transitionBag = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    return {
+      show: show,
+      appear: appear || !initial
+    };
+  }, [show, appear, initial]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (show) {
+      setState(TreeStates.Visible);
+    } else if (!hasChildren(nestingBag)) {
+      setState(TreeStates.Hidden);
+    }
+  }, [show, nestingBag]);
+  var sharedProps = {
+    unmount: unmount
+  };
+  var propsBag = {};
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(NestingContext.Provider, {
+    value: nestingBag
+  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(TransitionContext.Provider, {
+    value: transitionBag
+  }, render(_extends({}, sharedProps, {
+    as: react__WEBPACK_IMPORTED_MODULE_0__.Fragment,
+    children: react__WEBPACK_IMPORTED_MODULE_0__.createElement(TransitionChild, Object.assign({}, sharedProps, passthroughProps))
+  }), propsBag, react__WEBPACK_IMPORTED_MODULE_0__.Fragment, TransitionChildRenderFeatures, state === TreeStates.Visible)));
+}
+Transition.Child = TransitionChild;
+
+function useDisposables() {
+  // Using useState instead of useRef so that we can use the initializer function.
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(disposables),
+      d = _useState[0];
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    return function () {
+      return d.dispose();
+    };
+  }, [d]);
+  return d;
+}
+
+function useSyncRefs() {
+  for (var _len = arguments.length, refs = new Array(_len), _key = 0; _key < _len; _key++) {
+    refs[_key] = arguments[_key];
+  }
+
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (value) {
+    refs.forEach(function (ref) {
+      if (ref === null) return;
+      if (typeof ref === 'function') return ref(value);
+      ref.current = value;
+    });
+  }, [refs]);
+}
+
+// TODO: This must already exist somewhere, right? 🤔
+// Ref: https://www.w3.org/TR/uievents-key/#named-key-attribute-values
+var Keys;
+
+(function (Keys) {
+  Keys["Space"] = " ";
+  Keys["Enter"] = "Enter";
+  Keys["Escape"] = "Escape";
+  Keys["Backspace"] = "Backspace";
+  Keys["ArrowUp"] = "ArrowUp";
+  Keys["ArrowDown"] = "ArrowDown";
+  Keys["Home"] = "Home";
+  Keys["End"] = "End";
+  Keys["PageUp"] = "PageUp";
+  Keys["PageDown"] = "PageDown";
+  Keys["Tab"] = "Tab";
+})(Keys || (Keys = {}));
+
+function assertNever(x) {
+  throw new Error('Unexpected object: ' + x);
+}
+
+var Focus;
+
+(function (Focus) {
+  /** Focus the first non-disabled item. */
+  Focus[Focus["First"] = 0] = "First";
+  /** Focus the previous non-disabled item. */
+
+  Focus[Focus["Previous"] = 1] = "Previous";
+  /** Focus the next non-disabled item. */
+
+  Focus[Focus["Next"] = 2] = "Next";
+  /** Focus the last non-disabled item. */
+
+  Focus[Focus["Last"] = 3] = "Last";
+  /** Focus a specific item based on the `id` of the item. */
+
+  Focus[Focus["Specific"] = 4] = "Specific";
+  /** Focus no items at all. */
+
+  Focus[Focus["Nothing"] = 5] = "Nothing";
+})(Focus || (Focus = {}));
+
+function calculateActiveIndex(action, resolvers) {
+  var items = resolvers.resolveItems();
+  if (items.length <= 0) return null;
+  var currentActiveIndex = resolvers.resolveActiveIndex();
+  var activeIndex = currentActiveIndex != null ? currentActiveIndex : -1;
+
+  var nextActiveIndex = function () {
+    switch (action.focus) {
+      case Focus.First:
+        return items.findIndex(function (item) {
+          return !resolvers.resolveDisabled(item);
+        });
+
+      case Focus.Previous:
+        {
+          var idx = items.slice().reverse().findIndex(function (item, idx, all) {
+            if (activeIndex !== -1 && all.length - idx - 1 >= activeIndex) return false;
+            return !resolvers.resolveDisabled(item);
+          });
+          if (idx === -1) return idx;
+          return items.length - 1 - idx;
+        }
+
+      case Focus.Next:
+        return items.findIndex(function (item, idx) {
+          if (idx <= activeIndex) return false;
+          return !resolvers.resolveDisabled(item);
+        });
+
+      case Focus.Last:
+        {
+          var _idx = items.slice().reverse().findIndex(function (item) {
+            return !resolvers.resolveDisabled(item);
+          });
+
+          if (_idx === -1) return _idx;
+          return items.length - 1 - _idx;
+        }
+
+      case Focus.Specific:
+        return items.findIndex(function (item) {
+          return resolvers.resolveId(item) === action.id;
+        });
+
+      case Focus.Nothing:
+        return null;
+
+      default:
+        assertNever(action);
+    }
+  }();
+
+  return nextActiveIndex === -1 ? currentActiveIndex : nextActiveIndex;
+}
+
+function resolvePropValue(property, bag) {
+  if (property === undefined) return undefined;
+  if (typeof property === 'function') return property(bag);
+  return property;
+}
+
+// See: https://github.com/facebook/react/issues/7711
+// See: https://github.com/facebook/react/pull/20612
+// See: https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#concept-fe-disabled (2.)
+function isDisabledReactIssue7711(element) {
+  var _ref, _parent;
+
+  var parent = element.parentElement;
+  var legend = null;
+
+  while (parent && !(parent instanceof HTMLFieldSetElement)) {
+    if (parent instanceof HTMLLegendElement) legend = parent;
+    parent = parent.parentElement;
+  }
+
+  var isParentDisabled = (_ref = ((_parent = parent) == null ? void 0 : _parent.getAttribute('disabled')) === '') != null ? _ref : false;
+  if (isParentDisabled && isFirstLegend(legend)) return false;
+  return isParentDisabled;
+}
+
+function isFirstLegend(element) {
+  if (!element) return false;
+  var previous = element.previousElementSibling;
+
+  while (previous !== null) {
+    if (previous instanceof HTMLLegendElement) return false;
+    previous = previous.previousElementSibling;
+  }
+
+  return true;
+}
+
+var _reducers;
+var MenuStates;
+
+(function (MenuStates) {
+  MenuStates[MenuStates["Open"] = 0] = "Open";
+  MenuStates[MenuStates["Closed"] = 1] = "Closed";
+})(MenuStates || (MenuStates = {}));
+
+var ActionTypes;
+
+(function (ActionTypes) {
+  ActionTypes[ActionTypes["OpenMenu"] = 0] = "OpenMenu";
+  ActionTypes[ActionTypes["CloseMenu"] = 1] = "CloseMenu";
+  ActionTypes[ActionTypes["GoToItem"] = 2] = "GoToItem";
+  ActionTypes[ActionTypes["Search"] = 3] = "Search";
+  ActionTypes[ActionTypes["ClearSearch"] = 4] = "ClearSearch";
+  ActionTypes[ActionTypes["RegisterItem"] = 5] = "RegisterItem";
+  ActionTypes[ActionTypes["UnregisterItem"] = 6] = "UnregisterItem";
+})(ActionTypes || (ActionTypes = {}));
+
+var reducers = (_reducers = {}, _reducers[ActionTypes.CloseMenu] = function (state) {
+  return _extends({}, state, {
+    activeItemIndex: null,
+    menuState: MenuStates.Closed
+  });
+}, _reducers[ActionTypes.OpenMenu] = function (state) {
+  return _extends({}, state, {
+    menuState: MenuStates.Open
+  });
+}, _reducers[ActionTypes.GoToItem] = function (state, action) {
+  var activeItemIndex = calculateActiveIndex(action, {
+    resolveItems: function resolveItems() {
+      return state.items;
+    },
+    resolveActiveIndex: function resolveActiveIndex() {
+      return state.activeItemIndex;
+    },
+    resolveId: function resolveId(item) {
+      return item.id;
+    },
+    resolveDisabled: function resolveDisabled(item) {
+      return item.dataRef.current.disabled;
+    }
+  });
+  if (state.searchQuery === '' && state.activeItemIndex === activeItemIndex) return state;
+  return _extends({}, state, {
+    searchQuery: '',
+    activeItemIndex: activeItemIndex
+  });
+}, _reducers[ActionTypes.Search] = function (state, action) {
+  var searchQuery = state.searchQuery + action.value;
+  var match = state.items.findIndex(function (item) {
+    var _item$dataRef$current;
+
+    return ((_item$dataRef$current = item.dataRef.current.textValue) == null ? void 0 : _item$dataRef$current.startsWith(searchQuery)) && !item.dataRef.current.disabled;
+  });
+  if (match === -1 || match === state.activeItemIndex) return _extends({}, state, {
+    searchQuery: searchQuery
+  });
+  return _extends({}, state, {
+    searchQuery: searchQuery,
+    activeItemIndex: match
+  });
+}, _reducers[ActionTypes.ClearSearch] = function (state) {
+  return _extends({}, state, {
+    searchQuery: ''
+  });
+}, _reducers[ActionTypes.RegisterItem] = function (state, action) {
+  return _extends({}, state, {
+    items: [].concat(state.items, [{
+      id: action.id,
+      dataRef: action.dataRef
+    }])
+  });
+}, _reducers[ActionTypes.UnregisterItem] = function (state, action) {
+  var nextItems = state.items.slice();
+  var currentActiveItem = state.activeItemIndex !== null ? nextItems[state.activeItemIndex] : null;
+  var idx = nextItems.findIndex(function (a) {
+    return a.id === action.id;
+  });
+  if (idx !== -1) nextItems.splice(idx, 1);
+  return _extends({}, state, {
+    items: nextItems,
+    activeItemIndex: function () {
+      if (idx === state.activeItemIndex) return null;
+      if (currentActiveItem === null) return null; // If we removed the item before the actual active index, then it would be out of sync. To
+      // fix this, we will find the correct (new) index position.
+
+      return nextItems.indexOf(currentActiveItem);
+    }()
+  });
+}, _reducers);
+var MenuContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)(null);
+MenuContext.displayName = 'MenuContext';
+
+function useMenuContext(component) {
+  var context = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(MenuContext);
+
+  if (context === null) {
+    var err = new Error("<" + component + " /> is missing a parent <" + Menu.name + " /> component.");
+    if (Error.captureStackTrace) Error.captureStackTrace(err, useMenuContext);
+    throw err;
+  }
+
+  return context;
+}
+
+function stateReducer(state, action) {
+  return match(action.type, reducers, state, action);
+} // ---
+
+
+var DEFAULT_MENU_TAG = react__WEBPACK_IMPORTED_MODULE_0__.Fragment;
+function Menu(props) {
+  var reducerBag = (0,react__WEBPACK_IMPORTED_MODULE_0__.useReducer)(stateReducer, {
+    menuState: MenuStates.Closed,
+    buttonRef: (0,react__WEBPACK_IMPORTED_MODULE_0__.createRef)(),
+    itemsRef: (0,react__WEBPACK_IMPORTED_MODULE_0__.createRef)(),
+    items: [],
+    searchQuery: '',
+    activeItemIndex: null
+  });
+  var _reducerBag$ = reducerBag[0],
+      menuState = _reducerBag$.menuState,
+      itemsRef = _reducerBag$.itemsRef,
+      buttonRef = _reducerBag$.buttonRef,
+      dispatch = reducerBag[1];
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    function handler(event) {
+      var _buttonRef$current, _itemsRef$current, _buttonRef$current2;
+
+      var target = event.target;
+      var active = document.activeElement;
+      if (menuState !== MenuStates.Open) return;
+      if ((_buttonRef$current = buttonRef.current) == null ? void 0 : _buttonRef$current.contains(target)) return;
+      if (!((_itemsRef$current = itemsRef.current) == null ? void 0 : _itemsRef$current.contains(target))) dispatch({
+        type: ActionTypes.CloseMenu
+      });
+      if (active !== document.body && (active == null ? void 0 : active.contains(target))) return; // Keep focus on newly clicked/focused element
+
+      if (!event.defaultPrevented) (_buttonRef$current2 = buttonRef.current) == null ? void 0 : _buttonRef$current2.focus({
+        preventScroll: true
+      });
+    }
+
+    window.addEventListener('mousedown', handler);
+    return function () {
+      return window.removeEventListener('mousedown', handler);
+    };
+  }, [menuState, itemsRef, buttonRef, dispatch]);
+  var propsBag = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    return {
+      open: menuState === MenuStates.Open
+    };
+  }, [menuState]);
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(MenuContext.Provider, {
+    value: reducerBag
+  }, render(props, propsBag, DEFAULT_MENU_TAG));
+} // ---
+
+var DEFAULT_BUTTON_TAG = 'button';
+var Button = /*#__PURE__*/forwardRefWithAs(function Button(props, ref) {
+  var _state$itemsRef$curre4;
+
+  var _useMenuContext = useMenuContext([Menu.name, Button.name].join('.')),
+      state = _useMenuContext[0],
+      dispatch = _useMenuContext[1];
+
+  var buttonRef = useSyncRefs(state.buttonRef, ref);
+  var id = "headlessui-menu-button-" + useId();
+  var d = useDisposables();
+  var handleKeyDown = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (event) {
+    switch (event.key) {
+      // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#keyboard-interaction-13
+      case Keys.Space:
+      case Keys.Enter:
+      case Keys.ArrowDown:
+        event.preventDefault();
+        dispatch({
+          type: ActionTypes.OpenMenu
+        });
+        d.nextFrame(function () {
+          var _state$itemsRef$curre;
+
+          (_state$itemsRef$curre = state.itemsRef.current) == null ? void 0 : _state$itemsRef$curre.focus({
+            preventScroll: true
+          });
+          dispatch({
+            type: ActionTypes.GoToItem,
+            focus: Focus.First
+          });
+        });
+        break;
+
+      case Keys.ArrowUp:
+        event.preventDefault();
+        dispatch({
+          type: ActionTypes.OpenMenu
+        });
+        d.nextFrame(function () {
+          var _state$itemsRef$curre2;
+
+          (_state$itemsRef$curre2 = state.itemsRef.current) == null ? void 0 : _state$itemsRef$curre2.focus({
+            preventScroll: true
+          });
+          dispatch({
+            type: ActionTypes.GoToItem,
+            focus: Focus.Last
+          });
+        });
+        break;
+    }
+  }, [dispatch, state, d]);
+  var handleClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (event) {
+    if (isDisabledReactIssue7711(event.currentTarget)) return event.preventDefault();
+    if (props.disabled) return;
+
+    if (state.menuState === MenuStates.Open) {
+      dispatch({
+        type: ActionTypes.CloseMenu
+      });
+      d.nextFrame(function () {
+        var _state$buttonRef$curr;
+
+        return (_state$buttonRef$curr = state.buttonRef.current) == null ? void 0 : _state$buttonRef$curr.focus({
+          preventScroll: true
+        });
+      });
+    } else {
+      event.preventDefault();
+      dispatch({
+        type: ActionTypes.OpenMenu
+      });
+      d.nextFrame(function () {
+        var _state$itemsRef$curre3;
+
+        return (_state$itemsRef$curre3 = state.itemsRef.current) == null ? void 0 : _state$itemsRef$curre3.focus({
+          preventScroll: true
+        });
+      });
+    }
+  }, [dispatch, d, state, props.disabled]);
+  var propsBag = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    return {
+      open: state.menuState === MenuStates.Open
+    };
+  }, [state]);
+  var passthroughProps = props;
+  var propsWeControl = {
+    ref: buttonRef,
+    id: id,
+    type: 'button',
+    'aria-haspopup': true,
+    'aria-controls': (_state$itemsRef$curre4 = state.itemsRef.current) == null ? void 0 : _state$itemsRef$curre4.id,
+    'aria-expanded': state.menuState === MenuStates.Open ? true : undefined,
+    onKeyDown: handleKeyDown,
+    onClick: handleClick
+  };
+  return render(_extends({}, passthroughProps, propsWeControl), propsBag, DEFAULT_BUTTON_TAG);
+}); // ---
+
+var DEFAULT_ITEMS_TAG = 'div';
+var ItemsRenderFeatures = Features.RenderStrategy | Features.Static;
+var Items = /*#__PURE__*/forwardRefWithAs(function Items(props, ref) {
+  var _state$items$state$ac, _state$buttonRef$curr4;
+
+  var _useMenuContext2 = useMenuContext([Menu.name, Items.name].join('.')),
+      state = _useMenuContext2[0],
+      dispatch = _useMenuContext2[1];
+
+  var itemsRef = useSyncRefs(state.itemsRef, ref);
+  var id = "headlessui-menu-items-" + useId();
+  var searchDisposables = useDisposables();
+  useIsoMorphicEffect(function () {
+    var container = state.itemsRef.current;
+    if (!container) return;
+    if (state.menuState !== MenuStates.Open) return;
+    var walker = document.createTreeWalker(container, NodeFilter.SHOW_ELEMENT, {
+      acceptNode: function acceptNode(node) {
+        if (node.getAttribute('role') === 'menuitem') return NodeFilter.FILTER_REJECT;
+        if (node.hasAttribute('role')) return NodeFilter.FILTER_SKIP;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+
+    while (walker.nextNode()) {
+      walker.currentNode.setAttribute('role', 'none');
+    }
+  });
+  var handleKeyDown = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (event) {
+    searchDisposables.dispose();
+
+    switch (event.key) {
+      // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#keyboard-interaction-12
+      // @ts-expect-error Fallthrough is expected here
+      case Keys.Space:
+        if (state.searchQuery !== '') {
+          event.preventDefault();
+          return dispatch({
+            type: ActionTypes.Search,
+            value: event.key
+          });
+        }
+
+      // When in type ahead mode, fallthrough
+
+      case Keys.Enter:
+        event.preventDefault();
+        dispatch({
+          type: ActionTypes.CloseMenu
+        });
+
+        if (state.activeItemIndex !== null) {
+          var _document$getElementB;
+
+          var _id = state.items[state.activeItemIndex].id;
+          (_document$getElementB = document.getElementById(_id)) == null ? void 0 : _document$getElementB.click();
+        }
+
+        disposables().nextFrame(function () {
+          var _state$buttonRef$curr2;
+
+          return (_state$buttonRef$curr2 = state.buttonRef.current) == null ? void 0 : _state$buttonRef$curr2.focus({
+            preventScroll: true
+          });
+        });
+        break;
+
+      case Keys.ArrowDown:
+        event.preventDefault();
+        return dispatch({
+          type: ActionTypes.GoToItem,
+          focus: Focus.Next
+        });
+
+      case Keys.ArrowUp:
+        event.preventDefault();
+        return dispatch({
+          type: ActionTypes.GoToItem,
+          focus: Focus.Previous
+        });
+
+      case Keys.Home:
+      case Keys.PageUp:
+        event.preventDefault();
+        return dispatch({
+          type: ActionTypes.GoToItem,
+          focus: Focus.First
+        });
+
+      case Keys.End:
+      case Keys.PageDown:
+        event.preventDefault();
+        return dispatch({
+          type: ActionTypes.GoToItem,
+          focus: Focus.Last
+        });
+
+      case Keys.Escape:
+        event.preventDefault();
+        dispatch({
+          type: ActionTypes.CloseMenu
+        });
+        disposables().nextFrame(function () {
+          var _state$buttonRef$curr3;
+
+          return (_state$buttonRef$curr3 = state.buttonRef.current) == null ? void 0 : _state$buttonRef$curr3.focus({
+            preventScroll: true
+          });
+        });
+        break;
+
+      case Keys.Tab:
+        return event.preventDefault();
+
+      default:
+        if (event.key.length === 1) {
+          dispatch({
+            type: ActionTypes.Search,
+            value: event.key
+          });
+          searchDisposables.setTimeout(function () {
+            return dispatch({
+              type: ActionTypes.ClearSearch
+            });
+          }, 350);
+        }
+
+        break;
+    }
+  }, [dispatch, searchDisposables, state]);
+  var propsBag = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    return {
+      open: state.menuState === MenuStates.Open
+    };
+  }, [state]);
+  var propsWeControl = {
+    'aria-activedescendant': state.activeItemIndex === null ? undefined : (_state$items$state$ac = state.items[state.activeItemIndex]) == null ? void 0 : _state$items$state$ac.id,
+    'aria-labelledby': (_state$buttonRef$curr4 = state.buttonRef.current) == null ? void 0 : _state$buttonRef$curr4.id,
+    id: id,
+    onKeyDown: handleKeyDown,
+    role: 'menu',
+    tabIndex: 0,
+    ref: itemsRef
+  };
+  var passthroughProps = props;
+  return render(_extends({}, passthroughProps, propsWeControl), propsBag, DEFAULT_ITEMS_TAG, ItemsRenderFeatures, state.menuState === MenuStates.Open);
+}); // ---
+
+var DEFAULT_ITEM_TAG = react__WEBPACK_IMPORTED_MODULE_0__.Fragment;
+
+function Item(props) {
+  var _props$disabled = props.disabled,
+      disabled = _props$disabled === void 0 ? false : _props$disabled,
+      className = props.className,
+      onClick = props.onClick,
+      passthroughProps = _objectWithoutPropertiesLoose(props, ["disabled", "className", "onClick"]);
+
+  var _useMenuContext3 = useMenuContext([Menu.name, Item.name].join('.')),
+      state = _useMenuContext3[0],
+      dispatch = _useMenuContext3[1];
+
+  var id = "headlessui-menu-item-" + useId();
+  var active = state.activeItemIndex !== null ? state.items[state.activeItemIndex].id === id : false;
+  useIsoMorphicEffect(function () {
+    if (state.menuState !== MenuStates.Open) return;
+    if (!active) return;
+    var d = disposables();
+    d.nextFrame(function () {
+      var _document$getElementB2;
+
+      return (_document$getElementB2 = document.getElementById(id)) == null ? void 0 : _document$getElementB2.scrollIntoView == null ? void 0 : _document$getElementB2.scrollIntoView({
+        block: 'nearest'
+      });
+    });
+    return d.dispose;
+  }, [id, active, state.menuState]);
+  var bag = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)({
+    disabled: disabled
+  });
+  useIsoMorphicEffect(function () {
+    bag.current.disabled = disabled;
+  }, [bag, disabled]);
+  useIsoMorphicEffect(function () {
+    var _document$getElementB3, _document$getElementB4;
+
+    bag.current.textValue = (_document$getElementB3 = document.getElementById(id)) == null ? void 0 : (_document$getElementB4 = _document$getElementB3.textContent) == null ? void 0 : _document$getElementB4.toLowerCase();
+  }, [bag, id]);
+  useIsoMorphicEffect(function () {
+    dispatch({
+      type: ActionTypes.RegisterItem,
+      id: id,
+      dataRef: bag
+    });
+    return function () {
+      return dispatch({
+        type: ActionTypes.UnregisterItem,
+        id: id
+      });
+    };
+  }, [bag, id]);
+  var handleClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (event) {
+    if (disabled) return event.preventDefault();
+    dispatch({
+      type: ActionTypes.CloseMenu
+    });
+    disposables().nextFrame(function () {
+      var _state$buttonRef$curr5;
+
+      return (_state$buttonRef$curr5 = state.buttonRef.current) == null ? void 0 : _state$buttonRef$curr5.focus({
+        preventScroll: true
+      });
+    });
+    if (onClick) return onClick(event);
+  }, [dispatch, state.buttonRef, disabled, onClick]);
+  var handleFocus = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    if (disabled) return dispatch({
+      type: ActionTypes.GoToItem,
+      focus: Focus.Nothing
+    });
+    dispatch({
+      type: ActionTypes.GoToItem,
+      focus: Focus.Specific,
+      id: id
+    });
+  }, [disabled, id, dispatch]);
+  var handleMove = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    if (disabled) return;
+    if (active) return;
+    dispatch({
+      type: ActionTypes.GoToItem,
+      focus: Focus.Specific,
+      id: id
+    });
+  }, [disabled, active, id, dispatch]);
+  var handleLeave = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    if (disabled) return;
+    if (!active) return;
+    dispatch({
+      type: ActionTypes.GoToItem,
+      focus: Focus.Nothing
+    });
+  }, [disabled, active, dispatch]);
+  var propsBag = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    return {
+      active: active,
+      disabled: disabled
+    };
+  }, [active, disabled]);
+  var propsWeControl = {
+    id: id,
+    role: 'menuitem',
+    tabIndex: -1,
+    className: resolvePropValue(className, propsBag),
+    'aria-disabled': disabled === true ? true : undefined,
+    onClick: handleClick,
+    onFocus: handleFocus,
+    onPointerMove: handleMove,
+    onMouseMove: handleMove,
+    onPointerLeave: handleLeave,
+    onMouseLeave: handleLeave
+  };
+  return render(_extends({}, passthroughProps, propsWeControl), propsBag, DEFAULT_ITEM_TAG);
+} // ---
+
+
+Menu.Button = Button;
+Menu.Items = Items;
+Menu.Item = Item;
+
+function useComputed(cb, dependencies) {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(cb),
+      value = _useState[0],
+      setValue = _useState[1];
+
+  var cbRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(cb);
+  useIsoMorphicEffect(function () {
+    cbRef.current = cb;
+  }, [cb]);
+  useIsoMorphicEffect(function () {
+    return setValue(cbRef.current);
+  }, [cbRef, setValue].concat(dependencies));
+  return value;
+}
+
+var _reducers$1;
+var ListboxStates;
+
+(function (ListboxStates) {
+  ListboxStates[ListboxStates["Open"] = 0] = "Open";
+  ListboxStates[ListboxStates["Closed"] = 1] = "Closed";
+})(ListboxStates || (ListboxStates = {}));
+
+var ActionTypes$1;
+
+(function (ActionTypes) {
+  ActionTypes[ActionTypes["OpenListbox"] = 0] = "OpenListbox";
+  ActionTypes[ActionTypes["CloseListbox"] = 1] = "CloseListbox";
+  ActionTypes[ActionTypes["SetDisabled"] = 2] = "SetDisabled";
+  ActionTypes[ActionTypes["GoToOption"] = 3] = "GoToOption";
+  ActionTypes[ActionTypes["Search"] = 4] = "Search";
+  ActionTypes[ActionTypes["ClearSearch"] = 5] = "ClearSearch";
+  ActionTypes[ActionTypes["RegisterOption"] = 6] = "RegisterOption";
+  ActionTypes[ActionTypes["UnregisterOption"] = 7] = "UnregisterOption";
+})(ActionTypes$1 || (ActionTypes$1 = {}));
+
+var reducers$1 = (_reducers$1 = {}, _reducers$1[ActionTypes$1.CloseListbox] = function (state) {
+  if (state.disabled) return state;
+  if (state.listboxState === ListboxStates.Closed) return state;
+  return _extends({}, state, {
+    activeOptionIndex: null,
+    listboxState: ListboxStates.Closed
+  });
+}, _reducers$1[ActionTypes$1.OpenListbox] = function (state) {
+  if (state.disabled) return state;
+  if (state.listboxState === ListboxStates.Open) return state;
+  return _extends({}, state, {
+    listboxState: ListboxStates.Open
+  });
+}, _reducers$1[ActionTypes$1.SetDisabled] = function (state, action) {
+  if (state.disabled === action.disabled) return state;
+  return _extends({}, state, {
+    disabled: action.disabled
+  });
+}, _reducers$1[ActionTypes$1.GoToOption] = function (state, action) {
+  if (state.disabled) return state;
+  if (state.listboxState === ListboxStates.Closed) return state;
+  var activeOptionIndex = calculateActiveIndex(action, {
+    resolveItems: function resolveItems() {
+      return state.options;
+    },
+    resolveActiveIndex: function resolveActiveIndex() {
+      return state.activeOptionIndex;
+    },
+    resolveId: function resolveId(item) {
+      return item.id;
+    },
+    resolveDisabled: function resolveDisabled(item) {
+      return item.dataRef.current.disabled;
+    }
+  });
+  if (state.searchQuery === '' && state.activeOptionIndex === activeOptionIndex) return state;
+  return _extends({}, state, {
+    searchQuery: '',
+    activeOptionIndex: activeOptionIndex
+  });
+}, _reducers$1[ActionTypes$1.Search] = function (state, action) {
+  if (state.disabled) return state;
+  if (state.listboxState === ListboxStates.Closed) return state;
+  var searchQuery = state.searchQuery + action.value;
+  var match = state.options.findIndex(function (option) {
+    var _option$dataRef$curre;
+
+    return !option.dataRef.current.disabled && ((_option$dataRef$curre = option.dataRef.current.textValue) == null ? void 0 : _option$dataRef$curre.startsWith(searchQuery));
+  });
+  if (match === -1 || match === state.activeOptionIndex) return _extends({}, state, {
+    searchQuery: searchQuery
+  });
+  return _extends({}, state, {
+    searchQuery: searchQuery,
+    activeOptionIndex: match
+  });
+}, _reducers$1[ActionTypes$1.ClearSearch] = function (state) {
+  if (state.disabled) return state;
+  if (state.listboxState === ListboxStates.Closed) return state;
+  if (state.searchQuery === '') return state;
+  return _extends({}, state, {
+    searchQuery: ''
+  });
+}, _reducers$1[ActionTypes$1.RegisterOption] = function (state, action) {
+  return _extends({}, state, {
+    options: [].concat(state.options, [{
+      id: action.id,
+      dataRef: action.dataRef
+    }])
+  });
+}, _reducers$1[ActionTypes$1.UnregisterOption] = function (state, action) {
+  var nextOptions = state.options.slice();
+  var currentActiveOption = state.activeOptionIndex !== null ? nextOptions[state.activeOptionIndex] : null;
+  var idx = nextOptions.findIndex(function (a) {
+    return a.id === action.id;
+  });
+  if (idx !== -1) nextOptions.splice(idx, 1);
+  return _extends({}, state, {
+    options: nextOptions,
+    activeOptionIndex: function () {
+      if (idx === state.activeOptionIndex) return null;
+      if (currentActiveOption === null) return null; // If we removed the option before the actual active index, then it would be out of sync. To
+      // fix this, we will find the correct (new) index position.
+
+      return nextOptions.indexOf(currentActiveOption);
+    }()
+  });
+}, _reducers$1);
+var ListboxContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)(null);
+ListboxContext.displayName = 'ListboxContext';
+
+function useListboxContext(component) {
+  var context = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(ListboxContext);
+
+  if (context === null) {
+    var err = new Error("<" + component + " /> is missing a parent <" + Listbox.name + " /> component.");
+    if (Error.captureStackTrace) Error.captureStackTrace(err, useListboxContext);
+    throw err;
+  }
+
+  return context;
+}
+
+function stateReducer$1(state, action) {
+  return match(action.type, reducers$1, state, action);
+} // ---
+
+
+var DEFAULT_LISTBOX_TAG = react__WEBPACK_IMPORTED_MODULE_0__.Fragment;
+function Listbox(props) {
+  var value = props.value,
+      onChange = props.onChange,
+      _props$disabled = props.disabled,
+      disabled = _props$disabled === void 0 ? false : _props$disabled,
+      passThroughProps = _objectWithoutPropertiesLoose(props, ["value", "onChange", "disabled"]);
+
+  var d = useDisposables();
+  var reducerBag = (0,react__WEBPACK_IMPORTED_MODULE_0__.useReducer)(stateReducer$1, {
+    listboxState: ListboxStates.Closed,
+    propsRef: {
+      current: {
+        value: value,
+        onChange: onChange
+      }
+    },
+    labelRef: (0,react__WEBPACK_IMPORTED_MODULE_0__.createRef)(),
+    buttonRef: (0,react__WEBPACK_IMPORTED_MODULE_0__.createRef)(),
+    optionsRef: (0,react__WEBPACK_IMPORTED_MODULE_0__.createRef)(),
+    disabled: disabled,
+    options: [],
+    searchQuery: '',
+    activeOptionIndex: null
+  });
+  var _reducerBag$ = reducerBag[0],
+      listboxState = _reducerBag$.listboxState,
+      propsRef = _reducerBag$.propsRef,
+      optionsRef = _reducerBag$.optionsRef,
+      buttonRef = _reducerBag$.buttonRef,
+      dispatch = reducerBag[1];
+  useIsoMorphicEffect(function () {
+    propsRef.current.value = value;
+  }, [value, propsRef]);
+  useIsoMorphicEffect(function () {
+    propsRef.current.onChange = onChange;
+  }, [onChange, propsRef]);
+  useIsoMorphicEffect(function () {
+    return dispatch({
+      type: ActionTypes$1.SetDisabled,
+      disabled: disabled
+    });
+  }, [disabled]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    function handler(event) {
+      var _buttonRef$current, _optionsRef$current, _buttonRef$current2;
+
+      var target = event.target;
+      var active = document.activeElement;
+      if (listboxState !== ListboxStates.Open) return;
+      if ((_buttonRef$current = buttonRef.current) == null ? void 0 : _buttonRef$current.contains(target)) return;
+      if (!((_optionsRef$current = optionsRef.current) == null ? void 0 : _optionsRef$current.contains(target))) dispatch({
+        type: ActionTypes$1.CloseListbox
+      });
+      if (active !== document.body && (active == null ? void 0 : active.contains(target))) return; // Keep focus on newly clicked/focused element
+
+      if (!event.defaultPrevented) (_buttonRef$current2 = buttonRef.current) == null ? void 0 : _buttonRef$current2.focus({
+        preventScroll: true
+      });
+    }
+
+    window.addEventListener('mousedown', handler);
+    return function () {
+      return window.removeEventListener('mousedown', handler);
+    };
+  }, [listboxState, optionsRef, buttonRef, d, dispatch]);
+  var propsBag = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    return {
+      open: listboxState === ListboxStates.Open,
+      disabled: disabled
+    };
+  }, [listboxState, disabled]);
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(ListboxContext.Provider, {
+    value: reducerBag
+  }, render(passThroughProps, propsBag, DEFAULT_LISTBOX_TAG));
+} // ---
+
+var DEFAULT_BUTTON_TAG$1 = 'button';
+var Button$1 = /*#__PURE__*/forwardRefWithAs(function Button(props, ref) {
+  var _state$optionsRef$cur4;
+
+  var _useListboxContext = useListboxContext([Listbox.name, Button.name].join('.')),
+      state = _useListboxContext[0],
+      dispatch = _useListboxContext[1];
+
+  var buttonRef = useSyncRefs(state.buttonRef, ref);
+  var id = "headlessui-listbox-button-" + useId();
+  var d = useDisposables();
+  var handleKeyDown = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (event) {
+    switch (event.key) {
+      // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#keyboard-interaction-13
+      case Keys.Space:
+      case Keys.Enter:
+      case Keys.ArrowDown:
+        event.preventDefault();
+        dispatch({
+          type: ActionTypes$1.OpenListbox
+        });
+        d.nextFrame(function () {
+          var _state$optionsRef$cur;
+
+          (_state$optionsRef$cur = state.optionsRef.current) == null ? void 0 : _state$optionsRef$cur.focus({
+            preventScroll: true
+          });
+          if (!state.propsRef.current.value) dispatch({
+            type: ActionTypes$1.GoToOption,
+            focus: Focus.First
+          });
+        });
+        break;
+
+      case Keys.ArrowUp:
+        event.preventDefault();
+        dispatch({
+          type: ActionTypes$1.OpenListbox
+        });
+        d.nextFrame(function () {
+          var _state$optionsRef$cur2;
+
+          (_state$optionsRef$cur2 = state.optionsRef.current) == null ? void 0 : _state$optionsRef$cur2.focus({
+            preventScroll: true
+          });
+          if (!state.propsRef.current.value) dispatch({
+            type: ActionTypes$1.GoToOption,
+            focus: Focus.Last
+          });
+        });
+        break;
+    }
+  }, [dispatch, state, d]);
+  var handleClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (event) {
+    if (isDisabledReactIssue7711(event.currentTarget)) return event.preventDefault();
+
+    if (state.listboxState === ListboxStates.Open) {
+      dispatch({
+        type: ActionTypes$1.CloseListbox
+      });
+      d.nextFrame(function () {
+        var _state$buttonRef$curr;
+
+        return (_state$buttonRef$curr = state.buttonRef.current) == null ? void 0 : _state$buttonRef$curr.focus({
+          preventScroll: true
+        });
+      });
+    } else {
+      event.preventDefault();
+      dispatch({
+        type: ActionTypes$1.OpenListbox
+      });
+      d.nextFrame(function () {
+        var _state$optionsRef$cur3;
+
+        return (_state$optionsRef$cur3 = state.optionsRef.current) == null ? void 0 : _state$optionsRef$cur3.focus({
+          preventScroll: true
+        });
+      });
+    }
+  }, [dispatch, d, state]);
+  var labelledby = useComputed(function () {
+    if (!state.labelRef.current) return undefined;
+    return [state.labelRef.current.id, id].join(' ');
+  }, [state.labelRef.current, id]);
+  var propsBag = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    return {
+      open: state.listboxState === ListboxStates.Open,
+      disabled: state.disabled
+    };
+  }, [state]);
+  var passthroughProps = props;
+  var propsWeControl = {
+    ref: buttonRef,
+    id: id,
+    type: 'button',
+    'aria-haspopup': true,
+    'aria-controls': (_state$optionsRef$cur4 = state.optionsRef.current) == null ? void 0 : _state$optionsRef$cur4.id,
+    'aria-expanded': state.listboxState === ListboxStates.Open ? true : undefined,
+    'aria-labelledby': labelledby,
+    disabled: state.disabled,
+    onKeyDown: handleKeyDown,
+    onClick: handleClick
+  };
+  return render(_extends({}, passthroughProps, propsWeControl), propsBag, DEFAULT_BUTTON_TAG$1);
+}); // ---
+
+var DEFAULT_LABEL_TAG = 'label';
+
+function Label(props) {
+  var _useListboxContext2 = useListboxContext([Listbox.name, Label.name].join('.')),
+      state = _useListboxContext2[0];
+
+  var id = "headlessui-listbox-label-" + useId();
+  var handleClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    var _state$buttonRef$curr2;
+
+    return (_state$buttonRef$curr2 = state.buttonRef.current) == null ? void 0 : _state$buttonRef$curr2.focus({
+      preventScroll: true
+    });
+  }, [state.buttonRef]);
+  var propsBag = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    return {
+      open: state.listboxState === ListboxStates.Open,
+      disabled: state.disabled
+    };
+  }, [state]);
+  var propsWeControl = {
+    ref: state.labelRef,
+    id: id,
+    onClick: handleClick
+  };
+  return render(_extends({}, props, propsWeControl), propsBag, DEFAULT_LABEL_TAG);
+} // ---
+
+
+var DEFAULT_OPTIONS_TAG = 'ul';
+var OptionsRenderFeatures = Features.RenderStrategy | Features.Static;
+var Options = /*#__PURE__*/forwardRefWithAs(function Options(props, ref) {
+  var _state$options$state$;
+
+  var _useListboxContext3 = useListboxContext([Listbox.name, Options.name].join('.')),
+      state = _useListboxContext3[0],
+      dispatch = _useListboxContext3[1];
+
+  var optionsRef = useSyncRefs(state.optionsRef, ref);
+  var id = "headlessui-listbox-options-" + useId();
+  var d = useDisposables();
+  var searchDisposables = useDisposables();
+  var handleKeyDown = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (event) {
+    searchDisposables.dispose();
+
+    switch (event.key) {
+      // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#keyboard-interaction-12
+      // @ts-expect-error Fallthrough is expected here
+      case Keys.Space:
+        if (state.searchQuery !== '') {
+          event.preventDefault();
+          return dispatch({
+            type: ActionTypes$1.Search,
+            value: event.key
+          });
+        }
+
+      // When in type ahead mode, fallthrough
+
+      case Keys.Enter:
+        event.preventDefault();
+        dispatch({
+          type: ActionTypes$1.CloseListbox
+        });
+
+        if (state.activeOptionIndex !== null) {
+          var dataRef = state.options[state.activeOptionIndex].dataRef;
+          state.propsRef.current.onChange(dataRef.current.value);
+        }
+
+        disposables().nextFrame(function () {
+          var _state$buttonRef$curr3;
+
+          return (_state$buttonRef$curr3 = state.buttonRef.current) == null ? void 0 : _state$buttonRef$curr3.focus({
+            preventScroll: true
+          });
+        });
+        break;
+
+      case Keys.ArrowDown:
+        event.preventDefault();
+        return dispatch({
+          type: ActionTypes$1.GoToOption,
+          focus: Focus.Next
+        });
+
+      case Keys.ArrowUp:
+        event.preventDefault();
+        return dispatch({
+          type: ActionTypes$1.GoToOption,
+          focus: Focus.Previous
+        });
+
+      case Keys.Home:
+      case Keys.PageUp:
+        event.preventDefault();
+        return dispatch({
+          type: ActionTypes$1.GoToOption,
+          focus: Focus.First
+        });
+
+      case Keys.End:
+      case Keys.PageDown:
+        event.preventDefault();
+        return dispatch({
+          type: ActionTypes$1.GoToOption,
+          focus: Focus.Last
+        });
+
+      case Keys.Escape:
+        event.preventDefault();
+        dispatch({
+          type: ActionTypes$1.CloseListbox
+        });
+        return d.nextFrame(function () {
+          var _state$buttonRef$curr4;
+
+          return (_state$buttonRef$curr4 = state.buttonRef.current) == null ? void 0 : _state$buttonRef$curr4.focus({
+            preventScroll: true
+          });
+        });
+
+      case Keys.Tab:
+        return event.preventDefault();
+
+      default:
+        if (event.key.length === 1) {
+          dispatch({
+            type: ActionTypes$1.Search,
+            value: event.key
+          });
+          searchDisposables.setTimeout(function () {
+            return dispatch({
+              type: ActionTypes$1.ClearSearch
+            });
+          }, 350);
+        }
+
+        break;
+    }
+  }, [d, dispatch, searchDisposables, state]);
+  var labelledby = useComputed(function () {
+    var _state$labelRef$curre, _state$labelRef$curre2, _state$buttonRef$curr5;
+
+    return (_state$labelRef$curre = (_state$labelRef$curre2 = state.labelRef.current) == null ? void 0 : _state$labelRef$curre2.id) != null ? _state$labelRef$curre : (_state$buttonRef$curr5 = state.buttonRef.current) == null ? void 0 : _state$buttonRef$curr5.id;
+  }, [state.labelRef.current, state.buttonRef.current]);
+  var propsBag = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    return {
+      open: state.listboxState === ListboxStates.Open
+    };
+  }, [state]);
+  var propsWeControl = {
+    'aria-activedescendant': state.activeOptionIndex === null ? undefined : (_state$options$state$ = state.options[state.activeOptionIndex]) == null ? void 0 : _state$options$state$.id,
+    'aria-labelledby': labelledby,
+    id: id,
+    onKeyDown: handleKeyDown,
+    role: 'listbox',
+    tabIndex: 0,
+    ref: optionsRef
+  };
+  var passthroughProps = props;
+  return render(_extends({}, passthroughProps, propsWeControl), propsBag, DEFAULT_OPTIONS_TAG, OptionsRenderFeatures, state.listboxState === ListboxStates.Open);
+}); // ---
+
+var DEFAULT_OPTION_TAG = 'li';
+
+function Option(props) {
+  var _props$disabled2 = props.disabled,
+      disabled = _props$disabled2 === void 0 ? false : _props$disabled2,
+      value = props.value,
+      className = props.className,
+      passthroughProps = _objectWithoutPropertiesLoose(props, ["disabled", "value", "className"]);
+
+  var _useListboxContext4 = useListboxContext([Listbox.name, Option.name].join('.')),
+      state = _useListboxContext4[0],
+      dispatch = _useListboxContext4[1];
+
+  var id = "headlessui-listbox-option-" + useId();
+  var active = state.activeOptionIndex !== null ? state.options[state.activeOptionIndex].id === id : false;
+  var selected = state.propsRef.current.value === value;
+  var bag = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)({
+    disabled: disabled,
+    value: value
+  });
+  useIsoMorphicEffect(function () {
+    bag.current.disabled = disabled;
+  }, [bag, disabled]);
+  useIsoMorphicEffect(function () {
+    bag.current.value = value;
+  }, [bag, value]);
+  useIsoMorphicEffect(function () {
+    var _document$getElementB, _document$getElementB2;
+
+    bag.current.textValue = (_document$getElementB = document.getElementById(id)) == null ? void 0 : (_document$getElementB2 = _document$getElementB.textContent) == null ? void 0 : _document$getElementB2.toLowerCase();
+  }, [bag, id]);
+  var select = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    return state.propsRef.current.onChange(value);
+  }, [state.propsRef, value]);
+  useIsoMorphicEffect(function () {
+    dispatch({
+      type: ActionTypes$1.RegisterOption,
+      id: id,
+      dataRef: bag
+    });
+    return function () {
+      return dispatch({
+        type: ActionTypes$1.UnregisterOption,
+        id: id
+      });
+    };
+  }, [bag, id]);
+  useIsoMorphicEffect(function () {
+    var _document$getElementB3;
+
+    if (state.listboxState !== ListboxStates.Open) return;
+    if (!selected) return;
+    dispatch({
+      type: ActionTypes$1.GoToOption,
+      focus: Focus.Specific,
+      id: id
+    });
+    (_document$getElementB3 = document.getElementById(id)) == null ? void 0 : _document$getElementB3.focus == null ? void 0 : _document$getElementB3.focus();
+  }, [state.listboxState]);
+  useIsoMorphicEffect(function () {
+    if (state.listboxState !== ListboxStates.Open) return;
+    if (!active) return;
+    var d = disposables();
+    d.nextFrame(function () {
+      var _document$getElementB4;
+
+      return (_document$getElementB4 = document.getElementById(id)) == null ? void 0 : _document$getElementB4.scrollIntoView == null ? void 0 : _document$getElementB4.scrollIntoView({
+        block: 'nearest'
+      });
+    });
+    return d.dispose;
+  }, [id, active, state.listboxState]);
+  var handleClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (event) {
+    if (disabled) return event.preventDefault();
+    select();
+    dispatch({
+      type: ActionTypes$1.CloseListbox
+    });
+    disposables().nextFrame(function () {
+      var _state$buttonRef$curr6;
+
+      return (_state$buttonRef$curr6 = state.buttonRef.current) == null ? void 0 : _state$buttonRef$curr6.focus({
+        preventScroll: true
+      });
+    });
+  }, [dispatch, state.buttonRef, disabled, select]);
+  var handleFocus = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    if (disabled) return dispatch({
+      type: ActionTypes$1.GoToOption,
+      focus: Focus.Nothing
+    });
+    dispatch({
+      type: ActionTypes$1.GoToOption,
+      focus: Focus.Specific,
+      id: id
+    });
+  }, [disabled, id, dispatch]);
+  var handleMove = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    if (disabled) return;
+    if (active) return;
+    dispatch({
+      type: ActionTypes$1.GoToOption,
+      focus: Focus.Specific,
+      id: id
+    });
+  }, [disabled, active, id, dispatch]);
+  var handleLeave = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    if (disabled) return;
+    if (!active) return;
+    dispatch({
+      type: ActionTypes$1.GoToOption,
+      focus: Focus.Nothing
+    });
+  }, [disabled, active, dispatch]);
+  var propsBag = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    return {
+      active: active,
+      selected: selected,
+      disabled: disabled
+    };
+  }, [active, selected, disabled]);
+  var propsWeControl = {
+    id: id,
+    role: 'option',
+    tabIndex: -1,
+    className: resolvePropValue(className, propsBag),
+    'aria-disabled': disabled === true ? true : undefined,
+    'aria-selected': selected === true ? true : undefined,
+    onClick: handleClick,
+    onFocus: handleFocus,
+    onPointerMove: handleMove,
+    onMouseMove: handleMove,
+    onPointerLeave: handleLeave,
+    onMouseLeave: handleLeave
+  };
+  return render(_extends({}, passthroughProps, propsWeControl), propsBag, DEFAULT_OPTION_TAG);
+} // ---
+
+
+Listbox.Button = Button$1;
+Listbox.Label = Label;
+Listbox.Options = Options;
+Listbox.Option = Option;
+
+var GroupContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)(null);
+GroupContext.displayName = 'GroupContext';
+
+function useGroupContext(component) {
+  var context = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(GroupContext);
+
+  if (context === null) {
+    var err = new Error("<" + component + " /> is missing a parent <Switch.Group /> component.");
+    if (Error.captureStackTrace) Error.captureStackTrace(err, useGroupContext);
+    throw err;
+  }
+
+  return context;
+} // ---
+
+
+var DEFAULT_GROUP_TAG = react__WEBPACK_IMPORTED_MODULE_0__.Fragment;
+
+function Group(props) {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      switchElement = _useState[0],
+      setSwitchElement = _useState[1];
+
+  var _useState2 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      labelElement = _useState2[0],
+      setLabelElement = _useState2[1];
+
+  var context = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    return {
+      "switch": switchElement,
+      label: labelElement,
+      setSwitch: setSwitchElement,
+      setLabel: setLabelElement
+    };
+  }, [switchElement, setSwitchElement, labelElement, setLabelElement]);
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(GroupContext.Provider, {
+    value: context
+  }, render(props, {}, DEFAULT_GROUP_TAG));
+} // ---
+
+
+var DEFAULT_SWITCH_TAG = 'button';
+function Switch(props) {
+  var _groupContext$label;
+
+  var checked = props.checked,
+      onChange = props.onChange,
+      className = props.className,
+      passThroughProps = _objectWithoutPropertiesLoose(props, ["checked", "onChange", "className"]);
+
+  var id = "headlessui-switch-" + useId();
+  var groupContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(GroupContext);
+  var toggle = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    return onChange(!checked);
+  }, [onChange, checked]);
+  var handleClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (event) {
+    if (isDisabledReactIssue7711(event.currentTarget)) return event.preventDefault();
+    event.preventDefault();
+    toggle();
+  }, [toggle]);
+  var handleKeyUp = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (event) {
+    if (event.key !== Keys.Tab) event.preventDefault();
+    if (event.key === Keys.Space) toggle();
+  }, [toggle]); // This is needed so that we can "cancel" the click event when we use the `Enter` key on a button.
+
+  var handleKeyPress = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (event) {
+    return event.preventDefault();
+  }, []);
+  var propsBag = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    return {
+      checked: checked
+    };
+  }, [checked]);
+  var propsWeControl = {
+    id: id,
+    ref: groupContext === null ? undefined : groupContext.setSwitch,
+    role: 'switch',
+    tabIndex: 0,
+    className: resolvePropValue(className, propsBag),
+    'aria-checked': checked,
+    'aria-labelledby': groupContext == null ? void 0 : (_groupContext$label = groupContext.label) == null ? void 0 : _groupContext$label.id,
+    onClick: handleClick,
+    onKeyUp: handleKeyUp,
+    onKeyPress: handleKeyPress
+  };
+
+  if (passThroughProps.as === 'button') {
+    Object.assign(propsWeControl, {
+      type: 'button'
+    });
+  }
+
+  return render(_extends({}, passThroughProps, propsWeControl), propsBag, DEFAULT_SWITCH_TAG);
+} // ---
+
+var DEFAULT_LABEL_TAG$1 = 'label';
+
+function Label$1(props) {
+  var state = useGroupContext([Switch.name, Label$1.name].join('.'));
+  var id = "headlessui-switch-label-" + useId();
+  var handleClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    if (!state["switch"]) return;
+    state["switch"].click();
+    state["switch"].focus({
+      preventScroll: true
+    });
+  }, [state["switch"]]);
+  var propsWeControl = {
+    ref: state.setLabel,
+    id: id,
+    onClick: handleClick
+  };
+  return render(_extends({}, props, propsWeControl), {}, DEFAULT_LABEL_TAG$1);
+} // ---
+
+
+Switch.Group = Group;
+Switch.Label = Label$1;
+
+
+//# sourceMappingURL=headlessui.esm.js.map
+
+
+/***/ }),
+
 /***/ "./node_modules/@inertiajs/inertia-react/dist/index.js":
 /*!*************************************************************!*\
   !*** ./node_modules/@inertiajs/inertia-react/dist/index.js ***!
@@ -1870,6 +4128,110 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Components/ActionMessage.tsx":
+/*!***************************************************!*\
+  !*** ./resources/js/Components/ActionMessage.tsx ***!
+  \***************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __webpack_require__(/*! @headlessui/react */ "./node_modules/@headlessui/react/dist/headlessui.esm.js");
+
+var react_2 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var ActionMessage = function ActionMessage(_a) {
+  var _a$on = _a.on,
+      on = _a$on === void 0 ? false : _a$on,
+      children = _a.children,
+      rest = __rest(_a, ["on", "children"]);
+
+  return react_2["default"].createElement("div", Object.assign({}, rest), react_2["default"].createElement(react_1.Transition, {
+    show: on,
+    leave: "transition ease-in duration-1000",
+    leaveFrom: "opacity-100",
+    leaveTo: "opacity-0"
+  }, react_2["default"].createElement("div", {
+    className: "text-sm text-gray-600"
+  }, children)));
+};
+
+exports.default = ActionMessage;
+
+/***/ }),
+
+/***/ "./resources/js/Components/ActionSection.tsx":
+/*!***************************************************!*\
+  !*** ./resources/js/Components/ActionSection.tsx ***!
+  \***************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var SectionTitle_1 = __importDefault(__webpack_require__(/*! ./SectionTitle */ "./resources/js/Components/SectionTitle.tsx"));
+
+var ActionSection = function ActionSection(_ref) {
+  var _ref$title = _ref.title,
+      title = _ref$title === void 0 ? '' : _ref$title,
+      _ref$description = _ref.description,
+      description = _ref$description === void 0 ? '' : _ref$description,
+      _ref$content = _ref.content,
+      content = _ref$content === void 0 ? '' : _ref$content,
+      _ref$className = _ref.className,
+      className = _ref$className === void 0 ? '' : _ref$className;
+  return react_1["default"].createElement("div", {
+    className: ['md:grid md:grid-cols-3 md:gap-6', className].join(' ')
+  }, react_1["default"].createElement(SectionTitle_1["default"], {
+    title: title,
+    description: description
+  }), react_1["default"].createElement("div", {
+    className: "mt-5 md:mt-0 md:col-span-2"
+  }, react_1["default"].createElement("div", {
+    className: "px-4 py-5 bg-white shadow sm:p-6 sm:rounded-lg"
+  }, content)));
+};
+
+exports.default = ActionSection;
+
+/***/ }),
+
 /***/ "./resources/js/Components/ApplicationLogo.tsx":
 /*!*****************************************************!*\
   !*** ./resources/js/Components/ApplicationLogo.tsx ***!
@@ -1888,7 +4250,6 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.ApplicationLogo = void 0;
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
@@ -1911,7 +4272,48 @@ var ApplicationLogo = function ApplicationLogo(_ref) {
   }));
 };
 
-exports.ApplicationLogo = ApplicationLogo;
+exports.default = ApplicationLogo;
+
+/***/ }),
+
+/***/ "./resources/js/Components/ApplicationMark.tsx":
+/*!*****************************************************!*\
+  !*** ./resources/js/Components/ApplicationMark.tsx ***!
+  \*****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var ApplicationMark = function ApplicationMark(_ref) {
+  var className = _ref.className;
+  return react_1["default"].createElement("svg", {
+    viewBox: "0 0 48 48",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    className: className
+  }, react_1["default"].createElement("path", {
+    d: "M11.395 44.428C4.557 40.198 0 32.632 0 24 0 10.745 10.745 0 24 0a23.891 23.891 0 0113.997 4.502c-.2 17.907-11.097 33.245-26.602 39.926z",
+    fill: "#6875F5"
+  }), react_1["default"].createElement("path", {
+    d: "M14.134 45.885A23.914 23.914 0 0024 48c13.255 0 24-10.745 24-24 0-3.516-.756-6.856-2.115-9.866-4.659 15.143-16.608 27.092-31.75 31.751z",
+    fill: "#6875F5"
+  }));
+};
+
+exports.default = ApplicationMark;
 
 /***/ }),
 
@@ -1946,7 +4348,6 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.AuthenticationCard = void 0;
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
@@ -1962,7 +4363,7 @@ var AuthenticationCard = function AuthenticationCard(_a) {
   }, children));
 };
 
-exports.AuthenticationCard = AuthenticationCard;
+exports.default = AuthenticationCard;
 
 /***/ }),
 
@@ -1997,13 +4398,12 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.AuthenticationCardLogo = void 0;
 
 var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-var ApplicationLogo_1 = __webpack_require__(/*! ./ApplicationLogo */ "./resources/js/Components/ApplicationLogo.tsx");
+var ApplicationLogo_1 = __importDefault(__webpack_require__(/*! ./ApplicationLogo */ "./resources/js/Components/ApplicationLogo.tsx"));
 
 var AuthenticationCardLogo = function AuthenticationCardLogo(_a) {
   var children = _a.children,
@@ -2011,241 +4411,19 @@ var AuthenticationCardLogo = function AuthenticationCardLogo(_a) {
 
   return react_1["default"].createElement(inertia_react_1.InertiaLink, {
     href: "'/'"
-  }, react_1["default"].createElement(ApplicationLogo_1.ApplicationLogo, {
+  }, react_1["default"].createElement(ApplicationLogo_1["default"], {
     className: "w-44 h-44"
   }));
 };
 
-exports.AuthenticationCardLogo = AuthenticationCardLogo;
+exports.default = AuthenticationCardLogo;
 
 /***/ }),
 
-/***/ "./resources/js/Components/Button.tsx":
+/***/ "./resources/js/Components/Banner.tsx":
 /*!********************************************!*\
-  !*** ./resources/js/Components/Button.tsx ***!
+  !*** ./resources/js/Components/Banner.tsx ***!
   \********************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __rest = this && this.__rest || function (s, e) {
-  var t = {};
-
-  for (var p in s) {
-    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
-  }
-
-  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
-  }
-  return t;
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.Button = void 0;
-
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var color = {
-  primary: 'inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25',
-  secondary: 'inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 disabled:opacity-25 transition',
-  danger: 'inline-flex items-center justify-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-600 disabled:opacity-25 transition',
-  clean: ''
-};
-
-var Button = function Button(_a) {
-  var _a$type = _a.type,
-      type = _a$type === void 0 ? 'submit' : _a$type,
-      _a$variant = _a.variant,
-      variant = _a$variant === void 0 ? 'primary' : _a$variant,
-      _a$disabled = _a.disabled,
-      disabled = _a$disabled === void 0 ? false : _a$disabled,
-      className = _a.className,
-      children = _a.children,
-      onClick = _a.onClick,
-      rest = __rest(_a, ["type", "variant", "disabled", "className", "children", "onClick"]);
-
-  return react_1["default"].createElement("button", Object.assign({
-    type: type,
-    className: [color[variant], className].join(' ')
-  }, onclick ? {
-    onclick: onclick
-  } : {}, {
-    disabled: disabled
-  }, rest), children);
-};
-
-exports.Button = Button;
-
-/***/ }),
-
-/***/ "./resources/js/Components/Checkbox.tsx":
-/*!**********************************************!*\
-  !*** ./resources/js/Components/Checkbox.tsx ***!
-  \**********************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.Checkbox = void 0;
-
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var Checkbox = function Checkbox(_ref) {
-  var _ref$value = _ref.value,
-      value = _ref$value === void 0 ? '' : _ref$value,
-      _onChange = _ref.onChange,
-      _ref$className = _ref.className,
-      className = _ref$className === void 0 ? '' : _ref$className;
-  return react_1["default"].createElement("input", {
-    type: "checkbox",
-    value: value,
-    onChange: function onChange(e) {
-      return _onChange === null || _onChange === void 0 ? void 0 : _onChange(e);
-    },
-    className: ['text-indigo-600 border-gray-300 rounded shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50', className].join(' ')
-  });
-};
-
-exports.Checkbox = Checkbox;
-
-/***/ }),
-
-/***/ "./resources/js/Components/Input.tsx":
-/*!*******************************************!*\
-  !*** ./resources/js/Components/Input.tsx ***!
-  \*******************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __rest = this && this.__rest || function (s, e) {
-  var t = {};
-
-  for (var p in s) {
-    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
-  }
-
-  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
-  }
-  return t;
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.Input = void 0;
-
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var Input = function Input(_a) {
-  var className = _a.className,
-      value = _a.value,
-      _a$fieldRef = _a.fieldRef,
-      ref = _a$fieldRef === void 0 ? null : _a$fieldRef,
-      _a$onChange = _a.onChange,
-      _onChange = _a$onChange === void 0 ? function (e) {
-    return null;
-  } : _a$onChange,
-      rest = __rest(_a, ["className", "value", "fieldRef", "onChange"]);
-
-  return react_1["default"].createElement("input", Object.assign({
-    className: ['border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50', className].join(' '),
-    value: value,
-    //@ts-ignore
-    onChange: function onChange(e) {
-      return _onChange === null || _onChange === void 0 ? void 0 : _onChange(e);
-    }
-  }, ref ? {
-    ref: ref
-  } : {}, rest));
-};
-
-exports.Input = Input;
-
-/***/ }),
-
-/***/ "./resources/js/Components/Label.tsx":
-/*!*******************************************!*\
-  !*** ./resources/js/Components/Label.tsx ***!
-  \*******************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __rest = this && this.__rest || function (s, e) {
-  var t = {};
-
-  for (var p in s) {
-    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
-  }
-
-  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
-  }
-  return t;
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.Label = void 0;
-
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var Label = function Label(_a) {
-  var className = _a.className,
-      value = _a.value,
-      children = _a.children,
-      rest = __rest(_a, ["className", "value", "children"]);
-
-  return react_1["default"].createElement("label", Object.assign({
-    className: ['block text-sm font-medium text-gray-700', className].join(' ')
-  }, rest), value ? react_1["default"].createElement("span", null, value) : react_1["default"].createElement("span", null, children));
-};
-
-exports.Label = Label;
-
-/***/ }),
-
-/***/ "./resources/js/Components/ValidationErrors.tsx":
-/*!******************************************************!*\
-  !*** ./resources/js/Components/ValidationErrors.tsx ***!
-  \******************************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -2285,12 +4463,1532 @@ var __importStar = this && this.__importStar || function (mod) {
   return result;
 };
 
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.ValidationErrors = void 0;
 
-var React = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var react_2 = __webpack_require__(/*! @headlessui/react */ "./node_modules/@headlessui/react/dist/headlessui.esm.js");
+
+var CheckFailIcon_1 = __importDefault(__webpack_require__(/*! ./CheckFailIcon */ "./resources/js/Components/CheckFailIcon.tsx"));
+
+var CheckPassesIcon_1 = __importDefault(__webpack_require__(/*! ./CheckPassesIcon */ "./resources/js/Components/CheckPassesIcon.tsx"));
+
+var CheckInfoIcon_1 = __importDefault(__webpack_require__(/*! ./CheckInfoIcon */ "./resources/js/Components/CheckInfoIcon.tsx"));
+
+var CheckWarningIcon_1 = __importDefault(__webpack_require__(/*! ./CheckWarningIcon */ "./resources/js/Components/CheckWarningIcon.tsx"));
+
+var CheckCancelIcon_1 = __importDefault(__webpack_require__(/*! ./CheckCancelIcon */ "./resources/js/Components/CheckCancelIcon.tsx"));
+
+var Banner = function Banner(_ref) {
+  var on = _ref.on,
+      message = _ref.message,
+      onClose = _ref.onClose,
+      _ref$autoDeletion = _ref.autoDeletion,
+      autoDeletion = _ref$autoDeletion === void 0 ? false : _ref$autoDeletion,
+      _ref$type = _ref.type,
+      type = _ref$type === void 0 ? 'success' : _ref$type,
+      _ref$time = _ref.time,
+      time = _ref$time === void 0 ? 3000 : _ref$time;
+  react_1.useEffect(function () {
+    if (autoDeletion) {
+      var deletionTimeout = setTimeout(function () {
+        onClose();
+      }, time);
+      return function () {
+        clearTimeout(deletionTimeout);
+      };
+    }
+  }, [onClose, time, autoDeletion]); //   const { flash } = usePage().props.jetstream || {};
+  //   const style = flash?.bannerStyle || 'success';
+  //   const message = flash?.banner || '';
+
+  return react_1["default"].createElement("div", null, react_1["default"].createElement(react_2.Transition, {
+    show: on,
+    enter: 'transition-all transform ease-in duration-300',
+    enterFrom: "-translate-y-12",
+    enterTo: "translate-y-0",
+    leave: 'transition-all transform ease-in duration-150',
+    leaveFrom: "translate-y-0",
+    leaveTo: "-translate-y-24"
+  }, react_1["default"].createElement("div", {
+    className: ['absolute top-0 w-full', type === 'success' ? 'bg-green-500' : type === 'danger' ? 'bg-red-700' : type === 'info' ? 'bg-blue-700' : 'bg-yellow-500 '].join(' ')
+  }, react_1["default"].createElement("div", {
+    className: "max-w-screen-xl px-3 py-2 mx-auto sm:px-6 lg:px-8"
+  }, react_1["default"].createElement("div", {
+    className: "flex flex-wrap items-center justify-between"
+  }, react_1["default"].createElement("div", {
+    className: "flex items-center flex-1 w-0 min-w-0"
+  }, react_1["default"].createElement("span", {
+    className: ['flex p-2 rounded-lg', type === 'success' ? 'bg-green-600' : type === 'danger' ? 'bg-red-600' : type === 'info' ? 'bg-blue-600' : 'bg-yellow-400'].join(' ')
+  }, type === 'success' ? react_1["default"].createElement(CheckPassesIcon_1["default"], {
+    className: "text-white"
+  }) : type === 'danger' ? react_1["default"].createElement(CheckFailIcon_1["default"], {
+    className: "text-white"
+  }) : type === 'info' ? react_1["default"].createElement(CheckInfoIcon_1["default"], {
+    className: "text-white"
+  }) : react_1["default"].createElement(CheckWarningIcon_1["default"], {
+    className: "text-black"
+  })), react_1["default"].createElement("p", {
+    className: ['ml-3 text-sm font-medium truncate', type === 'warning' ? 'text-black' : 'text-white'].join(' ')
+  }, message)), react_1["default"].createElement("div", {
+    className: "flex-shrink-0 sm:ml-3"
+  }, react_1["default"].createElement("button", {
+    type: "button",
+    className: ['-mr-1 flex p-2 rounded-md focus:outline-none sm:-mr-2 transition', type === 'success' ? 'hover:bg-green-600 focus:bg-green-600' : 'hover:bg-red-600 focus:bg-red-600'].join(' '),
+    "aria-label": "Dismiss",
+    onClick: function onClick() {
+      return onClose();
+    }
+  }, react_1["default"].createElement(CheckCancelIcon_1["default"], {
+    className: type === 'warning' ? 'text-black' : 'text-white'
+  }))))))));
+};
+
+exports.default = Banner;
+
+/***/ }),
+
+/***/ "./resources/js/Components/Button.tsx":
+/*!********************************************!*\
+  !*** ./resources/js/Components/Button.tsx ***!
+  \********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var color = {
+  primary: 'inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25',
+  secondary: 'inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 disabled:opacity-25 transition',
+  danger: 'inline-flex items-center justify-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-600 disabled:opacity-25 transition',
+  clean: ''
+};
+
+var Button = function Button(_a) {
+  var _a$type = _a.type,
+      type = _a$type === void 0 ? 'submit' : _a$type,
+      _a$variant = _a.variant,
+      variant = _a$variant === void 0 ? 'primary' : _a$variant,
+      _a$disabled = _a.disabled,
+      disabled = _a$disabled === void 0 ? false : _a$disabled,
+      className = _a.className,
+      children = _a.children,
+      onClick = _a.onClick,
+      rest = __rest(_a, ["type", "variant", "disabled", "className", "children", "onClick"]);
+
+  return react_1["default"].createElement("button", Object.assign({
+    type: type,
+    className: [color[variant], className].join(' ')
+  }, onclick ? {
+    onclick: onclick
+  } : {}, {
+    disabled: disabled
+  }, rest), children);
+};
+
+exports.default = Button;
+
+/***/ }),
+
+/***/ "./resources/js/Components/CheckCancelIcon.tsx":
+/*!*****************************************************!*\
+  !*** ./resources/js/Components/CheckCancelIcon.tsx ***!
+  \*****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var CheckCancelIcon = function CheckCancelIcon(_a) {
+  var className = _a.className,
+      rest = __rest(_a, ["className"]);
+
+  return react_1["default"].createElement("svg", Object.assign({
+    className: ['w-5 h-5', className].join(' '),
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "currentColor",
+    viewBox: "0 0 24 24",
+    stroke: "currentColor"
+  }, rest), react_1["default"].createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "2",
+    d: "M6 18L18 6M6 6l12 12"
+  }));
+};
+
+exports.default = CheckCancelIcon;
+
+/***/ }),
+
+/***/ "./resources/js/Components/CheckFailIcon.tsx":
+/*!***************************************************!*\
+  !*** ./resources/js/Components/CheckFailIcon.tsx ***!
+  \***************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var CheckFailIcon = function CheckFailIcon(_a) {
+  var className = _a.className,
+      rest = __rest(_a, ["className"]);
+
+  return react_1["default"].createElement("svg", Object.assign({
+    className: ['w-5 h-5', className].join(' '),
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "currentColor",
+    viewBox: "0 0 24 24"
+  }, rest), react_1["default"].createElement("path", {
+    d: "M12 0C5.36756 0 0 5.36705 0 12C0 18.6325 5.36705 24 12 24C18.6324 24 24 18.633 24 12C24 5.36752 18.633 0 12 0ZM12 22.125C6.40387 22.125 1.875 17.5965 1.875 12C1.875 6.40383 6.40345 1.875 12 1.875C17.5961 1.875 22.125 6.40345 22.125 12C22.125 17.5962 17.5965 22.125 12 22.125Z"
+  }), react_1["default"].createElement("path", {
+    d: "M16.1056 14.7798L13.3258 12L16.1056 9.22021C16.4717 8.85412 16.4718 8.26054 16.1057 7.8944C15.7395 7.52826 15.1459 7.52831 14.7799 7.8944L12 10.6742L9.2202 7.8944C8.85416 7.52826 8.26049 7.52826 7.89439 7.8944C7.5283 8.26054 7.5283 8.85412 7.89444 9.22021L10.6742 12L7.89444 14.7798C7.5283 15.1459 7.52825 15.7395 7.89439 16.1056C8.26063 16.4718 8.8542 16.4716 9.2202 16.1056L12 13.3258L14.7799 16.1056C15.1458 16.4717 15.7395 16.4717 16.1057 16.1056C16.4718 15.7394 16.4718 15.1459 16.1056 14.7798Z"
+  }));
+};
+
+exports.default = CheckFailIcon;
+
+/***/ }),
+
+/***/ "./resources/js/Components/CheckInfoIcon.tsx":
+/*!***************************************************!*\
+  !*** ./resources/js/Components/CheckInfoIcon.tsx ***!
+  \***************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var CheckInfoIcon = function CheckInfoIcon(_ref) {
+  var className = _ref.className;
+  return react_1["default"].createElement("svg", {
+    className: ['w-5 h-5', className].join(' '),
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "currentColor",
+    viewBox: "0 0 24 24"
+  }, react_1["default"].createElement("path", {
+    d: "M13.2 10.8H10.8V18H13.2V10.8Z"
+  }), react_1["default"].createElement("path", {
+    d: "M12 0C5.37001 0 0 5.37001 0 12C0 18.6299 5.37001 23.9999 12 23.9999C18.6299 23.9999 24 18.63 24 12C24 5.36996 18.63 0 12 0ZM12 21.6C6.70798 21.6 2.39996 17.292 2.39996 12C2.39996 6.70798 6.70798 2.40002 12 2.40002C17.292 2.40002 21.6 6.70798 21.6 12C21.6 17.292 17.292 21.6 12 21.6Z"
+  }), react_1["default"].createElement("path", {
+    d: "M13.2 6.00001H10.8V8.40003H13.2V6.00001Z"
+  }));
+};
+
+exports.default = CheckInfoIcon;
+
+/***/ }),
+
+/***/ "./resources/js/Components/CheckPassesIcon.tsx":
+/*!*****************************************************!*\
+  !*** ./resources/js/Components/CheckPassesIcon.tsx ***!
+  \*****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var CheckPassesIcon = function CheckPassesIcon(_ref) {
+  var className = _ref.className;
+  return react_1["default"].createElement("svg", {
+    className: ['w-5 h-5', className].join(' '),
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    stroke: "currentColor"
+  }, react_1["default"].createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "2",
+    d: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+  }));
+};
+
+exports.default = CheckPassesIcon;
+
+/***/ }),
+
+/***/ "./resources/js/Components/CheckWarningIcon.tsx":
+/*!******************************************************!*\
+  !*** ./resources/js/Components/CheckWarningIcon.tsx ***!
+  \******************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var CheckWarningIcon = function CheckWarningIcon(_ref) {
+  var className = _ref.className;
+  return react_1["default"].createElement("svg", {
+    className: ['w-5 h-5', className].join(' '),
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    stroke: "currentColor"
+  }, react_1["default"].createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "2",
+    d: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+  }));
+};
+
+exports.default = CheckWarningIcon;
+
+/***/ }),
+
+/***/ "./resources/js/Components/Checkbox.tsx":
+/*!**********************************************!*\
+  !*** ./resources/js/Components/Checkbox.tsx ***!
+  \**********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var Checkbox = function Checkbox(_ref) {
+  var _ref$value = _ref.value,
+      value = _ref$value === void 0 ? '' : _ref$value,
+      _onChange = _ref.onChange,
+      _ref$className = _ref.className,
+      className = _ref$className === void 0 ? '' : _ref$className;
+  return react_1["default"].createElement("input", {
+    type: "checkbox",
+    value: value,
+    onChange: function onChange(e) {
+      return _onChange === null || _onChange === void 0 ? void 0 : _onChange(e);
+    },
+    className: ['text-indigo-600 border-gray-300 rounded shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50', className].join(' ')
+  });
+};
+
+exports.default = Checkbox;
+
+/***/ }),
+
+/***/ "./resources/js/Components/ConfirmationModal.tsx":
+/*!*******************************************************!*\
+  !*** ./resources/js/Components/ConfirmationModal.tsx ***!
+  \*******************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var Modal_1 = __importDefault(__webpack_require__(/*! ./Modal */ "./resources/js/Components/Modal.tsx"));
+
+var ConfirmationModal = function ConfirmationModal(_ref) {
+  var on = _ref.on,
+      title = _ref.title,
+      content = _ref.content,
+      footer = _ref.footer,
+      _ref$closeable = _ref.closeable,
+      closeable = _ref$closeable === void 0 ? true : _ref$closeable,
+      onClose = _ref.onClose;
+  return react_1["default"].createElement(Modal_1["default"], {
+    show: on,
+    "max-width": "maxWidth",
+    closeable: closeable,
+    onClose: onClose
+  }, react_1["default"].createElement("div", {
+    className: "px-4 pt-5 pb-4 bg-white sm:p-6 sm:pb-4"
+  }, react_1["default"].createElement("div", {
+    className: "sm:flex sm:items-start"
+  }, react_1["default"].createElement("div", {
+    className: "flex items-center justify-center flex-shrink-0 w-12 h-12 mx-auto bg-red-100 rounded-full sm:mx-0 sm:h-10 sm:w-10"
+  }, react_1["default"].createElement("svg", {
+    className: "w-6 h-6 text-red-600",
+    stroke: "currentColor",
+    fill: "none",
+    viewBox: "0 0 24 24"
+  }, react_1["default"].createElement("path", {
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    "stroke-width": "2",
+    d: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+  }))), react_1["default"].createElement("div", {
+    className: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left"
+  }, react_1["default"].createElement("h3", {
+    className: "text-lg"
+  }, title), react_1["default"].createElement("div", {
+    className: "mt-2"
+  }, content)))), react_1["default"].createElement("div", {
+    className: "px-6 py-4 text-right bg-gray-100"
+  }, footer));
+};
+
+exports.default = ConfirmationModal;
+
+/***/ }),
+
+/***/ "./resources/js/Components/ConfirmsPassword.tsx":
+/*!******************************************************!*\
+  !*** ./resources/js/Components/ConfirmsPassword.tsx ***!
+  \******************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var DialogModal_1 = __importDefault(__webpack_require__(/*! ./DialogModal */ "./resources/js/Components/DialogModal.tsx"));
+
+var Input_1 = __importDefault(__webpack_require__(/*! ./Input */ "./resources/js/Components/Input.tsx"));
+
+var InputError_1 = __importDefault(__webpack_require__(/*! ./InputError */ "./resources/js/Components/InputError.tsx"));
+
+var Button_1 = __importDefault(__webpack_require__(/*! ./Button */ "./resources/js/Components/Button.tsx"));
+
+var useKeyPress_1 = __importDefault(__webpack_require__(/*! ../Hooks/useKeyPress */ "./resources/js/Hooks/useKeyPress.ts"));
+
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+
+var initialState = {
+  confirmingPassword: false,
+  password: '',
+  error: '',
+  processing: false
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'CLOSE_MODAL':
+      return initialState;
+
+    case 'CONFIRMING_PASSWORD':
+      return Object.assign(Object.assign({}, state), {
+        confirmingPassword: true
+      });
+
+    case 'PROCESSING':
+      return Object.assign(Object.assign({}, state), {
+        processing: true
+      });
+
+    case 'ERROR':
+      return Object.assign(Object.assign({}, state), {
+        processing: false,
+        error: action.error
+      });
+
+    case 'SET_PASSWORD':
+      return Object.assign(Object.assign({}, state), {
+        password: action.value
+      });
+
+    default:
+      return state;
+  }
+}
+
+var ConfirmsPassword = function ConfirmsPassword(_ref) {
+  var children = _ref.children,
+      _ref$title = _ref.title,
+      title = _ref$title === void 0 ? 'Confirm Password' : _ref$title,
+      _ref$content = _ref.content,
+      content = _ref$content === void 0 ? 'For your security, please confirm your password to continue.' : _ref$content,
+      _ref$button = _ref.button,
+      button = _ref$button === void 0 ? 'Confirm' : _ref$button,
+      onConfirm = _ref.onConfirm;
+  var passwordRef = react_1.useRef(null);
+
+  var _react_1$useReducer = react_1.useReducer(reducer, initialState),
+      _react_1$useReducer2 = _slicedToArray(_react_1$useReducer, 2),
+      state = _react_1$useReducer2[0],
+      dispatch = _react_1$useReducer2[1];
+
+  var confirmingPassword = state.confirmingPassword,
+      password = state.password,
+      formError = state.error,
+      formProcessing = state.processing;
+
+  var closeModal = function closeModal() {
+    dispatch({
+      type: 'CLOSE_MODAL'
+    });
+  };
+
+  var startConfirmingPassword = function startConfirmingPassword() {
+    //@ts-ignore
+    axios_1["default"].get(route('password.confirmation')).then(function (_ref2) {
+      var data = _ref2.data;
+
+      if (data.confirmed) {
+        onConfirm();
+      } else {
+        dispatch({
+          type: 'CONFIRMING_PASSWORD'
+        }); //@ts-ignore
+
+        setTimeout(function () {
+          var _a;
+
+          return (_a = passwordRef.current) === null || _a === void 0 ? void 0 : _a.focus();
+        }, 250);
+      }
+    });
+  };
+
+  var confirmPassword = function confirmPassword() {
+    dispatch({
+      type: 'PROCESSING'
+    });
+    axios_1["default"] //@ts-ignore
+    .post(route('password.confirm'), {
+      password: password
+    }).then(function () {
+      closeModal();
+      onConfirm();
+    })["catch"](function (error) {
+      var _a;
+
+      dispatch({
+        type: 'ERROR',
+        error: error.response.data.errors.password[0]
+      }); //@ts-ignore
+
+      (_a = passwordRef.current) === null || _a === void 0 ? void 0 : _a.focus();
+    });
+  };
+
+  var setPassword = function setPassword(value) {
+    return dispatch({
+      type: 'SET_PASSWORD',
+      value: value
+    });
+  };
+
+  var modalContent = react_1["default"].createElement(react_1["default"].Fragment, null, content, react_1["default"].createElement("div", {
+    className: "mt-4"
+  }, react_1["default"].createElement(Input_1["default"], {
+    fieldRef: passwordRef,
+    type: "password",
+    className: "block w-3/4 mt-1",
+    placeholder: "Password",
+    value: password,
+    onChange: function onChange(e) {
+      return setPassword(e.target.value);
+    },
+    onKeyPress: useKeyPress_1["default"]('Enter', confirmPassword)
+  }), react_1["default"].createElement(InputError_1["default"], {
+    message: formError,
+    className: "mt-2"
+  })));
+  var modalFooter = react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(Button_1["default"], {
+    variant: "secondary",
+    onClick: closeModal
+  }, "Never Mind"), react_1["default"].createElement(Button_1["default"], {
+    className: ['ml-2', formProcessing && 'opacity-25'].join(' '),
+    onClick: confirmPassword,
+    disabled: formProcessing
+  }, button));
+  return react_1["default"].createElement("span", null, react_1["default"].createElement("span", {
+    onClick: startConfirmingPassword
+  }, children), react_1["default"].createElement(DialogModal_1["default"], {
+    on: confirmingPassword,
+    title: title,
+    content: modalContent,
+    footer: modalFooter
+  }));
+};
+
+exports.default = ConfirmsPassword;
+
+/***/ }),
+
+/***/ "./resources/js/Components/DialogModal.tsx":
+/*!*************************************************!*\
+  !*** ./resources/js/Components/DialogModal.tsx ***!
+  \*************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var Modal_1 = __importDefault(__webpack_require__(/*! ./Modal */ "./resources/js/Components/Modal.tsx"));
+
+var DialogModal = function DialogModal(_ref) {
+  var on = _ref.on,
+      _onClose = _ref.onClose,
+      content = _ref.content,
+      footer = _ref.footer,
+      _ref$closeable = _ref.closeable,
+      closeable = _ref$closeable === void 0 ? true : _ref$closeable,
+      _ref$title = _ref.title,
+      title = _ref$title === void 0 ? 'modal title' : _ref$title;
+
+  var _react_1$useState = react_1.useState(on),
+      _react_1$useState2 = _slicedToArray(_react_1$useState, 2),
+      show = _react_1$useState2[0],
+      setShow = _react_1$useState2[1];
+
+  react_1.useEffect(function () {
+    setShow(on);
+  }, [on]);
+  return react_1["default"].createElement(Modal_1["default"], {
+    show: show,
+    closeable: closeable,
+    onClose: function onClose() {
+      return _onClose ? _onClose() : setShow(false);
+    }
+  }, react_1["default"].createElement("div", {
+    className: "relative px-6 py-4"
+  }, react_1["default"].createElement("div", {
+    className: "text-lg"
+  }, title), react_1["default"].createElement("div", {
+    className: "mt-4"
+  }, content)), react_1["default"].createElement("div", {
+    className: "px-6 py-4 text-right bg-gray-100"
+  }, react_1["default"].createElement("div", null, footer)));
+};
+
+exports.default = DialogModal;
+
+/***/ }),
+
+/***/ "./resources/js/Components/Dropdown.tsx":
+/*!**********************************************!*\
+  !*** ./resources/js/Components/Dropdown.tsx ***!
+  \**********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __webpack_require__(/*! @headlessui/react */ "./node_modules/@headlessui/react/dist/headlessui.esm.js");
+
+var react_2 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var Dropdown = function Dropdown(_ref) {
+  var trigger = _ref.trigger,
+      contentClasses = _ref.contentClasses,
+      _ref$width = _ref.width,
+      width = _ref$width === void 0 ? '' : _ref$width,
+      align = _ref.align,
+      children = _ref.children;
+
+  var _react_2$useState = react_2.useState(false),
+      _react_2$useState2 = _slicedToArray(_react_2$useState, 2),
+      open = _react_2$useState2[0],
+      setOpen = _react_2$useState2[1];
+
+  react_2.useEffect(function () {
+    window.addEventListener('keydown', function (e) {
+      return closeOnEscape(e);
+    });
+    return function () {
+      window.removeEventListener('keydown', function (e) {
+        return closeOnEscape(e);
+      });
+    };
+  }, []);
+
+  var toggle = function toggle() {
+    setOpen(function (prev) {
+      return !prev;
+    });
+  };
+
+  var closeOnEscape = function closeOnEscape(e) {
+    if (open && e.key === 'Escape') {
+      toggle();
+    }
+  };
+
+  var widthClass = function widthClass() {
+    return {
+      '48': 'w-48'
+    }[width.toString()];
+  };
+
+  var alignmentClasses = function alignmentClasses() {
+    return align === 'left' ? 'origin-top-left left-0' : align === 'right' ? 'origin-top-right right-0' : 'origin-top';
+  };
+
+  return react_2["default"].createElement("div", {
+    className: "relative"
+  }, react_2["default"].createElement("div", {
+    onClick: function onClick() {
+      return toggle;
+    }
+  }, trigger), react_2["default"].createElement("div", {
+    "v-show": "open",
+    className: "fixed inset-0 z-40",
+    onClick: function onClick() {
+      return toggle;
+    }
+  }), react_2["default"].createElement(react_1.Transition, {
+    show: open,
+    enter: "transition ease-out duration-200",
+    enterFrom: "transform opacity-0 scale-95",
+    enterTo: "transform opacity-100 scale-100",
+    leave: "transition ease-in duration-75",
+    leaveFrom: "transform opacity-100 scale-100",
+    leaveTo: "transform opacity-0 scale-95"
+  }, react_2["default"].createElement("div", {
+    className: ['absolute z-50 mt-2 rounded-md shadow-lg', widthClass, alignmentClasses].join(' '),
+    style: {
+      display: 'none'
+    },
+    onClick: function onClick() {
+      return toggle;
+    }
+  }, react_2["default"].createElement("div", {
+    className: ['rounded-md ring-1 ring-black ring-opacity-5', contentClasses].join(' ')
+  }, children))));
+};
+
+exports.default = Dropdown;
+
+/***/ }),
+
+/***/ "./resources/js/Components/DropdownLink.tsx":
+/*!**************************************************!*\
+  !*** ./resources/js/Components/DropdownLink.tsx ***!
+  \**************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var DropdownLink = function DropdownLink(_ref) {
+  var as = _ref.as,
+      _ref$href = _ref.href,
+      href = _ref$href === void 0 ? '' : _ref$href,
+      children = _ref.children;
+  return react_1["default"].createElement("div", null, as === 'button' ? react_1["default"].createElement("button", {
+    type: "submit",
+    className: "block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 transition hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+  }, children) : as === 'a' ? react_1["default"].createElement("a", {
+    href: href,
+    className: "block px-4 py-2 text-sm leading-5 text-gray-700 transition hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+  }, children) : react_1["default"].createElement(inertia_react_1.InertiaLink, {
+    href: href,
+    className: "block px-4 py-2 text-sm leading-5 text-gray-700 transition hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+  }, children));
+};
+
+exports.default = DropdownLink;
+
+/***/ }),
+
+/***/ "./resources/js/Components/FormSection.tsx":
+/*!*************************************************!*\
+  !*** ./resources/js/Components/FormSection.tsx ***!
+  \*************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var usePreventDefault_1 = __importDefault(__webpack_require__(/*! ../Hooks/usePreventDefault */ "./resources/js/Hooks/usePreventDefault.ts"));
+
+var SectionTitle_1 = __importDefault(__webpack_require__(/*! ./SectionTitle */ "./resources/js/Components/SectionTitle.tsx"));
+
+var FormSection = function FormSection(_ref) {
+  var _ref$title = _ref.title,
+      title = _ref$title === void 0 ? '' : _ref$title,
+      _ref$description = _ref.description,
+      description = _ref$description === void 0 ? '' : _ref$description,
+      form = _ref.form,
+      _ref$actions = _ref.actions,
+      actions = _ref$actions === void 0 ? '' : _ref$actions,
+      _ref$onSubmit = _ref.onSubmit,
+      _onSubmit = _ref$onSubmit === void 0 ? function () {} : _ref$onSubmit,
+      _ref$className = _ref.className,
+      className = _ref$className === void 0 ? '' : _ref$className;
+
+  return react_1["default"].createElement("div", {
+    className: ['md:grid md:grid-cols-3 md:gap-6', className].join(' ')
+  }, react_1["default"].createElement(SectionTitle_1["default"], {
+    title: title,
+    description: description
+  }), react_1["default"].createElement("div", {
+    className: "mt-5 md:mt-0 md:col-span-2"
+  }, react_1["default"].createElement("form", {
+    onSubmit: function onSubmit(e) {
+      return usePreventDefault_1["default"](e, _onSubmit);
+    }
+  }, react_1["default"].createElement("div", {
+    className: ['px-4 py-5 bg-white sm:p-6 shadow', actions === '' ? 'sm:rounded-md' : 'sm:rounded-tl-md sm:rounded-tr-md'].join(' ')
+  }, react_1["default"].createElement("div", {
+    className: "grid grid-cols-6 gap-6"
+  }, form)), actions ? react_1["default"].createElement("div", {
+    className: "flex items-center justify-end px-4 py-3 text-right shadow bg-gray-50 sm:px-6 sm:rounded-bl-md sm:rounded-br-md"
+  }, actions) : null)));
+};
+
+exports.default = FormSection;
+
+/***/ }),
+
+/***/ "./resources/js/Components/Input.tsx":
+/*!*******************************************!*\
+  !*** ./resources/js/Components/Input.tsx ***!
+  \*******************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var Input = function Input(_a) {
+  var className = _a.className,
+      value = _a.value,
+      _a$fieldRef = _a.fieldRef,
+      ref = _a$fieldRef === void 0 ? null : _a$fieldRef,
+      _a$onChange = _a.onChange,
+      _onChange = _a$onChange === void 0 ? function (e) {
+    return null;
+  } : _a$onChange,
+      rest = __rest(_a, ["className", "value", "fieldRef", "onChange"]);
+
+  return react_1["default"].createElement("input", Object.assign({
+    className: ['border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50', className].join(' '),
+    value: value,
+    //@ts-ignore
+    onChange: function onChange(e) {
+      return _onChange === null || _onChange === void 0 ? void 0 : _onChange(e);
+    }
+  }, ref ? {
+    ref: ref
+  } : {}, rest));
+};
+
+exports.default = Input;
+
+/***/ }),
+
+/***/ "./resources/js/Components/InputError.tsx":
+/*!************************************************!*\
+  !*** ./resources/js/Components/InputError.tsx ***!
+  \************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var InputError = function InputError(_ref) {
+  var message = _ref.message,
+      className = _ref.className;
+  return react_1["default"].createElement("div", null, message && react_1["default"].createElement("p", {
+    className: ['text-sm text-red-600', className].join(' ')
+  }, message));
+};
+
+exports.default = InputError;
+
+/***/ }),
+
+/***/ "./resources/js/Components/Label.tsx":
+/*!*******************************************!*\
+  !*** ./resources/js/Components/Label.tsx ***!
+  \*******************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var Label = function Label(_a) {
+  var className = _a.className,
+      value = _a.value,
+      children = _a.children,
+      rest = __rest(_a, ["className", "value", "children"]);
+
+  return react_1["default"].createElement("label", Object.assign({
+    className: ['block text-sm font-medium text-gray-700', className].join(' ')
+  }, rest), value ? react_1["default"].createElement("span", null, value) : react_1["default"].createElement("span", null, children));
+};
+
+exports.default = Label;
+
+/***/ }),
+
+/***/ "./resources/js/Components/Modal.tsx":
+/*!*******************************************!*\
+  !*** ./resources/js/Components/Modal.tsx ***!
+  \*******************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __webpack_require__(/*! @headlessui/react */ "./node_modules/@headlessui/react/dist/headlessui.esm.js");
+
+var react_2 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var Teleport_1 = __importDefault(__webpack_require__(/*! ./Teleport */ "./resources/js/Components/Teleport.tsx"));
+
+var Modal = function Modal(_ref) {
+  var children = _ref.children,
+      show = _ref.show,
+      _ref$closeable = _ref.closeable,
+      closeable = _ref$closeable === void 0 ? true : _ref$closeable,
+      onClose = _ref.onClose;
+  return react_2["default"].createElement(Teleport_1["default"], {
+    to: "#app"
+  }, react_2["default"].createElement(react_1.Transition, {
+    show: show,
+    leave: "duration-200"
+  }, react_2["default"].createElement("div", {
+    className: "fixed inset-0 z-50 flex items-center px-4 py-6 overflow-y-auto sm:px-0"
+  }, react_2["default"].createElement(react_1.Transition.Child, {
+    enter: "duration-300 ease-out",
+    enterFrom: "opacity-0",
+    enterTo: "opacity-100",
+    leave: "duration-200 ease-in",
+    leaveFrom: "opacity-100",
+    leaveTo: "opacity-0"
+  }, react_2["default"].createElement("div", {
+    className: "fixed inset-0 transition-all transform",
+    onClick: function onClick() {
+      closeable ? onClose === null || onClose === void 0 ? void 0 : onClose() : null;
+    }
+  }, react_2["default"].createElement("div", {
+    className: "absolute inset-0 bg-gray-500 opacity-75"
+  }))), react_2["default"].createElement(react_1.Transition.Child, {
+    enter: "duration-300 ease-out",
+    enterFrom: "translate-y-4 opacity-0 sm:translate-y-0 sm:scale-95",
+    enterTo: "translate-y-0 opacity-100 sm:scale-100",
+    leave: "duration-200 ease-in",
+    leaveFrom: "translate-y-0 opacity-100 sm:scale-100",
+    leaveTo: "translate-y-4 opacity-0 sm:translate-y-0 sm:scale-95"
+  }, react_2["default"].createElement("div", {
+    className: "mb-6 overflow-hidden transition-all transform bg-white rounded-lg shadow-xl sm:w-full sm:mx-auto"
+  }, children)))));
+};
+
+exports.default = Modal;
+
+/***/ }),
+
+/***/ "./resources/js/Components/NavLink.tsx":
+/*!*********************************************!*\
+  !*** ./resources/js/Components/NavLink.tsx ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var NavLink = function NavLink(_ref) {
+  var href = _ref.href,
+      _ref$className = _ref.className,
+      className = _ref$className === void 0 ? '' : _ref$className,
+      _ref$activeClassName = _ref.activeClassName,
+      activeClassName = _ref$activeClassName === void 0 ? '' : _ref$activeClassName,
+      _ref$active = _ref.active,
+      active = _ref$active === void 0 ? false : _ref$active,
+      children = _ref.children;
+  return react_1["default"].createElement(inertia_react_1.InertiaLink, {
+    href: href,
+    className: [active ? ['inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition', activeClassName].join(' ') : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition', className].join(' ')
+  }, children);
+};
+
+exports.default = NavLink;
+
+/***/ }),
+
+/***/ "./resources/js/Components/ResponsiveNavLink.tsx":
+/*!*******************************************************!*\
+  !*** ./resources/js/Components/ResponsiveNavLink.tsx ***!
+  \*******************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var ResponsiveNavLink = function ResponsiveNavLink(_ref) {
+  var _ref$as = _ref.as,
+      as = _ref$as === void 0 ? 'default' : _ref$as,
+      _ref$active = _ref.active,
+      active = _ref$active === void 0 ? false : _ref$active,
+      className = _ref.className,
+      _ref$href = _ref.href,
+      href = _ref$href === void 0 ? '' : _ref$href,
+      children = _ref.children;
+  var activeClasses = active ? 'block pl-3 pr-4 py-2 border-l-4 border-indigo-400 text-base font-medium text-indigo-700 bg-indigo-50 focus:outline-none focus:text-indigo-800 focus:bg-indigo-100 focus:border-indigo-700 transition' : 'block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition';
+  var mergedClassNames = [activeClasses, className].join(' ');
+  return react_1["default"].createElement("div", null, as === 'button' ? react_1["default"].createElement("button", {
+    className: ['w-full text-left', mergedClassNames].join(' ')
+  }, children) : react_1["default"].createElement(inertia_react_1.InertiaLink, {
+    href: href,
+    className: mergedClassNames
+  }, children));
+};
+
+exports.default = ResponsiveNavLink;
+
+/***/ }),
+
+/***/ "./resources/js/Components/SectionBorder.tsx":
+/*!***************************************************!*\
+  !*** ./resources/js/Components/SectionBorder.tsx ***!
+  \***************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var SectionBorder = function SectionBorder(_ref) {
+  var _ref$className = _ref.className,
+      className = _ref$className === void 0 ? 'border-gray-200' : _ref$className;
+  return react_1["default"].createElement("div", {
+    className: "hidden sm:block"
+  }, react_1["default"].createElement("div", {
+    className: "py-8"
+  }, react_1["default"].createElement("div", {
+    className: ['border-t', className].join(' ')
+  })));
+};
+
+exports.default = SectionBorder;
+
+/***/ }),
+
+/***/ "./resources/js/Components/SectionTitle.tsx":
+/*!**************************************************!*\
+  !*** ./resources/js/Components/SectionTitle.tsx ***!
+  \**************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var SectionTitle = function SectionTitle(_ref) {
+  var _ref$title = _ref.title,
+      title = _ref$title === void 0 ? '' : _ref$title,
+      _ref$description = _ref.description,
+      description = _ref$description === void 0 ? '' : _ref$description,
+      aside = _ref.aside;
+  return react_1["default"].createElement("div", {
+    className: "flex justify-between md:col-span-1"
+  }, react_1["default"].createElement("div", {
+    className: "px-4 sm:px-0"
+  }, react_1["default"].createElement("h3", {
+    className: "text-lg font-medium text-gray-900"
+  }, title), react_1["default"].createElement("p", {
+    className: "mt-1 text-sm text-gray-600"
+  }, description)), aside && react_1["default"].createElement("div", {
+    className: "px-4 sm:px-0"
+  }, aside));
+};
+
+exports.default = SectionTitle;
+
+/***/ }),
+
+/***/ "./resources/js/Components/Teleport.tsx":
+/*!**********************************************!*\
+  !*** ./resources/js/Components/Teleport.tsx ***!
+  \**********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var react_dom_1 = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+
+var Teleport = function Teleport(_ref) {
+  var children = _ref.children,
+      to = _ref.to;
+  return react_1["default"].createElement(react_1["default"].Fragment, null, react_dom_1.createPortal(react_1["default"].createElement(react_1["default"].Fragment, null, children), document.querySelector(to)));
+};
+
+exports.default = Teleport;
+
+/***/ }),
+
+/***/ "./resources/js/Components/ValidationErrors.tsx":
+/*!******************************************************!*\
+  !*** ./resources/js/Components/ValidationErrors.tsx ***!
+  \******************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
 var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
 
@@ -2304,20 +6002,1359 @@ var ValidationErrors = function ValidationErrors(_ref) {
     return null;
   }
 
-  return React.createElement("div", {
+  return react_1["default"].createElement("div", {
     className: className
-  }, React.createElement("div", {
+  }, react_1["default"].createElement("div", {
     className: "font-medium text-red-600"
-  }, "Whoops! Something went wrong."), React.createElement("ul", {
+  }, "Whoops! Something went wrong."), react_1["default"].createElement("ul", {
     className: "mt-3 text-sm text-red-600 list-disc list-inside"
   }, Object.keys(errors).map(function (key) {
-    return React.createElement("li", {
+    return react_1["default"].createElement("li", {
       key: key
     }, errors[key]);
   })));
 };
 
-exports.ValidationErrors = ValidationErrors;
+exports.default = ValidationErrors;
+
+/***/ }),
+
+/***/ "./resources/js/Components/Welcome.tsx":
+/*!*********************************************!*\
+  !*** ./resources/js/Components/Welcome.tsx ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var ApplicationLogo_1 = __importDefault(__webpack_require__(/*! ./ApplicationLogo */ "./resources/js/Components/ApplicationLogo.tsx"));
+
+var Welcome = function Welcome() {
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("div", {
+    className: "p-6 bg-white border-b border-gray-200 sm:px-20"
+  }, react_1["default"].createElement("div", null, react_1["default"].createElement(ApplicationLogo_1["default"], {
+    className: "block w-auto h-12"
+  })), react_1["default"].createElement("div", {
+    className: "mt-8 text-2xl"
+  }, "Welcome to your Jetstream application!"), react_1["default"].createElement("div", {
+    className: "mt-6 text-gray-500"
+  }, "Laravel Jetstream provides a beautiful, robust starting point for your next Laravel application. Laravel is designed to help you build your application using a development environment that is simple, powerful, and enjoyable. We believe you should love expressing your creativity through programming, so we have spent time carefully crafting the Laravel ecosystem to be a breath of fresh air. We hope you love it.")), react_1["default"].createElement("div", {
+    className: "grid grid-cols-1 bg-gray-200 bg-opacity-25 md:grid-cols-2"
+  }, react_1["default"].createElement("div", {
+    className: "p-6"
+  }, react_1["default"].createElement("div", {
+    className: "flex items-center"
+  }, react_1["default"].createElement("svg", {
+    fill: "none",
+    stroke: "currentColor",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "2",
+    viewBox: "0 0 24 24",
+    className: "w-8 h-8 text-gray-400"
+  }, react_1["default"].createElement("path", {
+    d: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+  })), react_1["default"].createElement("div", {
+    className: "ml-4 text-lg font-semibold leading-7 text-gray-600"
+  }, react_1["default"].createElement("a", {
+    href: "https://laravel.com/docs"
+  }, "Documentation"))), react_1["default"].createElement("div", {
+    className: "ml-12"
+  }, react_1["default"].createElement("div", {
+    className: "mt-2 text-sm text-gray-500"
+  }, "Laravel has wonderful documentation covering every aspect of the framework. Whether you're new to the framework or have previous experience, we recommend reading all of the documentation from beginning to end."), react_1["default"].createElement("a", {
+    href: "https://laravel.com/docs"
+  }, react_1["default"].createElement("div", {
+    className: "flex items-center mt-3 text-sm font-semibold text-indigo-700"
+  }, react_1["default"].createElement("div", null, "Explore the documentation"), react_1["default"].createElement("div", {
+    className: "ml-1 text-indigo-500"
+  }, react_1["default"].createElement("svg", {
+    viewBox: "0 0 20 20",
+    fill: "currentColor",
+    className: "w-4 h-4"
+  }, react_1["default"].createElement("path", {
+    fillRule: "evenodd",
+    d: "M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z",
+    clipRule: "evenodd"
+  }))))))), react_1["default"].createElement("div", {
+    className: "p-6 border-t border-gray-200 md:border-t-0 md:border-l"
+  }, react_1["default"].createElement("div", {
+    className: "flex items-center"
+  }, react_1["default"].createElement("svg", {
+    fill: "none",
+    stroke: "currentColor",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "2",
+    viewBox: "0 0 24 24",
+    className: "w-8 h-8 text-gray-400"
+  }, react_1["default"].createElement("path", {
+    d: "M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+  }), react_1["default"].createElement("path", {
+    d: "M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+  })), react_1["default"].createElement("div", {
+    className: "ml-4 text-lg font-semibold leading-7 text-gray-600"
+  }, react_1["default"].createElement("a", {
+    href: "https://laracasts.com"
+  }, "Laracasts"))), react_1["default"].createElement("div", {
+    className: "ml-12"
+  }, react_1["default"].createElement("div", {
+    className: "mt-2 text-sm text-gray-500"
+  }, "Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process."), react_1["default"].createElement("a", {
+    href: "https://laracasts.com"
+  }, react_1["default"].createElement("div", {
+    className: "flex items-center mt-3 text-sm font-semibold text-indigo-700"
+  }, react_1["default"].createElement("div", null, "Start watching Laracasts"), react_1["default"].createElement("div", {
+    className: "ml-1 text-indigo-500"
+  }, react_1["default"].createElement("svg", {
+    viewBox: "0 0 20 20",
+    fill: "currentColor",
+    className: "w-4 h-4"
+  }, react_1["default"].createElement("path", {
+    fillRule: "evenodd",
+    d: "M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z",
+    clipRule: "evenodd"
+  }))))))), react_1["default"].createElement("div", {
+    className: "p-6 border-t border-gray-200"
+  }, react_1["default"].createElement("div", {
+    className: "flex items-center"
+  }, react_1["default"].createElement("svg", {
+    fill: "none",
+    stroke: "currentColor",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "2",
+    viewBox: "0 0 24 24",
+    className: "w-8 h-8 text-gray-400"
+  }, react_1["default"].createElement("path", {
+    d: "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+  })), react_1["default"].createElement("div", {
+    className: "ml-4 text-lg font-semibold leading-7 text-gray-600"
+  }, react_1["default"].createElement("a", {
+    href: "https://tailwindcss.com/"
+  }, "Tailwind"))), react_1["default"].createElement("div", {
+    className: "ml-12"
+  }, react_1["default"].createElement("div", {
+    className: "mt-2 text-sm text-gray-500"
+  }, "Laravel Jetstream is built with Tailwind, an amazing utility first CSS framework that doesn't get in your way. You'll be amazed how easily you can build and maintain fresh, modern designs with this wonderful framework at your fingertips."))), react_1["default"].createElement("div", {
+    className: "p-6 border-t border-gray-200 md:border-l"
+  }, react_1["default"].createElement("div", {
+    className: "flex items-center"
+  }, react_1["default"].createElement("svg", {
+    fill: "none",
+    stroke: "currentColor",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "2",
+    viewBox: "0 0 24 24",
+    className: "w-8 h-8 text-gray-400"
+  }, react_1["default"].createElement("path", {
+    d: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+  })), react_1["default"].createElement("div", {
+    className: "ml-4 text-lg font-semibold leading-7 text-gray-600"
+  }, "Authentication")), react_1["default"].createElement("div", {
+    className: "ml-12"
+  }, react_1["default"].createElement("div", {
+    className: "mt-2 text-sm text-gray-500"
+  }, "Authentication and registration views are included with Laravel Jetstream, as well as support for user email verification and resetting forgotten passwords. So, you're free to get started what matters most: building your application.")))));
+};
+
+exports.default = Welcome;
+
+/***/ }),
+
+/***/ "./resources/js/Hooks/useForm.ts":
+/*!***************************************!*\
+  !*** ./resources/js/Hooks/useForm.ts ***!
+  \***************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js"); // type Props = {
+//   errorBag: any;
+//   initialData: { [key: string]: string };
+// };
+
+
+exports.default = function (_a) {
+  var _a$errorBag = _a.errorBag,
+      errorBag = _a$errorBag === void 0 ? {} : _a$errorBag,
+      initialData = __rest(_a, ["errorBag"]);
+
+  var _react_1$default$useS = react_1["default"].useState(initialData),
+      _react_1$default$useS2 = _slicedToArray(_react_1$default$useS, 2),
+      data = _react_1$default$useS2[0],
+      setData = _react_1$default$useS2[1];
+
+  var _react_1$default$useS3 = react_1["default"].useState('idle'),
+      _react_1$default$useS4 = _slicedToArray(_react_1$default$useS3, 2),
+      status = _react_1$default$useS4[0],
+      setStatus = _react_1$default$useS4[1]; //@ts-ignore
+
+
+  var errors = inertia_react_1.usePage().props.errors;
+  var mounted = react_1["default"].useRef(false);
+  react_1["default"].useEffect(function () {
+    mounted.current = true;
+    return function () {
+      mounted.current = false;
+    };
+  }, []);
+
+  var reset = function reset() {
+    for (var _len = arguments.length, fields = new Array(_len), _key = 0; _key < _len; _key++) {
+      fields[_key] = arguments[_key];
+    }
+
+    if (fields.length === 0) {
+      setData(initialData);
+    } else {
+      setData(function (currentData) {
+        return fields.reduce(function (carry, key) {
+          return Object.assign(Object.assign({}, carry), _defineProperty({}, key, initialData[key]));
+        }, currentData);
+      });
+    }
+  }; // Avoid state updates to unmounted components.
+
+
+  var safeSetStatus = react_1["default"].useCallback(function (newStatus) {
+    return mounted.current && setStatus(newStatus);
+  }, [mounted]);
+  var safeReset = react_1["default"].useCallback(function () {
+    return mounted.current && reset.apply(void 0, arguments);
+  }, [mounted]);
+  var submit = react_1["default"].useCallback(function (promise) {
+    if (!promise) {
+      return;
+    }
+
+    safeSetStatus('processing');
+    promise.then(function () {
+      var newStatus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+      if (newStatus === 'success') {
+        safeSetStatus('recentlySuccessful');
+        setTimeout(function () {
+          safeSetStatus(function (oldStatus) {
+            return oldStatus === 'recentlySuccessful' ? 'idle' : oldStatus;
+          });
+        }, 2000);
+      } else {
+        safeSetStatus('idle');
+      }
+
+      if (newStatus === 'reset') {
+        safeReset();
+      }
+    });
+  }, [setStatus]);
+
+  var setField = function setField(field, value) {
+    return setData(function (oldData) {
+      return Object.assign(Object.assign({}, oldData), _defineProperty({}, field, typeof value === 'function' ? value(oldData[field]) : value));
+    });
+  };
+
+  var useField = function useField(field) {
+    return [data[field], function (value) {
+      return setField(field, value);
+    }];
+  };
+
+  return {
+    useField: useField,
+    setField: setField,
+    data: data,
+    setData: setData,
+    status: status,
+    isProcessing: status === 'processing',
+    setStatus: setStatus,
+    submit: submit,
+    reset: reset,
+    // @ts-ignore
+    errors: (errorBag ? errors === null || errors === void 0 ? void 0 : errors[errorBag] : errors) || {}
+  };
+};
+
+/***/ }),
+
+/***/ "./resources/js/Hooks/useKeyPress.ts":
+/*!*******************************************!*\
+  !*** ./resources/js/Hooks/useKeyPress.ts ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+exports.default = function (key, callback) {
+  return function (e) {
+    if (e.key === key) {
+      callback();
+    }
+  };
+};
+
+/***/ }),
+
+/***/ "./resources/js/Hooks/usePreventDefault.ts":
+/*!*************************************************!*\
+  !*** ./resources/js/Hooks/usePreventDefault.ts ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+exports.default = function (e, callback) {
+  e.preventDefault;
+  callback();
+};
+
+/***/ }),
+
+/***/ "./resources/js/Hooks/useSlicedState.ts":
+/*!**********************************************!*\
+  !*** ./resources/js/Hooks/useSlicedState.ts ***!
+  \**********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+exports.default = function (initialState) {
+  var _react_1$default$useS = react_1["default"].useState(initialState),
+      _react_1$default$useS2 = _slicedToArray(_react_1$default$useS, 2),
+      state = _react_1$default$useS2[0],
+      setState = _react_1$default$useS2[1];
+
+  var updateState = function updateState(patch) {
+    return setState(function (oldState) {
+      return Object.assign(Object.assign({}, oldState), patch);
+    });
+  };
+
+  return {
+    state: state,
+    setState: setState,
+    updateState: updateState
+  };
+};
+
+/***/ }),
+
+/***/ "./resources/js/Layouts/AppLayout.tsx":
+/*!********************************************!*\
+  !*** ./resources/js/Layouts/AppLayout.tsx ***!
+  \********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+
+var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var Banner_1 = __importDefault(__webpack_require__(/*! ../Components/Banner */ "./resources/js/Components/Banner.tsx"));
+
+var NavLink_1 = __importDefault(__webpack_require__(/*! ../Components/NavLink */ "./resources/js/Components/NavLink.tsx"));
+
+var ResponsiveNavLink_1 = __importDefault(__webpack_require__(/*! ../Components/ResponsiveNavLink */ "./resources/js/Components/ResponsiveNavLink.tsx"));
+
+var ApplicationMark_1 = __importDefault(__webpack_require__(/*! ../Components/ApplicationMark */ "./resources/js/Components/ApplicationMark.tsx"));
+
+var Dropdown_1 = __importDefault(__webpack_require__(/*! ../Components/Dropdown */ "./resources/js/Components/Dropdown.tsx"));
+
+var DropdownLink_1 = __importDefault(__webpack_require__(/*! ../Components/DropdownLink */ "./resources/js/Components/DropdownLink.tsx"));
+
+var usePreventDefault_1 = __importDefault(__webpack_require__(/*! ../Hooks/usePreventDefault */ "./resources/js/Hooks/usePreventDefault.ts"));
+
+var AppLayout = function AppLayout(_ref) {
+  var header = _ref.header,
+      children = _ref.children;
+
+  var _react_1$useState = react_1.useState(false),
+      _react_1$useState2 = _slicedToArray(_react_1$useState, 2),
+      showingNavigationDropdown = _react_1$useState2[0],
+      setShowingNavigationDropdown = _react_1$useState2[1];
+
+  var _react_1$useState3 = react_1.useState(false),
+      _react_1$useState4 = _slicedToArray(_react_1$useState3, 2),
+      bannerToggle = _react_1$useState4[0],
+      setBannerToggle = _react_1$useState4[1]; //@ts-ignore
+
+
+  var _inertia_react_1$useP = inertia_react_1.usePage().props,
+      user = _inertia_react_1$useP.user,
+      jetstream = _inertia_react_1$useP.jetstream,
+      flash = _inertia_react_1$useP.flash;
+  var allTeams = user.allTeams;
+  var currentTeam = user.current_team;
+  react_1.useEffect(function () {
+    if (flash.message) {
+      setBannerToggle(true);
+    }
+  }, [flash]);
+
+  var switchToTeam = function switchToTeam(team) {
+    inertia_1.Inertia.put( //@ts-ignore
+    route('current-team.update'), {
+      team_id: team.id
+    }, {
+      preserveState: false
+    });
+  };
+
+  var logout = function logout() {
+    //@ts-ignore
+    inertia_1.Inertia.post(route('logout'));
+  };
+
+  return react_1["default"].createElement("div", null, react_1["default"].createElement(Banner_1["default"], {
+    on: bannerToggle,
+    message: flash.message,
+    onClose: function onClose() {
+      return setBannerToggle(false);
+    }
+  }), react_1["default"].createElement("div", {
+    className: "min-h-screen bg-gray-100"
+  }, react_1["default"].createElement("nav", {
+    className: "bg-white border-b border-gray-100"
+  }, react_1["default"].createElement("div", {
+    className: "px-4 mx-auto max-w-7xl sm:px-6 lg:px-8"
+  }, react_1["default"].createElement("div", {
+    className: "flex justify-between h-16"
+  }, react_1["default"].createElement("div", {
+    className: "flex"
+  }, react_1["default"].createElement("div", {
+    className: "flex items-center flex-shrink-0"
+  }, react_1["default"].createElement(inertia_react_1.InertiaLink, {
+    href: route('dashboard')
+  }, react_1["default"].createElement(ApplicationMark_1["default"], {
+    className: "block w-auto h-9"
+  }))), react_1["default"].createElement("div", {
+    className: "hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"
+  }, react_1["default"].createElement(NavLink_1["default"], {
+    href: route('dashboard'),
+    active: route().current('dashboard')
+  }, "Dashboard"))), react_1["default"].createElement("div", {
+    className: "hidden sm:flex sm:items-center sm:ml-6"
+  }, react_1["default"].createElement("div", {
+    className: "relative ml-3"
+  }, jetstream.hasTeamFeatures && react_1["default"].createElement(Dropdown_1["default"], {
+    align: "right",
+    width: "60",
+    trigger: react_1["default"].createElement("span", {
+      className: "inline-flex rounded-md"
+    }, react_1["default"].createElement("button", {
+      type: "button",
+      className: "inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition bg-white border border-transparent rounded-md hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50"
+    }, user.current_team.name, react_1["default"].createElement("svg", {
+      className: "ml-2 -mr-0.5 h-4 w-4",
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 20 20",
+      fill: "currentColor"
+    }, react_1["default"].createElement("path", {
+      "fill-rule": "evenodd",
+      d: "M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z",
+      "clip-rule": "evenodd"
+    }))))
+  }, react_1["default"].createElement("div", {
+    className: "w-60"
+  }, jetstream.hasTeamFeatures && react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", {
+    className: "block px-4 py-2 text-xs text-gray-400"
+  }, "Manage Team"), react_1["default"].createElement(DropdownLink_1["default"], {
+    href: route('teams.show', user.current_team)
+  }, "Team Settings"), jetstream.canCreateTeams && // @ts-ignore
+  react_1["default"].createElement(DropdownLink_1["default"], {
+    href: route('teams.create')
+  }, "Create New Team"), react_1["default"].createElement("div", {
+    className: "border-t border-gray-100"
+  }), react_1["default"].createElement("div", {
+    className: "block px-4 py-2 text-xs text-gray-400"
+  }, "Switch Teams"), allTeams && allTeams.map(function (team) {
+    react_1["default"].createElement("form", {
+      onSubmit: function onSubmit() {
+        return switchToTeam(team);
+      },
+      key: team.id
+    }, react_1["default"].createElement(DropdownLink_1["default"], {
+      as: "button"
+    }, react_1["default"].createElement("div", {
+      className: "flex items-center"
+    }, react_1["default"].createElement("svg", {
+      "v-if": "team.id == $page.props.user.current_team_id",
+      className: "w-5 h-5 mr-2 text-green-400",
+      fill: "none",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      strokeWidth: "2",
+      stroke: "currentColor",
+      viewBox: "0 0 24 24"
+    }, react_1["default"].createElement("path", {
+      d: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+    })), react_1["default"].createElement("div", null, team.name))));
+  }))))), react_1["default"].createElement("div", {
+    className: "relative ml-3"
+  }, react_1["default"].createElement(Dropdown_1["default"], {
+    align: "right",
+    width: "48",
+    trigger: jetstream.managesProfilePhotos ? react_1["default"].createElement("button", {
+      className: "flex text-sm transition border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300"
+    }, react_1["default"].createElement("img", {
+      className: "object-cover w-8 h-8 rounded-full",
+      src: user.profile_photo_url,
+      alt: user.name
+    })) : react_1["default"].createElement("span", {
+      className: "inline-flex rounded-md"
+    }, react_1["default"].createElement("button", {
+      type: "button",
+      className: "inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none"
+    }, user.name, react_1["default"].createElement("svg", {
+      className: "ml-2 -mr-0.5 h-4 w-4",
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 20 20",
+      fill: "currentColor"
+    }, react_1["default"].createElement("path", {
+      fillRule: "evenodd",
+      d: "M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z",
+      clipRule: "evenodd"
+    }))))
+  }, react_1["default"].createElement("div", {
+    className: "block px-4 py-2 text-xs text-gray-400"
+  }, "Manage Account"), react_1["default"].createElement(DropdownLink_1["default"], {
+    href: route('profile.show')
+  }, " Profile "), jetstream.hasApiFeatures && // @ts-ignore
+  react_1["default"].createElement(DropdownLink_1["default"], {
+    href: route('api-tokens.index')
+  }, "API Tokens"), react_1["default"].createElement("div", {
+    className: "border-t border-gray-100"
+  }), react_1["default"].createElement("form", {
+    onSubmit: function onSubmit(e) {
+      return usePreventDefault_1["default"](e, logout);
+    }
+  }, react_1["default"].createElement(DropdownLink_1["default"], {
+    as: "button"
+  }, " Log Out "))))), react_1["default"].createElement("div", {
+    className: "flex items-center -mr-2 sm:hidden"
+  }, react_1["default"].createElement("button", {
+    onClick: function onClick() {
+      return setShowingNavigationDropdown(function (prev) {
+        return !prev;
+      });
+    },
+    className: "inline-flex items-center justify-center p-2 text-gray-400 transition rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500"
+  }, react_1["default"].createElement("svg", {
+    className: "w-6 h-6",
+    stroke: "currentColor",
+    fill: "none",
+    viewBox: "0 0 24 24"
+  }, react_1["default"].createElement("path", {
+    className: showingNavigationDropdown ? 'hidden' : 'inline-flex',
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "2",
+    d: "M4 6h16M4 12h16M4 18h16"
+  }), react_1["default"].createElement("path", {
+    className: showingNavigationDropdown ? 'block' : 'hidden',
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "2",
+    d: "M6 18L18 6M6 6l12 12"
+  }))))), react_1["default"].createElement("div", {
+    className: ['sm:hidden', showingNavigationDropdown ? 'block' : 'hidden'].join(' ')
+  }, react_1["default"].createElement("div", {
+    className: "pt-2 pb-3 space-y-1"
+  }, react_1["default"].createElement(ResponsiveNavLink_1["default"], {
+    href: route('dashboard'),
+    active: route().current('dashboard')
+  }, "Dashboard")), react_1["default"].createElement("div", {
+    className: "pt-4 pb-1 border-t border-gray-200"
+  }, react_1["default"].createElement("div", {
+    className: "flex items-center px-4"
+  }, jetstream.managesProfilePhotos && react_1["default"].createElement("div", {
+    className: "flex-shrink-0 mr-3"
+  }, react_1["default"].createElement("img", {
+    className: "object-cover w-10 h-10 rounded-full",
+    src: user.profile_photo_url,
+    alt: user.name
+  })), react_1["default"].createElement("div", null, react_1["default"].createElement("div", {
+    className: "text-base font-medium text-gray-800"
+  }, user.name), react_1["default"].createElement("div", {
+    className: "text-sm font-medium text-gray-500"
+  }, user.email))), react_1["default"].createElement("div", {
+    className: "mt-3 space-y-1"
+  }, react_1["default"].createElement(ResponsiveNavLink_1["default"], {
+    href: route('profile.show'),
+    active: route().current('profile.show')
+  }, "Profile"), jetstream.hasApiFeatures && // @ts-ignore
+  react_1["default"].createElement(ResponsiveNavLink_1["default"], {
+    href: route('api-tokens.index'),
+    active: route().current('api-tokens.index')
+  }, "API Tokens"), react_1["default"].createElement("form", {
+    method: "POST",
+    onSubmit: function onSubmit(e) {
+      return usePreventDefault_1["default"](e, logout);
+    }
+  }, react_1["default"].createElement(ResponsiveNavLink_1["default"], {
+    as: "button"
+  }, " Log Out ")), jetstream.hasTeamFeatures && react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", {
+    className: "border-t border-gray-200"
+  }), react_1["default"].createElement("div", {
+    className: "block px-4 py-2 text-xs text-gray-400"
+  }, "Manage Team"), react_1["default"].createElement(ResponsiveNavLink_1["default"] // @ts-ignore
+  , {
+    // @ts-ignore
+    href: route('teams.show', user.current_team),
+    // @ts-ignore
+    active: route().current('teams.show')
+  }, "Team Settings"), react_1["default"].createElement(ResponsiveNavLink_1["default"], {
+    href: route('teams.create'),
+    active: route().current('teams.create')
+  }, "Create New Team"), react_1["default"].createElement("div", {
+    className: "border-t border-gray-200"
+  }), react_1["default"].createElement("div", {
+    className: "block px-4 py-2 text-xs text-gray-400"
+  }, "Switch Teams"), allTeams && allTeams.map(function (team) {
+    react_1["default"].createElement("form", {
+      onSubmit: function onSubmit(e) {
+        'switchToTeam(team)';
+      },
+      key: team.id
+    }, react_1["default"].createElement(ResponsiveNavLink_1["default"], {
+      as: "button"
+    }, react_1["default"].createElement("div", {
+      className: "flex items-center"
+    }, currentTeam === team.id && react_1["default"].createElement("svg", {
+      className: "w-5 h-5 mr-2 text-green-400",
+      fill: "none",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      strokeWidth: "2",
+      stroke: "currentColor",
+      viewBox: "0 0 24 24"
+    }, react_1["default"].createElement("path", {
+      d: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+    })), react_1["default"].createElement("div", null, team.name))));
+  }))))))), header && react_1["default"].createElement("header", {
+    className: "bg-white shadow"
+  }, react_1["default"].createElement("div", {
+    className: "px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8"
+  }, header)), react_1["default"].createElement("main", null, children)));
+};
+
+exports.default = AppLayout;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/API/ApiTokenManager.tsx":
+/*!****************************************************!*\
+  !*** ./resources/js/Pages/API/ApiTokenManager.tsx ***!
+  \****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+
+var ActionMessage_1 = __importDefault(__webpack_require__(/*! ../../Components/ActionMessage */ "./resources/js/Components/ActionMessage.tsx"));
+
+var ActionSection_1 = __importDefault(__webpack_require__(/*! ../../Components/ActionSection */ "./resources/js/Components/ActionSection.tsx"));
+
+var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
+
+var ConfirmationModal_1 = __importDefault(__webpack_require__(/*! ../../Components/ConfirmationModal */ "./resources/js/Components/ConfirmationModal.tsx"));
+
+var DialogModal_1 = __importDefault(__webpack_require__(/*! ../../Components/DialogModal */ "./resources/js/Components/DialogModal.tsx"));
+
+var FormSection_1 = __importDefault(__webpack_require__(/*! ../../Components/FormSection */ "./resources/js/Components/FormSection.tsx"));
+
+var Input_1 = __importDefault(__webpack_require__(/*! ../../Components/Input */ "./resources/js/Components/Input.tsx"));
+
+var Checkbox_1 = __importDefault(__webpack_require__(/*! ../../Components/Checkbox */ "./resources/js/Components/Checkbox.tsx"));
+
+var InputError_1 = __importDefault(__webpack_require__(/*! ../../Components/InputError */ "./resources/js/Components/InputError.tsx"));
+
+var Label_1 = __importDefault(__webpack_require__(/*! ../../Components/Label */ "./resources/js/Components/Label.tsx"));
+
+var SectionBorder_1 = __importDefault(__webpack_require__(/*! ../../Components/SectionBorder */ "./resources/js/Components/SectionBorder.tsx"));
+
+var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.ts"));
+
+var useSlicedState_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useSlicedState */ "./resources/js/Hooks/useSlicedState.ts"));
+
+var ApiTokenManager = function ApiTokenManager(_ref) {
+  var tokens = _ref.tokens,
+      availablePermissions = _ref.availablePermissions,
+      defaultPermissions = _ref.defaultPermissions;
+  // @ts-ignore
+  var jetstream = inertia_react_1.usePage().props.jetstream;
+  var createApiTokenForm = useForm_1["default"]({
+    errorBag: 'createApiToken',
+    name: '',
+    permissions: defaultPermissions
+  });
+  var updateApiTokenForm = useForm_1["default"]({
+    permissions: []
+  });
+  var deleteApiTokenForm = useForm_1["default"]({});
+
+  var _useSlicedState_1$def = useSlicedState_1["default"]({
+    displayingToken: false,
+    managingPermissionsFor: false,
+    apiTokenBeingDeleted: false
+  }),
+      state = _useSlicedState_1$def.state,
+      updateState = _useSlicedState_1$def.updateState;
+
+  var createApiToken = function createApiToken() {
+    return createApiTokenForm.submit(new Promise(function (resolve) {
+      return (// @ts-ignore
+        inertia_1.Inertia.post(route('api-tokens.store'), createApiTokenForm.data, {
+          preserveScroll: true,
+          errorBag: 'createApiToken',
+          onSuccess: function onSuccess() {
+            updateState({
+              displayingToken: true
+            });
+            createApiTokenForm.reset();
+          },
+          // @ts-ignore
+          onFinish: resolve
+        })
+      );
+    }));
+  };
+
+  var manageApiTokenPermissions = function manageApiTokenPermissions(token) {
+    updateApiTokenForm.setField('permissions', token.abilities);
+    updateState({
+      managingPermissionsFor: token
+    });
+  };
+
+  var updateApiToken = function updateApiToken() {
+    return updateApiTokenForm.submit(new Promise(function (resolve) {
+      return (// @ts-ignore
+        inertia_1.Inertia.put(route('api-tokens.update', state.managingPermissionsFor), updateApiTokenForm.data, {
+          preserveScroll: true,
+          preserveState: true,
+          onSuccess: function onSuccess() {
+            return updateState({
+              managingPermissionsFor: null
+            });
+          },
+          // @ts-ignore
+          onFinish: resolve
+        })
+      );
+    }));
+  };
+
+  var confirmApiTokenDeletion = function confirmApiTokenDeletion(token) {
+    return updateState({
+      apiTokenBeingDeleted: token
+    });
+  };
+
+  var deleteApiToken = function deleteApiToken() {
+    return deleteApiTokenForm.submit(new Promise(function (resolve) {
+      return (// @ts-ignore
+        inertia_1.Inertia["delete"](route('api-tokens.destroy', state.apiTokenBeingDeleted), {
+          preserveScroll: true,
+          preserveState: true,
+          onSuccess: function onSuccess() {
+            return updateState({
+              apiTokenBeingDeleted: null
+            });
+          },
+          // @ts-ignore
+          onFinish: resolve
+        })
+      );
+    }));
+  };
+
+  var isChecked = function isChecked(value, comparing) {
+    if (Array.isArray(comparing)) {
+      return comparing.includes(value);
+    }
+
+    return comparing === value;
+  };
+
+  var checkboxArrayChangeHandler = function checkboxArrayChangeHandler(value, values, stateHandler) {
+    return function (checked) {
+      if (checked) {
+        stateHandler(values.includes(value) ? values : [].concat(_toConsumableArray(values), [value]));
+      } else {
+        var index = values.indexOf(value);
+        stateHandler(index === -1 ? values : [].concat(_toConsumableArray(values.slice(0, index)), _toConsumableArray(values.slice(index + 1))));
+      }
+    };
+  };
+
+  return react_1["default"].createElement("div", null, react_1["default"].createElement(FormSection_1["default"], {
+    onSubmit: createApiToken,
+    title: "Create API Token",
+    description: "API tokens allow third-party services to authenticate with our application on your behalf.",
+    form: react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", {
+      className: "col-span-6 sm:col-span-4"
+    }, react_1["default"].createElement(Label_1["default"], {
+      htmlFor: "name",
+      value: "Name"
+    }), react_1["default"].createElement(Input_1["default"], {
+      id: "name",
+      type: "text",
+      className: "block w-full mt-1",
+      value: createApiTokenForm.data.name,
+      onChange: function onChange(value) {
+        return createApiTokenForm.setField('name', value);
+      },
+      autoFocus: true
+    }), react_1["default"].createElement(InputError_1["default"], {
+      message: createApiTokenForm.errors.name,
+      className: "mt-2"
+    })), availablePermissions.length > 0 ? react_1["default"].createElement("div", {
+      className: "col-span-6"
+    }, react_1["default"].createElement(Label_1["default"], {
+      htmlFor: "permissions",
+      value: "Permissions"
+    }), react_1["default"].createElement("div", {
+      className: "grid grid-cols-1 gap-4 mt-2 md:grid-cols-2"
+    }, availablePermissions.map(function (permission) {
+      return react_1["default"].createElement("div", {
+        key: permission
+      }, react_1["default"].createElement("label", {
+        className: "flex items-center"
+      }, react_1["default"].createElement(Checkbox_1["default"], {
+        value: permission,
+        checked: isChecked(permission, createApiTokenForm.data.permissions),
+        onChange: checkboxArrayChangeHandler(permission, createApiTokenForm.data.permissions, function (newValue) {
+          return createApiTokenForm.setField('permissions', newValue);
+        })
+      }), react_1["default"].createElement("span", {
+        className: "ml-2 text-sm text-gray-600"
+      }, permission)));
+    }))) : null),
+    actions: react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(ActionMessage_1["default"], {
+      on: createApiTokenForm.data.recentlySuccessful,
+      className: "mr-3"
+    }, "Created."), react_1["default"].createElement(Button_1["default"], {
+      className: createApiTokenForm.isProcessing ? 'opacity-25' : '',
+      disabled: createApiTokenForm.isProcessing
+    }, "Create"))
+  }), tokens.length > 0 ? react_1["default"].createElement("div", null, react_1["default"].createElement(SectionBorder_1["default"], null), react_1["default"].createElement("div", {
+    className: "mt-10 sm:mt-0"
+  }, react_1["default"].createElement(ActionSection_1["default"], {
+    title: "Manage API Tokens",
+    description: "You may delete any of your existing tokens if they are no longer needed.",
+    content: react_1["default"].createElement("div", {
+      className: "space-y-6"
+    }, tokens.map(function (token) {
+      return react_1["default"].createElement("div", {
+        className: "flex items-center justify-between",
+        key: token.id
+      }, react_1["default"].createElement("div", null, token.name), react_1["default"].createElement("div", {
+        className: "flex items-center"
+      }, token.last_used_ago ? react_1["default"].createElement("div", {
+        className: "text-sm text-gray-400"
+      }, "Last used ".concat(token.last_used_ago)) : null, availablePermissions.length > 0 ? react_1["default"].createElement("button", {
+        type: "button",
+        className: "ml-6 text-sm text-gray-400 underline cursor-pointer",
+        onClick: function onClick() {
+          return manageApiTokenPermissions(token);
+        }
+      }, "Permissions") : null, react_1["default"].createElement("button", {
+        type: "button",
+        className: "ml-6 text-sm text-red-500 cursor-pointer",
+        onClick: function onClick() {
+          return confirmApiTokenDeletion(token);
+        }
+      }, "Delete")));
+    }))
+  }))) : null, react_1["default"].createElement(DialogModal_1["default"], {
+    on: state.displayingToken,
+    onClose: function onClose() {
+      return updateState({
+        displayingToken: false
+      });
+    },
+    title: "API Token",
+    content: react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", null, "Please copy your new API token. For your security, it won't be shown again."), jetstream.flash.token ? react_1["default"].createElement("div", {
+      className: "px-4 py-2 mt-4 font-mono text-sm text-gray-500 bg-gray-100 rounded"
+    }, jetstream.flash.token) : null),
+    footer: react_1["default"].createElement(Button_1["default"], {
+      variant: "secondary",
+      onClick: function onClick() {
+        return updateState({
+          displayingToken: false
+        });
+      }
+    }, "Close")
+  }), react_1["default"].createElement(DialogModal_1["default"], {
+    on: !!state.managingPermissionsFor,
+    onClose: function onClose() {
+      return updateState({
+        managingPermissionsFor: null
+      });
+    },
+    title: "API Token Permissions",
+    content: react_1["default"].createElement("div", {
+      className: "grid grid-cols-1 gap-4 md:grid-cols-2"
+    }, availablePermissions.map(function (permission) {
+      return react_1["default"].createElement("div", {
+        key: permission
+      }, react_1["default"].createElement("label", {
+        className: "flex items-center"
+      }, react_1["default"].createElement(Checkbox_1["default"], {
+        value: permission,
+        checked: isChecked(permission, updateApiTokenForm.data.permissions),
+        onChange: checkboxArrayChangeHandler(permission, updateApiTokenForm.data.permissions, function (newValue) {
+          return updateApiTokenForm.setField('permissions', newValue);
+        })
+      }), react_1["default"].createElement("span", {
+        className: "ml-2 text-sm text-gray-600"
+      }, permission)));
+    })),
+    footer: react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(Button_1["default"], {
+      variant: "secondary",
+      onClick: function onClick() {
+        return updateState({
+          managingPermissionsFor: null
+        });
+      }
+    }, "Never Mind"), react_1["default"].createElement(Button_1["default"], {
+      onClick: updateApiToken,
+      className: ['ml-2', updateApiTokenForm.isProcessing ? 'opacity-25' : ''].join(' '),
+      disabled: updateApiTokenForm.isProcessing
+    }, "Save"))
+  }), react_1["default"].createElement(ConfirmationModal_1["default"], {
+    on: !!state.apiTokenBeingDeleted,
+    onClose: function onClose() {
+      return updateState({
+        apiTokenBeingDeleted: null
+      });
+    },
+    title: "Delete API Token",
+    content: "Are you sure you would like to delete this API token?",
+    footer: react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(Button_1["default"], {
+      variant: "secondary",
+      onClick: function onClick() {
+        return updateState({
+          apiTokenBeingDeleted: null
+        });
+      }
+    }, "Never Mind"), react_1["default"].createElement(Button_1["default"], {
+      variant: "danger",
+      onClick: deleteApiToken,
+      className: ['ml-2', deleteApiTokenForm.isProcessing ? 'opacity-25' : ''].join(' '),
+      disabled: deleteApiTokenForm.isProcessing
+    }, "Delete"))
+  }));
+};
+
+exports.default = ApiTokenManager;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Auth/ConfirmPassword.tsx":
+/*!*****************************************************!*\
+  !*** ./resources/js/Pages/Auth/ConfirmPassword.tsx ***!
+  \*****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var inertia_1 = __importDefault(__webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js"));
+
+var AuthenticationCard_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCard */ "./resources/js/Components/AuthenticationCard.tsx"));
+
+var AuthenticationCardLogo_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCardLogo */ "./resources/js/Components/AuthenticationCardLogo.tsx"));
+
+var ValidationErrors_1 = __importDefault(__webpack_require__(/*! ../../Components/ValidationErrors */ "./resources/js/Components/ValidationErrors.tsx"));
+
+var Input_1 = __importDefault(__webpack_require__(/*! ../../Components/Input */ "./resources/js/Components/Input.tsx"));
+
+var Label_1 = __importDefault(__webpack_require__(/*! ../../Components/Label */ "./resources/js/Components/Label.tsx"));
+
+var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
+
+var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.ts"));
+
+var ConfirmPassword = function ConfirmPassword() {
+  var _useForm_1$default = useForm_1["default"]({
+    password: ''
+  }),
+      data = _useForm_1$default.data,
+      useField = _useForm_1$default.useField,
+      status = _useForm_1$default.status,
+      submit = _useForm_1$default.submit;
+
+  var isProcessing = status === 'processing';
+
+  var _useField = useField('password'),
+      _useField2 = _slicedToArray(_useField, 2),
+      password = _useField2[0],
+      setPassword = _useField2[1];
+
+  var formHandler = function formHandler(e) {
+    e.preventDefault();
+    submit(new Promise(function (resolve) {
+      // @ts-ignore
+      inertia_1["default"].post(route('password.confirm'), data, {
+        onFinish: function onFinish() {
+          return resolve('reset');
+        }
+      });
+    }));
+  };
+
+  return react_1["default"].createElement(AuthenticationCard_1["default"], {
+    logo: react_1["default"].createElement(AuthenticationCardLogo_1["default"], null)
+  }, react_1["default"].createElement("div", {
+    className: "mb-4 text-sm text-gray-600"
+  }, "This is a secure area of the application. Please confirm your password before continuing."), react_1["default"].createElement(ValidationErrors_1["default"], {
+    className: "mb-4"
+  }), react_1["default"].createElement("form", {
+    onSubmit: formHandler
+  }, react_1["default"].createElement("div", null, react_1["default"].createElement(Label_1["default"], {
+    htmlFor: "password",
+    value: "Password"
+  }), react_1["default"].createElement(Input_1["default"], {
+    id: "password",
+    type: "password",
+    className: "block w-full mt-1",
+    value: password,
+    onChange: function onChange(value) {
+      return setPassword(value);
+    },
+    required: true,
+    autoComplete: "current-password",
+    autoFocus: true
+  })), react_1["default"].createElement("div", {
+    className: "flex justify-end mt-4"
+  }, react_1["default"].createElement(Button_1["default"], {
+    className: ['ml-4', isProcessing ? 'opacity-25' : ''].join(' '),
+    disabled: isProcessing
+  }, "Confirm"))));
+};
+
+exports.default = ConfirmPassword;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Auth/ForgotPassword.tsx":
+/*!****************************************************!*\
+  !*** ./resources/js/Pages/Auth/ForgotPassword.tsx ***!
+  \****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var inertia_1 = __importDefault(__webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js"));
+
+var AuthenticationCard_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCard */ "./resources/js/Components/AuthenticationCard.tsx"));
+
+var AuthenticationCardLogo_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCardLogo */ "./resources/js/Components/AuthenticationCardLogo.tsx"));
+
+var ValidationErrors_1 = __importDefault(__webpack_require__(/*! ../../Components/ValidationErrors */ "./resources/js/Components/ValidationErrors.tsx"));
+
+var Input_1 = __importDefault(__webpack_require__(/*! ../../Components/Input */ "./resources/js/Components/Input.tsx"));
+
+var Label_1 = __importDefault(__webpack_require__(/*! ../../Components/Label */ "./resources/js/Components/Label.tsx"));
+
+var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
+
+var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.ts"));
+
+var ForgotPassword = function ForgotPassword(_ref) {
+  var _ref$status = _ref.status,
+      status = _ref$status === void 0 ? '' : _ref$status;
+
+  var _useForm_1$default = useForm_1["default"]({
+    email: ''
+  }),
+      data = _useForm_1$default.data,
+      useField = _useForm_1$default.useField,
+      formStatus = _useForm_1$default.status,
+      submit = _useForm_1$default.submit;
+
+  var isProcessing = formStatus === 'processing';
+
+  var _useField = useField('email'),
+      _useField2 = _slicedToArray(_useField, 2),
+      email = _useField2[0],
+      setEmail = _useField2[1];
+
+  var formHandler = function formHandler(e) {
+    e.preventDefault();
+    submit(new Promise(function (resolve) {
+      //   @ts-ignore
+      inertia_1["default"].post(route('password.email'), data, {
+        onFinish: function onFinish() {
+          //   @ts-ignore
+          resolve();
+        }
+      });
+    }));
+  };
+
+  return react_1["default"].createElement(AuthenticationCard_1["default"], {
+    logo: react_1["default"].createElement(AuthenticationCardLogo_1["default"], null)
+  }, react_1["default"].createElement("div", {
+    className: "mb-4 text-sm text-gray-600"
+  }, "Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one."), status ? react_1["default"].createElement("div", {
+    className: "mb-4 text-sm font-medium text-green-600"
+  }, status) : null, react_1["default"].createElement(ValidationErrors_1["default"], {
+    className: "mb-4"
+  }), react_1["default"].createElement("form", {
+    onSubmit: formHandler
+  }, react_1["default"].createElement("div", null, react_1["default"].createElement(Label_1["default"], {
+    htmlFor: "email",
+    value: "Email"
+  }), react_1["default"].createElement(Input_1["default"], {
+    id: "email",
+    type: "email",
+    className: "block w-full mt-1",
+    value: email,
+    onChange: function onChange(value) {
+      return setEmail(value);
+    },
+    required: true,
+    autoFocus: true
+  })), react_1["default"].createElement("div", {
+    className: "flex items-center justify-end mt-4"
+  }, react_1["default"].createElement(Button_1["default"], {
+    className: isProcessing ? 'opacity-25' : '',
+    disabled: isProcessing
+  }, "Email Password Reset Link"))));
+};
+
+exports.default = ForgotPassword;
 
 /***/ }),
 
@@ -2358,21 +7395,21 @@ var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@i
 
 var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
 
-var AuthenticationCard_1 = __webpack_require__(/*! ../../Components/AuthenticationCard */ "./resources/js/Components/AuthenticationCard.tsx");
+var AuthenticationCard_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCard */ "./resources/js/Components/AuthenticationCard.tsx"));
 
-var AuthenticationCardLogo_1 = __webpack_require__(/*! ../../Components/AuthenticationCardLogo */ "./resources/js/Components/AuthenticationCardLogo.tsx");
+var AuthenticationCardLogo_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCardLogo */ "./resources/js/Components/AuthenticationCardLogo.tsx"));
 
-var ValidationErrors_1 = __webpack_require__(/*! ../../Components/ValidationErrors */ "./resources/js/Components/ValidationErrors.tsx");
+var ValidationErrors_1 = __importDefault(__webpack_require__(/*! ../../Components/ValidationErrors */ "./resources/js/Components/ValidationErrors.tsx"));
 
-var Input_1 = __webpack_require__(/*! ../../Components/Input */ "./resources/js/Components/Input.tsx");
+var Input_1 = __importDefault(__webpack_require__(/*! ../../Components/Input */ "./resources/js/Components/Input.tsx"));
 
-var Label_1 = __webpack_require__(/*! ../../Components/Label */ "./resources/js/Components/Label.tsx");
+var Label_1 = __importDefault(__webpack_require__(/*! ../../Components/Label */ "./resources/js/Components/Label.tsx"));
 
-var Button_1 = __webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx");
+var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
 
-var Checkbox_1 = __webpack_require__(/*! ../../Components/Checkbox */ "./resources/js/Components/Checkbox.tsx");
+var Checkbox_1 = __importDefault(__webpack_require__(/*! ../../Components/Checkbox */ "./resources/js/Components/Checkbox.tsx"));
 
-var useForm_1 = __importDefault(__webpack_require__(/*! ../../hooks/useForm */ "./resources/js/hooks/useForm.ts"));
+var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.ts"));
 
 var Login = function Login(_ref) {
   var _ref$status = _ref.status,
@@ -2423,41 +7460,41 @@ var Login = function Login(_ref) {
     }));
   };
 
-  return react_1["default"].createElement(AuthenticationCard_1.AuthenticationCard, {
-    logo: react_1["default"].createElement(AuthenticationCardLogo_1.AuthenticationCardLogo, null)
+  return react_1["default"].createElement(AuthenticationCard_1["default"], {
+    logo: react_1["default"].createElement(AuthenticationCardLogo_1["default"], null)
   }, react_1["default"].createElement("div", {
     className: "mb-4 text-sm text-gray-600"
-  }, "This is a secure area of the application. Please confirm your password before continuing."), react_1["default"].createElement(ValidationErrors_1.ValidationErrors, {
+  }, "This is a secure area of the application. Please confirm your password before continuing."), react_1["default"].createElement(ValidationErrors_1["default"], {
     className: "mb-4"
   }), status ? react_1["default"].createElement("div", {
     className: "mb-4 text-sm font-medium text-green-600"
   }, status) : null, react_1["default"].createElement("form", {
     onSubmit: formHandler
-  }, react_1["default"].createElement("div", null, react_1["default"].createElement(Label_1.Label, {
+  }, react_1["default"].createElement("div", null, react_1["default"].createElement(Label_1["default"], {
     htmlFor: "email",
     value: "Email"
-  }), react_1["default"].createElement(Input_1.Input, {
+  }), react_1["default"].createElement(Input_1["default"], {
     id: "email",
     type: "email",
     className: "block w-full mt-1",
     value: email,
-    onChange: function onChange(value) {
-      return setEmail(value);
+    onChange: function onChange(e) {
+      return setEmail(e.target.value);
     },
     required: true,
     autoFocus: true
   })), react_1["default"].createElement("div", {
     className: "mt-4"
-  }, react_1["default"].createElement(Label_1.Label, {
+  }, react_1["default"].createElement(Label_1["default"], {
     htmlFor: "password",
     value: "Password"
-  }), react_1["default"].createElement(Input_1.Input, {
+  }), react_1["default"].createElement(Input_1["default"], {
     id: "password",
     type: "password",
     className: "block w-full mt-1",
     value: password,
-    onChange: function onChange(value) {
-      return setPassword(value);
+    onChange: function onChange(e) {
+      return setPassword(e.target.value);
     },
     required: true,
     autoComplete: "current-password"
@@ -2465,11 +7502,11 @@ var Login = function Login(_ref) {
     className: "block mt-4"
   }, react_1["default"].createElement("label", {
     className: "flex items-center"
-  }, react_1["default"].createElement(Checkbox_1.Checkbox, {
+  }, react_1["default"].createElement(Checkbox_1["default"], {
     name: "remember",
     checked: remember,
-    onChange: function onChange(value) {
-      return setRemember(value);
+    onChange: function onChange(e) {
+      return setRemember(e.target.value);
     }
   }), react_1["default"].createElement("span", {
     className: "ml-2 text-sm text-gray-600"
@@ -2480,13 +7517,1792 @@ var Login = function Login(_ref) {
     //@ts-ignore
     href: route('password.request'),
     className: "text-sm text-gray-600 underline hover:text-gray-900"
-  }, "Forgot your password?"), ' ') : null, react_1["default"].createElement(Button_1.Button, {
+  }, "Forgot your password?")) : null, react_1["default"].createElement(Button_1["default"], {
     className: ['ml-4', isProcessing ? 'opacity-25' : ''].join(' '),
     disabled: isProcessing
   }, "Log in"))));
 };
 
 exports.default = Login;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Auth/Register.tsx":
+/*!**********************************************!*\
+  !*** ./resources/js/Pages/Auth/Register.tsx ***!
+  \**********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+
+var AuthenticationCard_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCard */ "./resources/js/Components/AuthenticationCard.tsx"));
+
+var AuthenticationCardLogo_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCardLogo */ "./resources/js/Components/AuthenticationCardLogo.tsx"));
+
+var ValidationErrors_1 = __importDefault(__webpack_require__(/*! ../../Components/ValidationErrors */ "./resources/js/Components/ValidationErrors.tsx"));
+
+var Input_1 = __importDefault(__webpack_require__(/*! ../../Components/Input */ "./resources/js/Components/Input.tsx"));
+
+var Label_1 = __importDefault(__webpack_require__(/*! ../../Components/Label */ "./resources/js/Components/Label.tsx"));
+
+var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
+
+var Checkbox_1 = __importDefault(__webpack_require__(/*! ../../Components/Checkbox */ "./resources/js/Components/Checkbox.tsx"));
+
+var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.ts"));
+
+var Register = function Register() {
+  var _useForm_1$default = useForm_1["default"]({
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+    terms: false
+  }),
+      data = _useForm_1$default.data,
+      useField = _useForm_1$default.useField,
+      formStatus = _useForm_1$default.status,
+      submit = _useForm_1$default.submit,
+      reset = _useForm_1$default.reset;
+
+  var isProcessing = formStatus === 'processing';
+
+  var _useField = useField('name'),
+      _useField2 = _slicedToArray(_useField, 2),
+      name = _useField2[0],
+      setName = _useField2[1];
+
+  var _useField3 = useField('email'),
+      _useField4 = _slicedToArray(_useField3, 2),
+      email = _useField4[0],
+      setEmail = _useField4[1];
+
+  var _useField5 = useField('password'),
+      _useField6 = _slicedToArray(_useField5, 2),
+      password = _useField6[0],
+      setPassword = _useField6[1];
+
+  var _useField7 = useField('password_confirmation'),
+      _useField8 = _slicedToArray(_useField7, 2),
+      passwordConfirmation = _useField8[0],
+      setPasswordConfirmation = _useField8[1];
+
+  var _useField9 = useField('terms'),
+      _useField10 = _slicedToArray(_useField9, 2),
+      terms = _useField10[0],
+      setTerms = _useField10[1]; //   @ts-ignore
+
+
+  var jetstream = inertia_react_1.usePage().props.jetstream;
+
+  var formHandler = function formHandler(e) {
+    e.preventDefault();
+    submit(new Promise(function (resolve) {
+      //   @ts-ignore
+      inertia_1.Inertia.post(route('register'), data, {
+        onFinish: function onFinish() {
+          //   @ts-ignore
+          resolve();
+          reset('password', 'password_confirmation');
+        }
+      });
+    }));
+  };
+
+  return react_1["default"].createElement(AuthenticationCard_1["default"], {
+    logo: react_1["default"].createElement(AuthenticationCardLogo_1["default"], null)
+  }, react_1["default"].createElement(ValidationErrors_1["default"], {
+    className: "mb-4"
+  }), react_1["default"].createElement("form", {
+    onSubmit: formHandler
+  }, react_1["default"].createElement("div", null, react_1["default"].createElement(Label_1["default"], {
+    htmlFor: "name",
+    value: "Name"
+  }), react_1["default"].createElement(Input_1["default"], {
+    id: "name",
+    type: "text",
+    className: "block w-full mt-1",
+    value: name,
+    onChange: function onChange(value) {
+      return setName(value);
+    },
+    required: true,
+    autoFocus: true,
+    autoComplete: "name"
+  })), react_1["default"].createElement("div", {
+    className: "mt-4"
+  }, react_1["default"].createElement(Label_1["default"], {
+    htmlFor: "email",
+    value: "Email"
+  }), react_1["default"].createElement(Input_1["default"], {
+    id: "email",
+    type: "email",
+    className: "block w-full mt-1",
+    value: email,
+    onChange: function onChange(value) {
+      return setEmail(value);
+    },
+    required: true
+  })), react_1["default"].createElement("div", {
+    className: "mt-4"
+  }, react_1["default"].createElement(Label_1["default"], {
+    htmlFor: "password",
+    value: "Password"
+  }), react_1["default"].createElement(Input_1["default"], {
+    id: "password",
+    type: "password",
+    className: "block w-full mt-1",
+    value: password,
+    onChange: function onChange(value) {
+      return setPassword(value);
+    },
+    required: true,
+    autoComplete: "new-password"
+  })), react_1["default"].createElement("div", {
+    className: "mt-4"
+  }, react_1["default"].createElement(Label_1["default"], {
+    htmlFor: "password_confirmation",
+    value: "Confirm Password"
+  }), react_1["default"].createElement(Input_1["default"], {
+    id: "password_confirmation",
+    type: "password",
+    className: "block w-full mt-1",
+    value: passwordConfirmation,
+    onChange: function onChange(value) {
+      return setPasswordConfirmation(value);
+    },
+    required: true,
+    autoComplete: "new-password"
+  })), jetstream.hasTermsAndPrivacyPolicyFeature ? react_1["default"].createElement("div", {
+    className: "mt-4"
+  }, react_1["default"].createElement(Label_1["default"], {
+    htmlFor: "terms"
+  }, react_1["default"].createElement("div", {
+    className: "flex items-center"
+  }, react_1["default"].createElement(Checkbox_1["default"], {
+    name: "terms",
+    id: "terms",
+    checked: terms,
+    onChange: function onChange(value) {
+      return setTerms(value);
+    }
+  }), react_1["default"].createElement("div", {
+    className: "ml-2"
+  }, "I agree to the", react_1["default"].createElement("a", {
+    target: "_blank",
+    rel: "noreferrer",
+    //   @ts-ignore
+    href: route('terms.show'),
+    className: "text-sm text-gray-600 underline hover:text-gray-900"
+  }, "Terms of Service"), "and", react_1["default"].createElement("a", {
+    target: "_blank",
+    rel: "noreferrer",
+    //   @ts-ignore
+    href: route('policy.show'),
+    className: "text-sm text-gray-600 underline hover:text-gray-900"
+  }, "Privacy Policy"))))) : null, react_1["default"].createElement("div", {
+    className: "flex items-center justify-end mt-4"
+  }, react_1["default"].createElement(inertia_react_1.InertiaLink, {
+    href: route('login'),
+    className: "text-sm text-gray-600 underline hover:text-gray-900"
+  }, "Already registered?"), react_1["default"].createElement(Button_1["default"], {
+    className: ['ml-4', isProcessing ? 'opacity-25' : ''].join(' '),
+    disabled: isProcessing
+  }, "Register"))));
+};
+
+exports.default = Register;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Auth/ResetPassword.tsx":
+/*!***************************************************!*\
+  !*** ./resources/js/Pages/Auth/ResetPassword.tsx ***!
+  \***************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
+var AuthenticationCard_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCard */ "./resources/js/Components/AuthenticationCard.tsx"));
+
+var AuthenticationCardLogo_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCardLogo */ "./resources/js/Components/AuthenticationCardLogo.tsx"));
+
+var ValidationErrors_1 = __importDefault(__webpack_require__(/*! ../../Components/ValidationErrors */ "./resources/js/Components/ValidationErrors.tsx"));
+
+var Input_1 = __importDefault(__webpack_require__(/*! ../../Components/Input */ "./resources/js/Components/Input.tsx"));
+
+var Label_1 = __importDefault(__webpack_require__(/*! ../../Components/Label */ "./resources/js/Components/Label.tsx"));
+
+var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
+
+var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.ts"));
+
+var ResetPassword = function ResetPassword(_ref) {
+  var email = _ref.email,
+      token = _ref.token;
+
+  var _useForm_1$default = useForm_1["default"]({
+    email: email,
+    token: token,
+    password: '',
+    password_confirmation: ''
+  }),
+      data = _useForm_1$default.data,
+      useField = _useForm_1$default.useField,
+      formStatus = _useForm_1$default.status,
+      submit = _useForm_1$default.submit,
+      reset = _useForm_1$default.reset;
+
+  var isProcessing = formStatus === 'processing';
+
+  var _useField = useField('email'),
+      _useField2 = _slicedToArray(_useField, 2),
+      formEmail = _useField2[0],
+      setFormEmail = _useField2[1];
+
+  var _useField3 = useField('password'),
+      _useField4 = _slicedToArray(_useField3, 2),
+      password = _useField4[0],
+      setPassword = _useField4[1];
+
+  var _useField5 = useField('password_confirmation'),
+      _useField6 = _slicedToArray(_useField5, 2),
+      passwordConfirmation = _useField6[0],
+      setPasswordConfirmation = _useField6[1];
+
+  var formHandler = function formHandler(e) {
+    e.preventDefault();
+    submit(new Promise(function (resolve) {
+      // @ts-ignore
+      inertia_1.Inertia.post(route('password.update'), data, {
+        onFinish: function onFinish() {
+          // @ts-ignore
+          resolve();
+          reset('password', 'password_confirmation');
+        }
+      });
+    }));
+  };
+
+  return react_1["default"].createElement(AuthenticationCard_1["default"], {
+    logo: react_1["default"].createElement(AuthenticationCardLogo_1["default"], null)
+  }, react_1["default"].createElement(ValidationErrors_1["default"], {
+    className: "mb-4"
+  }), react_1["default"].createElement("form", {
+    onSubmit: formHandler
+  }, react_1["default"].createElement("div", null, react_1["default"].createElement(Label_1["default"], {
+    htmlFor: "email",
+    value: "Email"
+  }), react_1["default"].createElement(Input_1["default"], {
+    id: "email",
+    type: "email",
+    className: "block w-full mt-1",
+    value: formEmail,
+    onChange: function onChange(value) {
+      return setFormEmail(value);
+    },
+    required: true,
+    autoFocus: true
+  })), react_1["default"].createElement("div", {
+    className: "mt-4"
+  }, react_1["default"].createElement(Label_1["default"], {
+    htmlFor: "password",
+    value: "Password"
+  }), react_1["default"].createElement(Input_1["default"], {
+    id: "password",
+    type: "password",
+    className: "block w-full mt-1",
+    value: password,
+    onChange: function onChange(value) {
+      return setPassword(value);
+    },
+    required: true,
+    autoComplete: "new-password"
+  })), react_1["default"].createElement("div", {
+    className: "mt-4"
+  }, react_1["default"].createElement(Label_1["default"], {
+    htmlFor: "password_confirmation",
+    value: "Confirm Password"
+  }), react_1["default"].createElement(Input_1["default"], {
+    id: "password_confirmation",
+    type: "password",
+    className: "block w-full mt-1",
+    value: passwordConfirmation,
+    onChange: function onChange(value) {
+      return setPasswordConfirmation(value);
+    },
+    required: true,
+    autoComplete: "new-password"
+  })), react_1["default"].createElement("div", {
+    className: "flex items-center justify-end mt-4"
+  }, react_1["default"].createElement(Button_1["default"], {
+    className: ['ml-4', isProcessing ? 'opacity-25' : ''].join(' '),
+    disabled: isProcessing
+  }, "Reset Password"))));
+};
+
+exports.default = ResetPassword;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Auth/TwoFactorChallenge.tsx":
+/*!********************************************************!*\
+  !*** ./resources/js/Pages/Auth/TwoFactorChallenge.tsx ***!
+  \********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
+var AuthenticationCard_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCard */ "./resources/js/Components/AuthenticationCard.tsx"));
+
+var AuthenticationCardLogo_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCardLogo */ "./resources/js/Components/AuthenticationCardLogo.tsx"));
+
+var ValidationErrors_1 = __importDefault(__webpack_require__(/*! ../../Components/ValidationErrors */ "./resources/js/Components/ValidationErrors.tsx"));
+
+var Input_1 = __importDefault(__webpack_require__(/*! ../../Components/Input */ "./resources/js/Components/Input.tsx"));
+
+var Label_1 = __importDefault(__webpack_require__(/*! ../../Components/Label */ "./resources/js/Components/Label.tsx"));
+
+var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
+
+var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.ts"));
+
+var TwoFactorChallenge = function TwoFactorChallenge() {
+  var _useForm_1$default = useForm_1["default"]({
+    code: '',
+    recovery_code: ''
+  }),
+      data = _useForm_1$default.data,
+      useField = _useForm_1$default.useField,
+      formStatus = _useForm_1$default.status,
+      submit = _useForm_1$default.submit;
+
+  var isProcessing = formStatus === 'processing';
+
+  var _useField = useField('code'),
+      _useField2 = _slicedToArray(_useField, 2),
+      code = _useField2[0],
+      setCode = _useField2[1];
+
+  var _useField3 = useField('recovery_code'),
+      _useField4 = _slicedToArray(_useField3, 2),
+      recoveryCode = _useField4[0],
+      setRecoveryCode = _useField4[1];
+
+  var _react_1$default$useS = react_1["default"].useState(false),
+      _react_1$default$useS2 = _slicedToArray(_react_1$default$useS, 2),
+      recovery = _react_1$default$useS2[0],
+      setRecovery = _react_1$default$useS2[1];
+
+  var formHandler = function formHandler(e) {
+    e.preventDefault();
+    submit(new Promise(function (resolve) {
+      // @ts-ignore
+      inertia_1.Inertia.post(route('two-factor.login'), data, {
+        onFinish: function onFinish() {
+          // @ts-ignore
+          resolve();
+        }
+      });
+    }));
+  };
+
+  return react_1["default"].createElement(AuthenticationCard_1["default"], {
+    logo: react_1["default"].createElement(AuthenticationCardLogo_1["default"], null)
+  }, react_1["default"].createElement("div", {
+    className: "mb-4 text-sm text-gray-600"
+  }, !recovery ? 'Please confirm access to your account by entering the authentication code provided by your authenticator application.' : 'Please confirm access to your account by entering one of your emergency recovery codes.'), react_1["default"].createElement(ValidationErrors_1["default"], {
+    className: "mb-4"
+  }), react_1["default"].createElement("form", {
+    onSubmit: formHandler
+  }, !recovery ? react_1["default"].createElement("div", null, react_1["default"].createElement(Label_1["default"], {
+    htmlFor: "code",
+    value: "Code"
+  }), react_1["default"].createElement(Input_1["default"], {
+    id: "code",
+    type: "text",
+    inputMode: "numeric",
+    className: "block w-full mt-1",
+    value: code,
+    onChange: function onChange(value) {
+      return setCode(value);
+    },
+    autoFocus: true,
+    autoComplete: "one-time-code"
+  })) : react_1["default"].createElement("div", null, react_1["default"].createElement(Label_1["default"], {
+    htmlFor: "recovery_code",
+    value: "Recovery Code"
+  }), react_1["default"].createElement(Input_1["default"], {
+    id: "recovery_code",
+    type: "text",
+    className: "block w-full mt-1",
+    value: recoveryCode,
+    onChange: function onChange(value) {
+      return setRecoveryCode(value);
+    },
+    autoComplete: "one-time-code"
+  })), react_1["default"].createElement("div", {
+    className: "flex items-center justify-end mt-4"
+  }, react_1["default"].createElement("button", {
+    type: "button",
+    className: "text-sm text-gray-600 underline cursor-pointer hover:text-gray-900",
+    onClick: function onClick() {
+      return setRecovery(!recovery);
+    }
+  }, !recovery ? 'Use a recovery code' : 'Use an authentication code'), react_1["default"].createElement(Button_1["default"], {
+    className: ['ml-4', isProcessing ? 'opacity-25' : ''].join(' '),
+    disabled: isProcessing
+  }, "Log in"))));
+};
+
+exports.default = TwoFactorChallenge;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Auth/VerifyEmail.tsx":
+/*!*************************************************!*\
+  !*** ./resources/js/Pages/Auth/VerifyEmail.tsx ***!
+  \*************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+
+var AuthenticationCard_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCard */ "./resources/js/Components/AuthenticationCard.tsx"));
+
+var AuthenticationCardLogo_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCardLogo */ "./resources/js/Components/AuthenticationCardLogo.tsx"));
+
+var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
+
+var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.ts"));
+
+var VerifyEmail = function VerifyEmail(_ref) {
+  var _ref$status = _ref.status,
+      status = _ref$status === void 0 ? '' : _ref$status;
+
+  var _useForm_1$default = useForm_1["default"]({
+    email: '',
+    password: '',
+    remember: false
+  }),
+      formStatus = _useForm_1$default.status,
+      submit = _useForm_1$default.submit;
+
+  var isProcessing = formStatus === 'processing';
+
+  var formHandler = function formHandler(e) {
+    e.preventDefault();
+    submit(new Promise(function (resolve) {
+      inertia_1.Inertia.post( // @ts-ignore
+      route('verification.send'), {}, {
+        onFinish: function onFinish() {
+          // @ts-ignore
+          resolve();
+        }
+      });
+    }));
+  };
+
+  return react_1["default"].createElement(AuthenticationCard_1["default"], {
+    logo: react_1["default"].createElement(AuthenticationCardLogo_1["default"], null)
+  }, react_1["default"].createElement("div", {
+    className: "mb-4 text-sm text-gray-600"
+  }, "Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another."), status === 'verification-link-sent' ? react_1["default"].createElement("div", {
+    className: "mb-4 text-sm font-medium text-green-600"
+  }, "A new verification link has been sent to the email address you provided during registration.") : null, react_1["default"].createElement("form", {
+    onSubmit: formHandler
+  }, react_1["default"].createElement("div", {
+    className: "flex items-center justify-between mt-4"
+  }, react_1["default"].createElement(Button_1["default"], {
+    className: ['ml-4', isProcessing ? 'opacity-25' : ''].join(' '),
+    disabled: isProcessing
+  }, "Resend Verification Email"), react_1["default"].createElement(inertia_react_1.InertiaLink // @ts-ignore
+  , {
+    // @ts-ignore
+    href: route('logout'),
+    className: "text-sm text-gray-600 underline hover:text-gray-900",
+    method: "post",
+    as: "button"
+  }, "Log Out"))));
+};
+
+exports.default = VerifyEmail;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Dashboard.tsx":
+/*!******************************************!*\
+  !*** ./resources/js/Pages/Dashboard.tsx ***!
+  \******************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var React = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var AppLayout_1 = __importDefault(__webpack_require__(/*! ..//Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.tsx"));
+
+var Welcome_1 = __importDefault(__webpack_require__(/*! ./../Components/Welcome */ "./resources/js/Components/Welcome.tsx"));
+
+var Dashboard = function Dashboard() {
+  return React.createElement(AppLayout_1["default"], {
+    header: React.createElement("h2", {
+      className: "text-xl font-semibold leading-tight text-gray-800"
+    }, "Dashboard")
+  }, React.createElement("div", {
+    className: "py-12"
+  }, React.createElement("div", {
+    className: "mx-auto max-w-7xl sm:px-6 lg:px-8"
+  }, React.createElement("div", {
+    className: "overflow-hidden bg-white shadow-xl sm:rounded-lg"
+  }, React.createElement(Welcome_1["default"], null)))));
+};
+
+exports.default = Dashboard;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Profile/DeleteUserForm.tsx":
+/*!*******************************************************!*\
+  !*** ./resources/js/Pages/Profile/DeleteUserForm.tsx ***!
+  \*******************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
+var useKeyPress_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useKeyPress */ "./resources/js/Hooks/useKeyPress.ts"));
+
+var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.ts"));
+
+var ActionSection_1 = __importDefault(__webpack_require__(/*! ../../Components/ActionSection */ "./resources/js/Components/ActionSection.tsx"));
+
+var ConfirmationModal_1 = __importDefault(__webpack_require__(/*! ../../Components/ConfirmationModal */ "./resources/js/Components/ConfirmationModal.tsx"));
+
+var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
+
+var Input_1 = __importDefault(__webpack_require__(/*! ../../Components/Input */ "./resources/js/Components/Input.tsx"));
+
+var InputError_1 = __importDefault(__webpack_require__(/*! ../../Components/InputError */ "./resources/js/Components/InputError.tsx"));
+
+var DeleteUserForm = function DeleteUserForm(_a) {
+  var _b;
+
+  var props = __rest(_a, []);
+
+  var _react_1$default$useS = react_1["default"].useState(false),
+      _react_1$default$useS2 = _slicedToArray(_react_1$default$useS, 2),
+      confirmingUserDeletion = _react_1$default$useS2[0],
+      setConfirmingUserDeletion = _react_1$default$useS2[1];
+
+  var _useForm_1$default = useForm_1["default"]({
+    password: ''
+  }),
+      data = _useForm_1$default.data,
+      useField = _useForm_1$default.useField,
+      isProcessing = _useForm_1$default.isProcessing,
+      submit = _useForm_1$default.submit,
+      errors = _useForm_1$default.errors,
+      reset = _useForm_1$default.reset;
+
+  var _useField = useField('password'),
+      _useField2 = _slicedToArray(_useField, 2),
+      password = _useField2[0],
+      setPassword = _useField2[1];
+
+  var passwordRef = react_1["default"].useRef(null);
+
+  var closeModal = function closeModal() {
+    setConfirmingUserDeletion(false);
+    reset();
+  };
+
+  var deleteUser = function deleteUser() {
+    submit(new Promise(function (resolve) {
+      // @ts-ignore
+      inertia_1.Inertia["delete"](route('current-user.destroy'), {
+        errorBag: 'deleteUser',
+        preserveScroll: true,
+        onSuccess: function onSuccess() {
+          return closeModal();
+        },
+        // @ts-ignore
+        onError: function onError() {
+          return passwordRef.current.focus();
+        },
+        onFinish: function onFinish() {
+          return resolve('reset');
+        }
+      });
+    }));
+  };
+
+  return react_1["default"].createElement(ActionSection_1["default"], Object.assign({}, props, {
+    title: "Delete Account",
+    description: "Permanently delete your account.",
+    content: react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", {
+      className: "max-w-xl text-sm text-gray-600"
+    }, "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain."), react_1["default"].createElement("div", {
+      className: "mt-5"
+    }, react_1["default"].createElement(Button_1["default"], {
+      variant: "danger",
+      onClick: function onClick() {
+        return setConfirmingUserDeletion(true);
+      }
+    }, "Delete Account")), react_1["default"].createElement(ConfirmationModal_1["default"], {
+      on: confirmingUserDeletion,
+      onClose: closeModal,
+      title: "Delete Account",
+      content: react_1["default"].createElement(react_1["default"].Fragment, null, "Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.", react_1["default"].createElement("div", {
+        className: "mt-4"
+      }, react_1["default"].createElement(Input_1["default"], {
+        type: "password",
+        fieldRef: passwordRef,
+        className: "block w-3/4 mt-1",
+        placeholder: "Password",
+        value: password,
+        onChange: function onChange(value) {
+          return setPassword(value);
+        },
+        onKeyPress: useKeyPress_1["default"]('Enter', deleteUser)
+      }), react_1["default"].createElement(InputError_1["default"], {
+        message: (_b = errors === null || errors === void 0 ? void 0 : errors.deleteUser) === null || _b === void 0 ? void 0 : _b.password,
+        className: "mt-2"
+      }))),
+      footer: react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(Button_1["default"], {
+        variant: "secondary",
+        onClick: closeModal
+      }, "Never mind"), react_1["default"].createElement(Button_1["default"], {
+        variant: "danger",
+        className: ['ml-2', isProcessing ? 'opacity-25' : ''].join(' '),
+        onClick: deleteUser,
+        disabled: isProcessing
+      }, "Delete Account"))
+    }))
+  }));
+};
+
+exports.default = DeleteUserForm;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Profile/LogoutOtherBrowserSessionsForm.tsx":
+/*!***********************************************************************!*\
+  !*** ./resources/js/Pages/Profile/LogoutOtherBrowserSessionsForm.tsx ***!
+  \***********************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var ActionSection_1 = __importDefault(__webpack_require__(/*! ../../Components/ActionSection */ "./resources/js/Components/ActionSection.tsx"));
+
+var ActionMessage_1 = __importDefault(__webpack_require__(/*! ../../Components/ActionMessage */ "./resources/js/Components/ActionMessage.tsx"));
+
+var ConfirmationModal_1 = __importDefault(__webpack_require__(/*! ../../Components/ConfirmationModal */ "./resources/js/Components/ConfirmationModal.tsx"));
+
+var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
+
+var Input_1 = __importDefault(__webpack_require__(/*! ../../Components/Input */ "./resources/js/Components/Input.tsx"));
+
+var InputError_1 = __importDefault(__webpack_require__(/*! ../../Components/InputError */ "./resources/js/Components/InputError.tsx"));
+
+var useKeyPress_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useKeyPress */ "./resources/js/Hooks/useKeyPress.ts"));
+
+var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.ts"));
+
+var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
+var LogoutOtherBrowserSessionsForm = function LogoutOtherBrowserSessionsForm(_a) {
+  var sessions = _a.sessions,
+      props = __rest(_a, ["sessions"]);
+
+  var _react_1$default$useS = react_1["default"].useState(false),
+      _react_1$default$useS2 = _slicedToArray(_react_1$default$useS, 2),
+      confirmingLogout = _react_1$default$useS2[0],
+      setConfirmingLogout = _react_1$default$useS2[1];
+
+  var _useForm_1$default = useForm_1["default"]({
+    errorBag: 'logoutOtherBrowserSessions',
+    password: ''
+  }),
+      data = _useForm_1$default.data,
+      useField = _useForm_1$default.useField,
+      isProcessing = _useForm_1$default.isProcessing,
+      submit = _useForm_1$default.submit,
+      reset = _useForm_1$default.reset,
+      errors = _useForm_1$default.errors,
+      status = _useForm_1$default.status;
+
+  var _useField = useField('password'),
+      _useField2 = _slicedToArray(_useField, 2),
+      password = _useField2[0],
+      setPassword = _useField2[1];
+
+  var passwordRef = react_1["default"].useRef(null);
+
+  var confirmLogout = function confirmLogout() {
+    setConfirmingLogout(true); // @ts-ignore
+
+    setTimeout(function () {
+      return passwordRef.current.focus();
+    }, 250);
+  };
+
+  var closeModal = function closeModal() {
+    setConfirmingLogout(false);
+    reset();
+  };
+
+  var logoutOtherBrowserSessions = function logoutOtherBrowserSessions() {
+    submit(new Promise(function (resolve) {
+      // @ts-ignore
+      inertia_1.Inertia["delete"](route('other-browser-sessions.destroy'), {
+        preserveScroll: true,
+        errorBag: 'logoutOtherBrowserSessions',
+        onSuccess: function onSuccess() {
+          return closeModal();
+        },
+        // @ts-ignore
+        onError: function onError() {
+          return passwordRef.current.focus();
+        },
+        // @ts-ignore
+        onFinish: function onFinish() {
+          return resolve();
+        }
+      });
+    }));
+  };
+
+  return react_1["default"].createElement(ActionSection_1["default"], Object.assign({}, props, {
+    title: "Browser Sessions",
+    description: "Manage and log out your active sessions on other browsers and devices.",
+    content: react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", {
+      className: "max-w-xl text-sm text-gray-600"
+    }, "If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password."), sessions.length > 0 ? react_1["default"].createElement("div", {
+      className: "mt-5 space-y-6"
+    }, sessions.map(function (session, i) {
+      return (// eslint-disable-next-line react/no-array-index-key
+        react_1["default"].createElement("div", {
+          className: "flex items-center",
+          key: i
+        }, react_1["default"].createElement("div", null, session.agent.is_desktop ? react_1["default"].createElement("svg", {
+          fill: "none",
+          strokeLinecap: "round",
+          strokeLinejoin: "round",
+          strokeWidth: "2",
+          viewBox: "0 0 24 24",
+          stroke: "currentColor",
+          className: "w-8 h-8 text-gray-500"
+        }, react_1["default"].createElement("path", {
+          d: "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+        })) : react_1["default"].createElement("svg", {
+          xmlns: "http://www.w3.org/2000/svg",
+          viewBox: "0 0 24 24",
+          strokeWidth: "2",
+          stroke: "currentColor",
+          fill: "none",
+          strokeLinecap: "round",
+          strokeLinejoin: "round",
+          className: "w-8 h-8 text-gray-500"
+        }, react_1["default"].createElement("path", {
+          d: "M0 0h24v24H0z",
+          stroke: "none"
+        }), react_1["default"].createElement("rect", {
+          x: "7",
+          y: "4",
+          width: "10",
+          height: "16",
+          rx: "1"
+        }), react_1["default"].createElement("path", {
+          d: "M11 5h2M12 17v.01"
+        }))), react_1["default"].createElement("div", {
+          className: "ml-3"
+        }, react_1["default"].createElement("div", {
+          className: "text-sm text-gray-600"
+        }, "".concat(session.agent.platform, " - ").concat(session.agent.browser)), react_1["default"].createElement("div", null, react_1["default"].createElement("div", {
+          className: "text-xs text-gray-500"
+        }, session.ip_address, ",", session.is_current_device ? react_1["default"].createElement("span", {
+          className: "font-semibold text-green-500"
+        }, "This device") : react_1["default"].createElement("span", null, "Last active ".concat(session.last_active))))))
+      );
+    })) : null, react_1["default"].createElement("div", {
+      className: "flex items-center mt-5"
+    }, react_1["default"].createElement(Button_1["default"], {
+      onClick: confirmLogout
+    }, "Log Out Other Browser Sessions"), react_1["default"].createElement(ActionMessage_1["default"], {
+      on: status === 'recentlySuccessful',
+      className: "ml-3"
+    }, "Done.")), react_1["default"].createElement(ConfirmationModal_1["default"], {
+      on: confirmingLogout,
+      onClose: closeModal,
+      title: "Log Out Other Browser Sessions",
+      content: react_1["default"].createElement(react_1["default"].Fragment, null, "Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.", react_1["default"].createElement("div", {
+        className: "mt-4"
+      }, react_1["default"].createElement(Input_1["default"], {
+        type: "password",
+        fieldRef: passwordRef,
+        className: "block w-3/4 mt-1",
+        placeholder: "Password",
+        value: password,
+        onChange: function onChange(value) {
+          return setPassword(value);
+        },
+        onKeyPress: useKeyPress_1["default"]('Enter', logoutOtherBrowserSessions)
+      }), react_1["default"].createElement(InputError_1["default"], {
+        message: errors === null || errors === void 0 ? void 0 : errors.password,
+        className: "mt-2"
+      }))),
+      footer: react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(Button_1["default"], {
+        variant: "secondary",
+        onClick: closeModal
+      }, "Never Mind"), react_1["default"].createElement(Button_1["default"], {
+        className: ['ml-2', isProcessing ? 'opacity-25' : ''].join(' '),
+        onClick: logoutOtherBrowserSessions,
+        disabled: isProcessing
+      }, "Log Out Other Browser Sessions"))
+    }))
+  }));
+};
+
+exports.default = LogoutOtherBrowserSessionsForm;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Profile/Show.tsx":
+/*!*********************************************!*\
+  !*** ./resources/js/Pages/Profile/Show.tsx ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var React = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+
+var AppLayout_1 = __importDefault(__webpack_require__(/*! ../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.tsx"));
+
+var SectionBorder_1 = __importDefault(__webpack_require__(/*! ../../Components/SectionBorder */ "./resources/js/Components/SectionBorder.tsx"));
+
+var DeleteUserForm_1 = __importDefault(__webpack_require__(/*! ./DeleteUserForm */ "./resources/js/Pages/Profile/DeleteUserForm.tsx"));
+
+var LogoutOtherBrowserSessionsForm_1 = __importDefault(__webpack_require__(/*! ./LogoutOtherBrowserSessionsForm */ "./resources/js/Pages/Profile/LogoutOtherBrowserSessionsForm.tsx"));
+
+var TwoFactorAuthenticationForm_1 = __importDefault(__webpack_require__(/*! ./TwoFactorAuthenticationForm */ "./resources/js/Pages/Profile/TwoFactorAuthenticationForm.tsx"));
+
+var UpdatePasswordForm_1 = __importDefault(__webpack_require__(/*! ./UpdatePasswordForm */ "./resources/js/Pages/Profile/UpdatePasswordForm.tsx"));
+
+var UpdateProfileInformationForm_1 = __importDefault(__webpack_require__(/*! ./UpdateProfileInformationForm */ "./resources/js/Pages/Profile/UpdateProfileInformationForm.tsx"));
+
+var Show = function Show(_ref) {
+  var sessions = _ref.sessions;
+  // @ts-ignore
+  var _inertia_react_1$useP = inertia_react_1.usePage().props,
+      jetstream = _inertia_react_1$useP.jetstream,
+      user = _inertia_react_1$useP.user;
+  return React.createElement(AppLayout_1["default"], {
+    header: React.createElement("h2", {
+      className: "text-xl font-semibold leading-tight text-gray-800"
+    }, "Profile")
+  }, React.createElement("div", null, React.createElement("div", {
+    className: "py-10 mx-auto max-w-7xl sm:px-6 lg:px-8"
+  }, jetstream.canUpdateProfileInformation ? React.createElement("div", null, React.createElement(UpdateProfileInformationForm_1["default"], {
+    user: user
+  }), React.createElement(SectionBorder_1["default"], null)) : null, jetstream.canUpdatePassword ? React.createElement("div", null, React.createElement(UpdatePasswordForm_1["default"], {
+    className: "mt-10 sm:mt-0"
+  }), React.createElement(SectionBorder_1["default"], null)) : null, jetstream.canManageTwoFactorAuthentication ? React.createElement("div", null, React.createElement(TwoFactorAuthenticationForm_1["default"], {
+    className: "mt-10 sm:mt-0"
+  }), React.createElement(SectionBorder_1["default"], null)) : null, React.createElement(LogoutOtherBrowserSessionsForm_1["default"], {
+    sessions: sessions,
+    className: "mt-10 sm:mt-0"
+  }), jetstream.hasAccountDeletionFeatures ? React.createElement(React.Fragment, null, React.createElement(SectionBorder_1["default"], null), React.createElement(DeleteUserForm_1["default"], {
+    className: "mt-10 sm:mt-0"
+  })) : null)));
+};
+
+exports.default = Show;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Profile/TwoFactorAuthenticationForm.tsx":
+/*!********************************************************************!*\
+  !*** ./resources/js/Pages/Profile/TwoFactorAuthenticationForm.tsx ***!
+  \********************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+
+var ActionSection_1 = __importDefault(__webpack_require__(/*! ../../Components/ActionSection */ "./resources/js/Components/ActionSection.tsx"));
+
+var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
+
+var ConfirmsPassword_1 = __importDefault(__webpack_require__(/*! ../../Components/ConfirmsPassword */ "./resources/js/Components/ConfirmsPassword.tsx"));
+
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+
+var TwoFactorAuthenticationForm = function TwoFactorAuthenticationForm(_a) {
+  var props = __rest(_a, []);
+
+  var _react_1$default$useS = react_1["default"].useState(false),
+      _react_1$default$useS2 = _slicedToArray(_react_1$default$useS, 2),
+      enabling = _react_1$default$useS2[0],
+      setEnabling = _react_1$default$useS2[1];
+
+  var _react_1$default$useS3 = react_1["default"].useState(false),
+      _react_1$default$useS4 = _slicedToArray(_react_1$default$useS3, 2),
+      disabling = _react_1$default$useS4[0],
+      setDisabling = _react_1$default$useS4[1];
+
+  var _react_1$default$useS5 = react_1["default"].useState(''),
+      _react_1$default$useS6 = _slicedToArray(_react_1$default$useS5, 2),
+      qrCode = _react_1$default$useS6[0],
+      setQrCode = _react_1$default$useS6[1];
+
+  var _react_1$default$useS7 = react_1["default"].useState([]),
+      _react_1$default$useS8 = _slicedToArray(_react_1$default$useS7, 2),
+      recoveryCodes = _react_1$default$useS8[0],
+      setRecoveryCodes = _react_1$default$useS8[1]; // @ts-ignore
+
+
+  var user = inertia_react_1.usePage().props.user;
+  var twoFactorEnabled = !enabling && user.two_factor_enabled;
+
+  var showQrCode = function showQrCode() {
+    return axios_1["default"].get('/user/two-factor-qr-code').then(function (response) {
+      return setQrCode(response.data.svg);
+    });
+  };
+
+  var showRecoveryCodes = function showRecoveryCodes() {
+    return axios_1["default"].get('/user/two-factor-recovery-codes').then(function (response) {
+      return setRecoveryCodes(response.data);
+    });
+  };
+
+  var enableTwoFactorAuthentication = function enableTwoFactorAuthentication() {
+    setEnabling(true);
+    inertia_1.Inertia.post('/user/two-factor-authentication', {}, {
+      preserveScroll: true,
+      onSuccess: function onSuccess() {
+        return Promise.all([showQrCode(), showRecoveryCodes()]);
+      },
+      onFinish: function onFinish() {
+        return setEnabling(false);
+      }
+    });
+  };
+
+  var regenerateRecoveryCodes = function regenerateRecoveryCodes() {
+    return axios_1["default"].post('/user/two-factor-recovery-codes').then(function () {
+      return showRecoveryCodes();
+    });
+  };
+
+  var disableTwoFactorAuthentication = function disableTwoFactorAuthentication() {
+    setDisabling(true);
+    inertia_1.Inertia["delete"]('/user/two-factor-authentication', {
+      preserveScroll: true,
+      onSuccess: function onSuccess() {
+        return setDisabling(false);
+      }
+    });
+  };
+
+  return react_1["default"].createElement(ActionSection_1["default"], Object.assign({}, props, {
+    title: "Two Factor Authentication",
+    description: "Add additional security to your account using two factor authentication.",
+    content: react_1["default"].createElement(react_1["default"].Fragment, null, twoFactorEnabled ? react_1["default"].createElement("h3", {
+      className: "text-lg font-medium text-gray-900"
+    }, "You have enabled two factor authentication.") : react_1["default"].createElement("h3", {
+      className: "text-lg font-medium text-gray-900"
+    }, "You have not enabled two factor authentication."), react_1["default"].createElement("div", {
+      className: "max-w-xl mt-3 text-sm text-gray-600"
+    }, react_1["default"].createElement("p", null, "When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone's Google Authenticator application.")), twoFactorEnabled ? react_1["default"].createElement("div", null, qrCode ? react_1["default"].createElement("div", null, react_1["default"].createElement("div", {
+      className: "max-w-xl mt-4 text-sm text-gray-600"
+    }, react_1["default"].createElement("p", {
+      className: "font-semibold"
+    }, "Two factor authentication is now enabled. Scan the following QR code using your phone's authenticator application.")), react_1["default"].createElement("div", {
+      className: "mt-4 dark:p-4 dark:w-56 dark:bg-white",
+      dangerouslySetInnerHTML: {
+        __html: qrCode
+      }
+    })) : null, recoveryCodes.length > 0 ? react_1["default"].createElement("div", null, react_1["default"].createElement("div", {
+      className: "max-w-xl mt-4 text-sm text-gray-600"
+    }, react_1["default"].createElement("p", {
+      className: "font-semibold"
+    }, "Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.")), react_1["default"].createElement("div", {
+      className: "grid max-w-xl gap-1 px-4 py-4 mt-4 font-mono text-sm bg-gray-100 rounded-lg"
+    }, recoveryCodes.map(function (code) {
+      return react_1["default"].createElement("div", {
+        key: code
+      }, code);
+    }))) : null) : null, react_1["default"].createElement("div", {
+      className: "mt-5"
+    }, !twoFactorEnabled ? react_1["default"].createElement("div", null, react_1["default"].createElement(ConfirmsPassword_1["default"], {
+      onConfirm: enableTwoFactorAuthentication
+    }, react_1["default"].createElement(Button_1["default"], {
+      type: "button",
+      className: enabling ? 'opacity-25' : '',
+      disabled: enabling
+    }, "Enable"))) : react_1["default"].createElement("div", null, recoveryCodes.length > 0 ? react_1["default"].createElement(ConfirmsPassword_1["default"], {
+      onConfirm: regenerateRecoveryCodes
+    }, react_1["default"].createElement(Button_1["default"], {
+      variant: "secondary",
+      className: "mr-3"
+    }, "Regenerate Recovery Codes")) : react_1["default"].createElement(ConfirmsPassword_1["default"], {
+      onConfirm: showRecoveryCodes
+    }, react_1["default"].createElement(Button_1["default"], {
+      variant: "secondary",
+      className: "mr-3"
+    }, "Show Recovery Codes")), react_1["default"].createElement(ConfirmsPassword_1["default"], {
+      onConfirm: disableTwoFactorAuthentication
+    }, react_1["default"].createElement(Button_1["default"], {
+      variant: "danger",
+      className: disabling ? 'opacity-25' : '',
+      disabled: disabling
+    }, "Disable")))))
+  }));
+};
+
+exports.default = TwoFactorAuthenticationForm;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Profile/UpdatePasswordForm.tsx":
+/*!***********************************************************!*\
+  !*** ./resources/js/Pages/Profile/UpdatePasswordForm.tsx ***!
+  \***********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
+var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.ts"));
+
+var FormSection_1 = __importDefault(__webpack_require__(/*! ../../Components/FormSection */ "./resources/js/Components/FormSection.tsx"));
+
+var Label_1 = __importDefault(__webpack_require__(/*! ../../Components/Label */ "./resources/js/Components/Label.tsx"));
+
+var Input_1 = __importDefault(__webpack_require__(/*! ../../Components/Input */ "./resources/js/Components/Input.tsx"));
+
+var InputError_1 = __importDefault(__webpack_require__(/*! ../../Components/InputError */ "./resources/js/Components/InputError.tsx"));
+
+var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
+
+var ActionMessage_1 = __importDefault(__webpack_require__(/*! ../../Components/ActionMessage */ "./resources/js/Components/ActionMessage.tsx"));
+
+var UpdatePasswordForm = function UpdatePasswordForm(_a) {
+  var _b, _c, _d;
+
+  var props = __rest(_a, []);
+
+  var _useForm_1$default = useForm_1["default"]({
+    current_password: '',
+    password: '',
+    password_confirmation: ''
+  }),
+      data = _useForm_1$default.data,
+      isProcessing = _useForm_1$default.isProcessing,
+      status = _useForm_1$default.status,
+      submit = _useForm_1$default.submit,
+      reset = _useForm_1$default.reset,
+      useField = _useForm_1$default.useField,
+      errors = _useForm_1$default.errors;
+
+  var _useField = useField('current_password'),
+      _useField2 = _slicedToArray(_useField, 2),
+      currentPassword = _useField2[0],
+      setCurrentPassword = _useField2[1];
+
+  var _useField3 = useField('password'),
+      _useField4 = _slicedToArray(_useField3, 2),
+      password = _useField4[0],
+      setPassword = _useField4[1];
+
+  var _useField5 = useField('password_confirmation'),
+      _useField6 = _slicedToArray(_useField5, 2),
+      passwordConfirmation = _useField6[0],
+      setPasswordConfirmation = _useField6[1];
+
+  var passwordRef = react_1["default"].useRef(null);
+  var currentPasswordRef = react_1["default"].useRef(null);
+
+  var updatePassword = function updatePassword() {
+    submit(new Promise(function (resolve) {
+      // @ts-ignore
+      inertia_1.Inertia.put(route('user-password.update'), data, {
+        errorBag: 'updatePassword',
+        preserveScroll: true,
+        onSuccess: function onSuccess() {
+          resolve('success');
+          reset();
+        },
+        onError: function onError() {
+          var _a, _b;
+
+          if ((_a = errors === null || errors === void 0 ? void 0 : errors.updatePassword) === null || _a === void 0 ? void 0 : _a.password) {
+            reset('password', 'password_confirmation'); // @ts-ignore
+
+            passwordRef.current.focus();
+          }
+
+          if ((_b = errors === null || errors === void 0 ? void 0 : errors.updatePassword) === null || _b === void 0 ? void 0 : _b.current_password) {
+            reset('current_password'); // @ts-ignore
+
+            currentPasswordRef.current.focus();
+          }
+        }
+      });
+    }));
+  };
+
+  return react_1["default"].createElement(FormSection_1["default"], Object.assign({}, props, {
+    onSubmit: updatePassword,
+    title: "Update Password",
+    description: "Ensure your account is using a long, random password to stay secure.",
+    form: react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", {
+      className: "col-span-6 sm:col-span-4"
+    }, react_1["default"].createElement(Label_1["default"], {
+      htmlFor: "current_password",
+      value: "Current Password"
+    }), react_1["default"].createElement(Input_1["default"], {
+      fieldRef: currentPasswordRef,
+      id: "current_password",
+      type: "password",
+      className: "block w-full mt-1",
+      value: currentPassword,
+      onChange: function onChange(value) {
+        return setCurrentPassword(value);
+      },
+      autoComplete: "current-password"
+    }), react_1["default"].createElement(InputError_1["default"], {
+      message: (_b = errors === null || errors === void 0 ? void 0 : errors.updatePassword) === null || _b === void 0 ? void 0 : _b.current_password,
+      className: "mt-2"
+    })), react_1["default"].createElement("div", {
+      className: "col-span-6 sm:col-span-4"
+    }, react_1["default"].createElement(Label_1["default"], {
+      htmlFor: "password",
+      value: "New Password"
+    }), react_1["default"].createElement(Input_1["default"], {
+      fieldRef: passwordRef,
+      id: "password",
+      type: "password",
+      className: "block w-full mt-1",
+      value: password,
+      onChange: function onChange(value) {
+        return setPassword(value);
+      },
+      autoComplete: "new-password"
+    }), react_1["default"].createElement(InputError_1["default"], {
+      message: (_c = errors === null || errors === void 0 ? void 0 : errors.updatePassword) === null || _c === void 0 ? void 0 : _c.password,
+      className: "mt-2"
+    })), react_1["default"].createElement("div", {
+      className: "col-span-6 sm:col-span-4"
+    }, react_1["default"].createElement(Label_1["default"], {
+      htmlFor: "password_confirmation",
+      value: "Confirm Password"
+    }), react_1["default"].createElement(Input_1["default"], {
+      id: "password_confirmation",
+      type: "password",
+      className: "block w-full mt-1",
+      value: passwordConfirmation,
+      onChange: function onChange(value) {
+        return setPasswordConfirmation(value);
+      },
+      autoComplete: "new-password"
+    }), react_1["default"].createElement(InputError_1["default"], {
+      message: (_d = errors === null || errors === void 0 ? void 0 : errors.updatePassword) === null || _d === void 0 ? void 0 : _d.password_confirmation,
+      className: "mt-2"
+    }))),
+    actions: react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(ActionMessage_1["default"], {
+      on: status === 'recentlySuccessful',
+      className: "mr-3"
+    }, "Saved."), react_1["default"].createElement(Button_1["default"], {
+      className: isProcessing ? 'opacity-25' : '',
+      disabled: isProcessing
+    }, "Save"))
+  }));
+};
+
+exports.default = UpdatePasswordForm;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Profile/UpdateProfileInformationForm.tsx":
+/*!*********************************************************************!*\
+  !*** ./resources/js/Pages/Profile/UpdateProfileInformationForm.tsx ***!
+  \*********************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+
+var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.ts"));
+
+var usePreventDefault_1 = __importDefault(__webpack_require__(/*! ../../Hooks/usePreventDefault */ "./resources/js/Hooks/usePreventDefault.ts"));
+
+var FormSection_1 = __importDefault(__webpack_require__(/*! ../../Components/FormSection */ "./resources/js/Components/FormSection.tsx"));
+
+var ActionMessage_1 = __importDefault(__webpack_require__(/*! ../../Components/ActionMessage */ "./resources/js/Components/ActionMessage.tsx"));
+
+var Label_1 = __importDefault(__webpack_require__(/*! ../../Components/Label */ "./resources/js/Components/Label.tsx"));
+
+var Input_1 = __importDefault(__webpack_require__(/*! ../../Components/Input */ "./resources/js/Components/Input.tsx"));
+
+var InputError_1 = __importDefault(__webpack_require__(/*! ../../Components/InputError */ "./resources/js/Components/InputError.tsx"));
+
+var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
+
+var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+
+var UpdateProfileInformationForm = function UpdateProfileInformationForm(_ref) {
+  var user = _ref.user;
+
+  var _a, _b, _c;
+
+  var _react_1$default$useS = react_1["default"].useState(null),
+      _react_1$default$useS2 = _slicedToArray(_react_1$default$useS, 2),
+      photoPreview = _react_1$default$useS2[0],
+      setPhotoPreview = _react_1$default$useS2[1];
+
+  var photoRef = react_1["default"].useRef(null); // @ts-ignore
+
+  var jetstream = inertia_react_1.usePage().props.jetstream;
+
+  var _useForm_1$default = useForm_1["default"]({
+    name: user.name,
+    email: user.email,
+    photo: null
+  }),
+      data = _useForm_1$default.data,
+      isProcessing = _useForm_1$default.isProcessing,
+      status = _useForm_1$default.status,
+      submit = _useForm_1$default.submit,
+      useField = _useForm_1$default.useField,
+      errors = _useForm_1$default.errors;
+
+  var _useField = useField('name'),
+      _useField2 = _slicedToArray(_useField, 2),
+      name = _useField2[0],
+      setName = _useField2[1];
+
+  var _useField3 = useField('email'),
+      _useField4 = _slicedToArray(_useField3, 2),
+      email = _useField4[0],
+      setEmail = _useField4[1];
+
+  var updateProfileInformation = function updateProfileInformation() {
+    submit(new Promise(function (resolve) {
+      inertia_1.Inertia.post( // @ts-ignore
+      route('user-profile-information.update'), Object.assign(Object.assign({
+        _method: 'PUT'
+      }, data), {
+        // @ts-ignore
+        photo: photoRef.current ? photoRef.current.files[0] : null
+      }), {
+        errorBag: 'updateProfileInformation',
+        preserveScroll: true,
+        onSuccess: function onSuccess() {
+          resolve('success');
+        }
+      });
+    }));
+  };
+
+  var selectNewPhoto = function selectNewPhoto() {
+    // @ts-ignore
+    photoRef.current.click();
+  };
+
+  var updatePhotoPreview = function updatePhotoPreview() {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      // @ts-ignore
+      setPhotoPreview(reader.result);
+    }; // @ts-ignore
+
+
+    reader.readAsDataURL(photoRef.current.files[0]);
+  };
+
+  var deletePhoto = function deletePhoto() {
+    // @ts-ignore
+    inertia_1.Inertia["delete"](route('current-user-photo.destroy'), {
+      preserveScroll: true,
+      onSuccess: function onSuccess() {
+        return setPhotoPreview(null);
+      }
+    });
+  };
+
+  return react_1["default"].createElement(FormSection_1["default"], {
+    onSubmit: updateProfileInformation,
+    title: "Profile Information",
+    description: "Update your account's profile information and email address.",
+    form: react_1["default"].createElement(react_1["default"].Fragment, null, jetstream.managesProfilePhotos ? react_1["default"].createElement("div", {
+      className: "col-span-6 sm:col-span-4"
+    }, react_1["default"].createElement("input", {
+      id: "photo",
+      type: "file",
+      className: "hidden",
+      ref: photoRef,
+      onChange: updatePhotoPreview
+    }), react_1["default"].createElement(Label_1["default"], {
+      htmlFor: "photo",
+      value: "Photo"
+    }), !photoPreview ? react_1["default"].createElement("div", {
+      className: "mt-2"
+    }, react_1["default"].createElement("img", {
+      src: user.profile_photo_url,
+      alt: user.name,
+      className: "object-cover w-20 h-20 rounded-full"
+    })) : react_1["default"].createElement("div", {
+      className: "mt-2"
+    }, react_1["default"].createElement("span", {
+      className: "block w-20 h-20 rounded-full",
+      style: {
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center center',
+        backgroundImage: "url('".concat(photoPreview, "')")
+      }
+    })), react_1["default"].createElement(Button_1["default"], {
+      variant: "secondary",
+      className: "mt-2 mr-2",
+      type: "button",
+      onClick: function onClick(e) {
+        return usePreventDefault_1["default"](e, selectNewPhoto);
+      }
+    }, "Select A New Photo"), user.profile_photo_url ? react_1["default"].createElement(Button_1["default"], {
+      variant: "secondary",
+      type: "button",
+      className: "mt-2",
+      onClick: function onClick(e) {
+        return usePreventDefault_1["default"](e, deletePhoto);
+      }
+    }, "Remove Photo") : null, react_1["default"].createElement(InputError_1["default"], {
+      message: (_a = errors === null || errors === void 0 ? void 0 : errors.updateProfileInformation) === null || _a === void 0 ? void 0 : _a.photo,
+      className: "mt-2"
+    })) : null, react_1["default"].createElement("div", {
+      className: "col-span-6 sm:col-span-4"
+    }, react_1["default"].createElement(Label_1["default"], {
+      htmlFor: "name",
+      value: "Name"
+    }), react_1["default"].createElement(Input_1["default"], {
+      id: "name",
+      type: "text",
+      className: "block w-full mt-1",
+      value: name,
+      onChange: function onChange(value) {
+        return setName(value);
+      },
+      autoComplete: "name"
+    }), react_1["default"].createElement(InputError_1["default"], {
+      message: (_b = errors === null || errors === void 0 ? void 0 : errors.updateProfileInformation) === null || _b === void 0 ? void 0 : _b.name,
+      className: "mt-2"
+    })), react_1["default"].createElement("div", {
+      className: "col-span-6 sm:col-span-4"
+    }, react_1["default"].createElement(Label_1["default"], {
+      htmlFor: "email",
+      value: "Email"
+    }), react_1["default"].createElement(Input_1["default"], {
+      id: "email",
+      type: "email",
+      className: "block w-full mt-1",
+      value: email,
+      onChange: function onChange(value) {
+        return setEmail(value);
+      }
+    }), react_1["default"].createElement(InputError_1["default"], {
+      message: (_c = errors === null || errors === void 0 ? void 0 : errors.updateProfileInformation) === null || _c === void 0 ? void 0 : _c.email,
+      className: "mt-2"
+    }))),
+    actions: react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(ActionMessage_1["default"], {
+      on: status === 'recentlySuccessful',
+      className: "mr-3"
+    }, "Saved."), react_1["default"].createElement(Button_1["default"], {
+      className: isProcessing ? 'opacity-25' : '',
+      disabled: isProcessing
+    }, "Save"))
+  });
+};
+
+exports.default = UpdateProfileInformationForm;
 
 /***/ }),
 
@@ -2644,34 +9460,34 @@ var Welcome = function Welcome(_ref) {
     className: "ml-12"
   }, react_1["default"].createElement("div", {
     className: "mt-2 text-sm text-gray-600 dark:text-gray-400"
-  }, "Laravel's robust library of first-party tools and libraries, such as", ' ', react_1["default"].createElement("a", {
+  }, "Laravel's robust library of first-party tools and libraries, such as", react_1["default"].createElement("a", {
     href: "https://forge.laravel.com",
     className: "underline"
-  }, "Forge"), ",", ' ', react_1["default"].createElement("a", {
+  }, "Forge"), ",", react_1["default"].createElement("a", {
     href: "https://vapor.laravel.com",
     className: "underline"
-  }, "Vapor"), ",", ' ', react_1["default"].createElement("a", {
+  }, "Vapor"), ",", react_1["default"].createElement("a", {
     href: "https://nova.laravel.com",
     className: "underline"
-  }, "Nova"), ", and", ' ', react_1["default"].createElement("a", {
+  }, "Nova"), ", and", react_1["default"].createElement("a", {
     href: "https://envoyer.io",
     className: "underline"
-  }, "Envoyer"), ' ', "help you take your projects to the next level. Pair them with powerful open source libraries like", ' ', react_1["default"].createElement("a", {
+  }, "Envoyer"), "help you take your projects to the next level. Pair them with powerful open source libraries like", react_1["default"].createElement("a", {
     href: "https://laravel.com/docs/billing",
     className: "underline"
-  }, "Cashier"), ",", ' ', react_1["default"].createElement("a", {
+  }, "Cashier"), ",", react_1["default"].createElement("a", {
     href: "https://laravel.com/docs/dusk",
     className: "underline"
-  }, "Dusk"), ",", ' ', react_1["default"].createElement("a", {
+  }, "Dusk"), ",", react_1["default"].createElement("a", {
     href: "https://laravel.com/docs/broadcasting",
     className: "underline"
-  }, "Echo"), ",", ' ', react_1["default"].createElement("a", {
+  }, "Echo"), ",", react_1["default"].createElement("a", {
     href: "https://laravel.com/docs/horizon",
     className: "underline"
-  }, "Horizon"), ",", ' ', react_1["default"].createElement("a", {
+  }, "Horizon"), ",", react_1["default"].createElement("a", {
     href: "https://laravel.com/docs/sanctum",
     className: "underline"
-  }, "Sanctum"), ",", ' ', react_1["default"].createElement("a", {
+  }, "Sanctum"), ",", react_1["default"].createElement("a", {
     href: "https://laravel.com/docs/telescope",
     className: "underline"
   }, "Telescope"), ", and more."))))), react_1["default"].createElement("div", {
@@ -2796,156 +9612,60 @@ progress_1.InertiaProgress.init({
 
 /***/ }),
 
-/***/ "./resources/js/hooks/useForm.ts":
-/*!***************************************!*\
-  !*** ./resources/js/hooks/useForm.ts ***!
-  \***************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ "./resources/js/Pages/API/Index.jsx":
+/*!******************************************!*\
+  !*** ./resources/js/Pages/API/Index.jsx ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.tsx");
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _ApiTokenManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ApiTokenManager */ "./resources/js/Pages/API/ApiTokenManager.tsx");
+/* harmony import */ var _ApiTokenManager__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_ApiTokenManager__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var __rest = this && this.__rest || function (s, e) {
-  var t = {};
-
-  for (var p in s) {
-    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
-  }
-
-  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
-  }
-  return t;
+var Index = function Index(_ref) {
+  var tokens = _ref.tokens,
+      availablePermissions = _ref.availablePermissions,
+      defaultPermissions = _ref.defaultPermissions;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)((_Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_1___default()), {
+    header: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", {
+      className: "font-semibold text-xl text-gray-800 leading-tight",
+      children: "API Tokens"
+    }),
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "max-w-7xl mx-auto py-10 sm:px-6 lg:px-8",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)((_ApiTokenManager__WEBPACK_IMPORTED_MODULE_2___default()), {
+          tokens: tokens,
+          availablePermissions: availablePermissions,
+          defaultPermissions: defaultPermissions
+        })
+      })
+    })
+  });
 };
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
+Index.propTypes = {
+  tokens: arrayOf(shape({
+    id: number,
+    name: string,
+    last_used_ago: string
+  })),
+  availablePermissions: arrayOf(string),
+  defaultPermissions: arrayOf(string)
 };
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
-
-exports.default = function (_a) {
-  var _a$errorBag = _a.errorBag,
-      errorBag = _a$errorBag === void 0 ? null : _a$errorBag,
-      initialData = __rest(_a, ["errorBag"]);
-
-  var _react_1$default$useS = react_1["default"].useState(initialData),
-      _react_1$default$useS2 = _slicedToArray(_react_1$default$useS, 2),
-      data = _react_1$default$useS2[0],
-      setData = _react_1$default$useS2[1];
-
-  var _react_1$default$useS3 = react_1["default"].useState('idle'),
-      _react_1$default$useS4 = _slicedToArray(_react_1$default$useS3, 2),
-      status = _react_1$default$useS4[0],
-      setStatus = _react_1$default$useS4[1]; //@ts-ignore
-
-
-  var errors = inertia_react_1.usePage().props.errors;
-  var mounted = react_1["default"].useRef(false);
-  react_1["default"].useEffect(function () {
-    mounted.current = true;
-    return function () {
-      mounted.current = false;
-    };
-  }, []);
-
-  var reset = function reset() {
-    for (var _len = arguments.length, fields = new Array(_len), _key = 0; _key < _len; _key++) {
-      fields[_key] = arguments[_key];
-    }
-
-    if (fields.length === 0) {
-      setData(initialData);
-    } else {
-      setData(function (currentData) {
-        return fields.reduce(function (carry, key) {
-          return Object.assign(Object.assign({}, carry), _defineProperty({}, key, initialData[key]));
-        }, currentData);
-      });
-    }
-  }; // Avoid state updates to unmounted components.
-
-
-  var safeSetStatus = react_1["default"].useCallback(function (newStatus) {
-    return mounted.current && setStatus(newStatus);
-  }, [mounted]);
-  var safeReset = react_1["default"].useCallback(function () {
-    return mounted.current && reset.apply(void 0, arguments);
-  }, [mounted]);
-  var submit = react_1["default"].useCallback(function (promise) {
-    if (!promise) {
-      return;
-    }
-
-    safeSetStatus('processing');
-    promise.then(function () {
-      var newStatus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-      if (newStatus === 'success') {
-        safeSetStatus('recentlySuccessful');
-        setTimeout(function () {
-          safeSetStatus(function (oldStatus) {
-            return oldStatus === 'recentlySuccessful' ? 'idle' : oldStatus;
-          });
-        }, 2000);
-      } else {
-        safeSetStatus('idle');
-      }
-
-      if (newStatus === 'reset') {
-        safeReset();
-      }
-    });
-  }, [setStatus]);
-
-  var setField = function setField(field, value) {
-    return setData(function (oldData) {
-      return Object.assign(Object.assign({}, oldData), _defineProperty({}, field, typeof value === 'function' ? value(oldData[field]) : value));
-    });
-  };
-
-  var useField = function useField(field) {
-    return [data[field], function (value) {
-      return setField(field, value);
-    }];
-  };
-
-  return {
-    useField: useField,
-    setField: setField,
-    data: data,
-    setData: setData,
-    status: status,
-    isProcessing: status === 'processing',
-    setStatus: setStatus,
-    submit: submit,
-    reset: reset,
-    // @ts-ignore
-    errors: (errorBag ? errors === null || errors === void 0 ? void 0 : errors[errorBag] : errors) || {}
-  };
-};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Index);
 
 /***/ }),
 
@@ -49341,6 +56061,1238 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/react/cjs/react-jsx-runtime.development.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/react/cjs/react-jsx-runtime.development.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+/** @license React v17.0.2
+ * react-jsx-runtime.development.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+if (true) {
+  (function() {
+'use strict';
+
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var _assign = __webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js");
+
+// ATTENTION
+// When adding new symbols to this file,
+// Please consider also adding to 'react-devtools-shared/src/backend/ReactSymbols'
+// The Symbol used to tag the ReactElement-like types. If there is no native Symbol
+// nor polyfill, then a plain number is used for performance.
+var REACT_ELEMENT_TYPE = 0xeac7;
+var REACT_PORTAL_TYPE = 0xeaca;
+exports.Fragment = 0xeacb;
+var REACT_STRICT_MODE_TYPE = 0xeacc;
+var REACT_PROFILER_TYPE = 0xead2;
+var REACT_PROVIDER_TYPE = 0xeacd;
+var REACT_CONTEXT_TYPE = 0xeace;
+var REACT_FORWARD_REF_TYPE = 0xead0;
+var REACT_SUSPENSE_TYPE = 0xead1;
+var REACT_SUSPENSE_LIST_TYPE = 0xead8;
+var REACT_MEMO_TYPE = 0xead3;
+var REACT_LAZY_TYPE = 0xead4;
+var REACT_BLOCK_TYPE = 0xead9;
+var REACT_SERVER_BLOCK_TYPE = 0xeada;
+var REACT_FUNDAMENTAL_TYPE = 0xead5;
+var REACT_SCOPE_TYPE = 0xead7;
+var REACT_OPAQUE_ID_TYPE = 0xeae0;
+var REACT_DEBUG_TRACING_MODE_TYPE = 0xeae1;
+var REACT_OFFSCREEN_TYPE = 0xeae2;
+var REACT_LEGACY_HIDDEN_TYPE = 0xeae3;
+
+if (typeof Symbol === 'function' && Symbol.for) {
+  var symbolFor = Symbol.for;
+  REACT_ELEMENT_TYPE = symbolFor('react.element');
+  REACT_PORTAL_TYPE = symbolFor('react.portal');
+  exports.Fragment = symbolFor('react.fragment');
+  REACT_STRICT_MODE_TYPE = symbolFor('react.strict_mode');
+  REACT_PROFILER_TYPE = symbolFor('react.profiler');
+  REACT_PROVIDER_TYPE = symbolFor('react.provider');
+  REACT_CONTEXT_TYPE = symbolFor('react.context');
+  REACT_FORWARD_REF_TYPE = symbolFor('react.forward_ref');
+  REACT_SUSPENSE_TYPE = symbolFor('react.suspense');
+  REACT_SUSPENSE_LIST_TYPE = symbolFor('react.suspense_list');
+  REACT_MEMO_TYPE = symbolFor('react.memo');
+  REACT_LAZY_TYPE = symbolFor('react.lazy');
+  REACT_BLOCK_TYPE = symbolFor('react.block');
+  REACT_SERVER_BLOCK_TYPE = symbolFor('react.server.block');
+  REACT_FUNDAMENTAL_TYPE = symbolFor('react.fundamental');
+  REACT_SCOPE_TYPE = symbolFor('react.scope');
+  REACT_OPAQUE_ID_TYPE = symbolFor('react.opaque.id');
+  REACT_DEBUG_TRACING_MODE_TYPE = symbolFor('react.debug_trace_mode');
+  REACT_OFFSCREEN_TYPE = symbolFor('react.offscreen');
+  REACT_LEGACY_HIDDEN_TYPE = symbolFor('react.legacy_hidden');
+}
+
+var MAYBE_ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
+var FAUX_ITERATOR_SYMBOL = '@@iterator';
+function getIteratorFn(maybeIterable) {
+  if (maybeIterable === null || typeof maybeIterable !== 'object') {
+    return null;
+  }
+
+  var maybeIterator = MAYBE_ITERATOR_SYMBOL && maybeIterable[MAYBE_ITERATOR_SYMBOL] || maybeIterable[FAUX_ITERATOR_SYMBOL];
+
+  if (typeof maybeIterator === 'function') {
+    return maybeIterator;
+  }
+
+  return null;
+}
+
+var ReactSharedInternals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+
+function error(format) {
+  {
+    for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+      args[_key2 - 1] = arguments[_key2];
+    }
+
+    printWarning('error', format, args);
+  }
+}
+
+function printWarning(level, format, args) {
+  // When changing this logic, you might want to also
+  // update consoleWithStackDev.www.js as well.
+  {
+    var ReactDebugCurrentFrame = ReactSharedInternals.ReactDebugCurrentFrame;
+    var stack = ReactDebugCurrentFrame.getStackAddendum();
+
+    if (stack !== '') {
+      format += '%s';
+      args = args.concat([stack]);
+    }
+
+    var argsWithFormat = args.map(function (item) {
+      return '' + item;
+    }); // Careful: RN currently depends on this prefix
+
+    argsWithFormat.unshift('Warning: ' + format); // We intentionally don't use spread (or .apply) directly because it
+    // breaks IE9: https://github.com/facebook/react/issues/13610
+    // eslint-disable-next-line react-internal/no-production-logging
+
+    Function.prototype.apply.call(console[level], console, argsWithFormat);
+  }
+}
+
+// Filter certain DOM attributes (e.g. src, href) if their values are empty strings.
+
+var enableScopeAPI = false; // Experimental Create Event Handle API.
+
+function isValidElementType(type) {
+  if (typeof type === 'string' || typeof type === 'function') {
+    return true;
+  } // Note: typeof might be other than 'symbol' or 'number' (e.g. if it's a polyfill).
+
+
+  if (type === exports.Fragment || type === REACT_PROFILER_TYPE || type === REACT_DEBUG_TRACING_MODE_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || type === REACT_LEGACY_HIDDEN_TYPE || enableScopeAPI ) {
+    return true;
+  }
+
+  if (typeof type === 'object' && type !== null) {
+    if (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_BLOCK_TYPE || type[0] === REACT_SERVER_BLOCK_TYPE) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function getWrappedName(outerType, innerType, wrapperName) {
+  var functionName = innerType.displayName || innerType.name || '';
+  return outerType.displayName || (functionName !== '' ? wrapperName + "(" + functionName + ")" : wrapperName);
+}
+
+function getContextName(type) {
+  return type.displayName || 'Context';
+}
+
+function getComponentName(type) {
+  if (type == null) {
+    // Host root, text node or just invalid type.
+    return null;
+  }
+
+  {
+    if (typeof type.tag === 'number') {
+      error('Received an unexpected object in getComponentName(). ' + 'This is likely a bug in React. Please file an issue.');
+    }
+  }
+
+  if (typeof type === 'function') {
+    return type.displayName || type.name || null;
+  }
+
+  if (typeof type === 'string') {
+    return type;
+  }
+
+  switch (type) {
+    case exports.Fragment:
+      return 'Fragment';
+
+    case REACT_PORTAL_TYPE:
+      return 'Portal';
+
+    case REACT_PROFILER_TYPE:
+      return 'Profiler';
+
+    case REACT_STRICT_MODE_TYPE:
+      return 'StrictMode';
+
+    case REACT_SUSPENSE_TYPE:
+      return 'Suspense';
+
+    case REACT_SUSPENSE_LIST_TYPE:
+      return 'SuspenseList';
+  }
+
+  if (typeof type === 'object') {
+    switch (type.$$typeof) {
+      case REACT_CONTEXT_TYPE:
+        var context = type;
+        return getContextName(context) + '.Consumer';
+
+      case REACT_PROVIDER_TYPE:
+        var provider = type;
+        return getContextName(provider._context) + '.Provider';
+
+      case REACT_FORWARD_REF_TYPE:
+        return getWrappedName(type, type.render, 'ForwardRef');
+
+      case REACT_MEMO_TYPE:
+        return getComponentName(type.type);
+
+      case REACT_BLOCK_TYPE:
+        return getComponentName(type._render);
+
+      case REACT_LAZY_TYPE:
+        {
+          var lazyComponent = type;
+          var payload = lazyComponent._payload;
+          var init = lazyComponent._init;
+
+          try {
+            return getComponentName(init(payload));
+          } catch (x) {
+            return null;
+          }
+        }
+    }
+  }
+
+  return null;
+}
+
+// Helpers to patch console.logs to avoid logging during side-effect free
+// replaying on render function. This currently only patches the object
+// lazily which won't cover if the log function was extracted eagerly.
+// We could also eagerly patch the method.
+var disabledDepth = 0;
+var prevLog;
+var prevInfo;
+var prevWarn;
+var prevError;
+var prevGroup;
+var prevGroupCollapsed;
+var prevGroupEnd;
+
+function disabledLog() {}
+
+disabledLog.__reactDisabledLog = true;
+function disableLogs() {
+  {
+    if (disabledDepth === 0) {
+      /* eslint-disable react-internal/no-production-logging */
+      prevLog = console.log;
+      prevInfo = console.info;
+      prevWarn = console.warn;
+      prevError = console.error;
+      prevGroup = console.group;
+      prevGroupCollapsed = console.groupCollapsed;
+      prevGroupEnd = console.groupEnd; // https://github.com/facebook/react/issues/19099
+
+      var props = {
+        configurable: true,
+        enumerable: true,
+        value: disabledLog,
+        writable: true
+      }; // $FlowFixMe Flow thinks console is immutable.
+
+      Object.defineProperties(console, {
+        info: props,
+        log: props,
+        warn: props,
+        error: props,
+        group: props,
+        groupCollapsed: props,
+        groupEnd: props
+      });
+      /* eslint-enable react-internal/no-production-logging */
+    }
+
+    disabledDepth++;
+  }
+}
+function reenableLogs() {
+  {
+    disabledDepth--;
+
+    if (disabledDepth === 0) {
+      /* eslint-disable react-internal/no-production-logging */
+      var props = {
+        configurable: true,
+        enumerable: true,
+        writable: true
+      }; // $FlowFixMe Flow thinks console is immutable.
+
+      Object.defineProperties(console, {
+        log: _assign({}, props, {
+          value: prevLog
+        }),
+        info: _assign({}, props, {
+          value: prevInfo
+        }),
+        warn: _assign({}, props, {
+          value: prevWarn
+        }),
+        error: _assign({}, props, {
+          value: prevError
+        }),
+        group: _assign({}, props, {
+          value: prevGroup
+        }),
+        groupCollapsed: _assign({}, props, {
+          value: prevGroupCollapsed
+        }),
+        groupEnd: _assign({}, props, {
+          value: prevGroupEnd
+        })
+      });
+      /* eslint-enable react-internal/no-production-logging */
+    }
+
+    if (disabledDepth < 0) {
+      error('disabledDepth fell below zero. ' + 'This is a bug in React. Please file an issue.');
+    }
+  }
+}
+
+var ReactCurrentDispatcher = ReactSharedInternals.ReactCurrentDispatcher;
+var prefix;
+function describeBuiltInComponentFrame(name, source, ownerFn) {
+  {
+    if (prefix === undefined) {
+      // Extract the VM specific prefix used by each line.
+      try {
+        throw Error();
+      } catch (x) {
+        var match = x.stack.trim().match(/\n( *(at )?)/);
+        prefix = match && match[1] || '';
+      }
+    } // We use the prefix to ensure our stacks line up with native stack frames.
+
+
+    return '\n' + prefix + name;
+  }
+}
+var reentry = false;
+var componentFrameCache;
+
+{
+  var PossiblyWeakMap = typeof WeakMap === 'function' ? WeakMap : Map;
+  componentFrameCache = new PossiblyWeakMap();
+}
+
+function describeNativeComponentFrame(fn, construct) {
+  // If something asked for a stack inside a fake render, it should get ignored.
+  if (!fn || reentry) {
+    return '';
+  }
+
+  {
+    var frame = componentFrameCache.get(fn);
+
+    if (frame !== undefined) {
+      return frame;
+    }
+  }
+
+  var control;
+  reentry = true;
+  var previousPrepareStackTrace = Error.prepareStackTrace; // $FlowFixMe It does accept undefined.
+
+  Error.prepareStackTrace = undefined;
+  var previousDispatcher;
+
+  {
+    previousDispatcher = ReactCurrentDispatcher.current; // Set the dispatcher in DEV because this might be call in the render function
+    // for warnings.
+
+    ReactCurrentDispatcher.current = null;
+    disableLogs();
+  }
+
+  try {
+    // This should throw.
+    if (construct) {
+      // Something should be setting the props in the constructor.
+      var Fake = function () {
+        throw Error();
+      }; // $FlowFixMe
+
+
+      Object.defineProperty(Fake.prototype, 'props', {
+        set: function () {
+          // We use a throwing setter instead of frozen or non-writable props
+          // because that won't throw in a non-strict mode function.
+          throw Error();
+        }
+      });
+
+      if (typeof Reflect === 'object' && Reflect.construct) {
+        // We construct a different control for this case to include any extra
+        // frames added by the construct call.
+        try {
+          Reflect.construct(Fake, []);
+        } catch (x) {
+          control = x;
+        }
+
+        Reflect.construct(fn, [], Fake);
+      } else {
+        try {
+          Fake.call();
+        } catch (x) {
+          control = x;
+        }
+
+        fn.call(Fake.prototype);
+      }
+    } else {
+      try {
+        throw Error();
+      } catch (x) {
+        control = x;
+      }
+
+      fn();
+    }
+  } catch (sample) {
+    // This is inlined manually because closure doesn't do it for us.
+    if (sample && control && typeof sample.stack === 'string') {
+      // This extracts the first frame from the sample that isn't also in the control.
+      // Skipping one frame that we assume is the frame that calls the two.
+      var sampleLines = sample.stack.split('\n');
+      var controlLines = control.stack.split('\n');
+      var s = sampleLines.length - 1;
+      var c = controlLines.length - 1;
+
+      while (s >= 1 && c >= 0 && sampleLines[s] !== controlLines[c]) {
+        // We expect at least one stack frame to be shared.
+        // Typically this will be the root most one. However, stack frames may be
+        // cut off due to maximum stack limits. In this case, one maybe cut off
+        // earlier than the other. We assume that the sample is longer or the same
+        // and there for cut off earlier. So we should find the root most frame in
+        // the sample somewhere in the control.
+        c--;
+      }
+
+      for (; s >= 1 && c >= 0; s--, c--) {
+        // Next we find the first one that isn't the same which should be the
+        // frame that called our sample function and the control.
+        if (sampleLines[s] !== controlLines[c]) {
+          // In V8, the first line is describing the message but other VMs don't.
+          // If we're about to return the first line, and the control is also on the same
+          // line, that's a pretty good indicator that our sample threw at same line as
+          // the control. I.e. before we entered the sample frame. So we ignore this result.
+          // This can happen if you passed a class to function component, or non-function.
+          if (s !== 1 || c !== 1) {
+            do {
+              s--;
+              c--; // We may still have similar intermediate frames from the construct call.
+              // The next one that isn't the same should be our match though.
+
+              if (c < 0 || sampleLines[s] !== controlLines[c]) {
+                // V8 adds a "new" prefix for native classes. Let's remove it to make it prettier.
+                var _frame = '\n' + sampleLines[s].replace(' at new ', ' at ');
+
+                {
+                  if (typeof fn === 'function') {
+                    componentFrameCache.set(fn, _frame);
+                  }
+                } // Return the line we found.
+
+
+                return _frame;
+              }
+            } while (s >= 1 && c >= 0);
+          }
+
+          break;
+        }
+      }
+    }
+  } finally {
+    reentry = false;
+
+    {
+      ReactCurrentDispatcher.current = previousDispatcher;
+      reenableLogs();
+    }
+
+    Error.prepareStackTrace = previousPrepareStackTrace;
+  } // Fallback to just using the name if we couldn't make it throw.
+
+
+  var name = fn ? fn.displayName || fn.name : '';
+  var syntheticFrame = name ? describeBuiltInComponentFrame(name) : '';
+
+  {
+    if (typeof fn === 'function') {
+      componentFrameCache.set(fn, syntheticFrame);
+    }
+  }
+
+  return syntheticFrame;
+}
+function describeFunctionComponentFrame(fn, source, ownerFn) {
+  {
+    return describeNativeComponentFrame(fn, false);
+  }
+}
+
+function shouldConstruct(Component) {
+  var prototype = Component.prototype;
+  return !!(prototype && prototype.isReactComponent);
+}
+
+function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
+
+  if (type == null) {
+    return '';
+  }
+
+  if (typeof type === 'function') {
+    {
+      return describeNativeComponentFrame(type, shouldConstruct(type));
+    }
+  }
+
+  if (typeof type === 'string') {
+    return describeBuiltInComponentFrame(type);
+  }
+
+  switch (type) {
+    case REACT_SUSPENSE_TYPE:
+      return describeBuiltInComponentFrame('Suspense');
+
+    case REACT_SUSPENSE_LIST_TYPE:
+      return describeBuiltInComponentFrame('SuspenseList');
+  }
+
+  if (typeof type === 'object') {
+    switch (type.$$typeof) {
+      case REACT_FORWARD_REF_TYPE:
+        return describeFunctionComponentFrame(type.render);
+
+      case REACT_MEMO_TYPE:
+        // Memo may contain any component type so we recursively resolve it.
+        return describeUnknownElementTypeFrameInDEV(type.type, source, ownerFn);
+
+      case REACT_BLOCK_TYPE:
+        return describeFunctionComponentFrame(type._render);
+
+      case REACT_LAZY_TYPE:
+        {
+          var lazyComponent = type;
+          var payload = lazyComponent._payload;
+          var init = lazyComponent._init;
+
+          try {
+            // Lazy may contain any component type so we recursively resolve it.
+            return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
+          } catch (x) {}
+        }
+    }
+  }
+
+  return '';
+}
+
+var loggedTypeFailures = {};
+var ReactDebugCurrentFrame = ReactSharedInternals.ReactDebugCurrentFrame;
+
+function setCurrentlyValidatingElement(element) {
+  {
+    if (element) {
+      var owner = element._owner;
+      var stack = describeUnknownElementTypeFrameInDEV(element.type, element._source, owner ? owner.type : null);
+      ReactDebugCurrentFrame.setExtraStackFrame(stack);
+    } else {
+      ReactDebugCurrentFrame.setExtraStackFrame(null);
+    }
+  }
+}
+
+function checkPropTypes(typeSpecs, values, location, componentName, element) {
+  {
+    // $FlowFixMe This is okay but Flow doesn't know it.
+    var has = Function.call.bind(Object.prototype.hasOwnProperty);
+
+    for (var typeSpecName in typeSpecs) {
+      if (has(typeSpecs, typeSpecName)) {
+        var error$1 = void 0; // Prop type validation may throw. In case they do, we don't want to
+        // fail the render phase where it didn't fail before. So we log it.
+        // After these have been cleaned up, we'll let them throw.
+
+        try {
+          // This is intentionally an invariant that gets caught. It's the same
+          // behavior as without this statement except with a better message.
+          if (typeof typeSpecs[typeSpecName] !== 'function') {
+            var err = Error((componentName || 'React class') + ': ' + location + ' type `' + typeSpecName + '` is invalid; ' + 'it must be a function, usually from the `prop-types` package, but received `' + typeof typeSpecs[typeSpecName] + '`.' + 'This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.');
+            err.name = 'Invariant Violation';
+            throw err;
+          }
+
+          error$1 = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED');
+        } catch (ex) {
+          error$1 = ex;
+        }
+
+        if (error$1 && !(error$1 instanceof Error)) {
+          setCurrentlyValidatingElement(element);
+
+          error('%s: type specification of %s' + ' `%s` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a %s. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).', componentName || 'React class', location, typeSpecName, typeof error$1);
+
+          setCurrentlyValidatingElement(null);
+        }
+
+        if (error$1 instanceof Error && !(error$1.message in loggedTypeFailures)) {
+          // Only monitor this failure once because there tends to be a lot of the
+          // same error.
+          loggedTypeFailures[error$1.message] = true;
+          setCurrentlyValidatingElement(element);
+
+          error('Failed %s type: %s', location, error$1.message);
+
+          setCurrentlyValidatingElement(null);
+        }
+      }
+    }
+  }
+}
+
+var ReactCurrentOwner = ReactSharedInternals.ReactCurrentOwner;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var RESERVED_PROPS = {
+  key: true,
+  ref: true,
+  __self: true,
+  __source: true
+};
+var specialPropKeyWarningShown;
+var specialPropRefWarningShown;
+var didWarnAboutStringRefs;
+
+{
+  didWarnAboutStringRefs = {};
+}
+
+function hasValidRef(config) {
+  {
+    if (hasOwnProperty.call(config, 'ref')) {
+      var getter = Object.getOwnPropertyDescriptor(config, 'ref').get;
+
+      if (getter && getter.isReactWarning) {
+        return false;
+      }
+    }
+  }
+
+  return config.ref !== undefined;
+}
+
+function hasValidKey(config) {
+  {
+    if (hasOwnProperty.call(config, 'key')) {
+      var getter = Object.getOwnPropertyDescriptor(config, 'key').get;
+
+      if (getter && getter.isReactWarning) {
+        return false;
+      }
+    }
+  }
+
+  return config.key !== undefined;
+}
+
+function warnIfStringRefCannotBeAutoConverted(config, self) {
+  {
+    if (typeof config.ref === 'string' && ReactCurrentOwner.current && self && ReactCurrentOwner.current.stateNode !== self) {
+      var componentName = getComponentName(ReactCurrentOwner.current.type);
+
+      if (!didWarnAboutStringRefs[componentName]) {
+        error('Component "%s" contains the string ref "%s". ' + 'Support for string refs will be removed in a future major release. ' + 'This case cannot be automatically converted to an arrow function. ' + 'We ask you to manually fix this case by using useRef() or createRef() instead. ' + 'Learn more about using refs safely here: ' + 'https://reactjs.org/link/strict-mode-string-ref', getComponentName(ReactCurrentOwner.current.type), config.ref);
+
+        didWarnAboutStringRefs[componentName] = true;
+      }
+    }
+  }
+}
+
+function defineKeyPropWarningGetter(props, displayName) {
+  {
+    var warnAboutAccessingKey = function () {
+      if (!specialPropKeyWarningShown) {
+        specialPropKeyWarningShown = true;
+
+        error('%s: `key` is not a prop. Trying to access it will result ' + 'in `undefined` being returned. If you need to access the same ' + 'value within the child component, you should pass it as a different ' + 'prop. (https://reactjs.org/link/special-props)', displayName);
+      }
+    };
+
+    warnAboutAccessingKey.isReactWarning = true;
+    Object.defineProperty(props, 'key', {
+      get: warnAboutAccessingKey,
+      configurable: true
+    });
+  }
+}
+
+function defineRefPropWarningGetter(props, displayName) {
+  {
+    var warnAboutAccessingRef = function () {
+      if (!specialPropRefWarningShown) {
+        specialPropRefWarningShown = true;
+
+        error('%s: `ref` is not a prop. Trying to access it will result ' + 'in `undefined` being returned. If you need to access the same ' + 'value within the child component, you should pass it as a different ' + 'prop. (https://reactjs.org/link/special-props)', displayName);
+      }
+    };
+
+    warnAboutAccessingRef.isReactWarning = true;
+    Object.defineProperty(props, 'ref', {
+      get: warnAboutAccessingRef,
+      configurable: true
+    });
+  }
+}
+/**
+ * Factory method to create a new React element. This no longer adheres to
+ * the class pattern, so do not use new to call it. Also, instanceof check
+ * will not work. Instead test $$typeof field against Symbol.for('react.element') to check
+ * if something is a React Element.
+ *
+ * @param {*} type
+ * @param {*} props
+ * @param {*} key
+ * @param {string|object} ref
+ * @param {*} owner
+ * @param {*} self A *temporary* helper to detect places where `this` is
+ * different from the `owner` when React.createElement is called, so that we
+ * can warn. We want to get rid of owner and replace string `ref`s with arrow
+ * functions, and as long as `this` and owner are the same, there will be no
+ * change in behavior.
+ * @param {*} source An annotation object (added by a transpiler or otherwise)
+ * indicating filename, line number, and/or other information.
+ * @internal
+ */
+
+
+var ReactElement = function (type, key, ref, self, source, owner, props) {
+  var element = {
+    // This tag allows us to uniquely identify this as a React Element
+    $$typeof: REACT_ELEMENT_TYPE,
+    // Built-in properties that belong on the element
+    type: type,
+    key: key,
+    ref: ref,
+    props: props,
+    // Record the component responsible for creating this element.
+    _owner: owner
+  };
+
+  {
+    // The validation flag is currently mutative. We put it on
+    // an external backing store so that we can freeze the whole object.
+    // This can be replaced with a WeakMap once they are implemented in
+    // commonly used development environments.
+    element._store = {}; // To make comparing ReactElements easier for testing purposes, we make
+    // the validation flag non-enumerable (where possible, which should
+    // include every environment we run tests in), so the test framework
+    // ignores it.
+
+    Object.defineProperty(element._store, 'validated', {
+      configurable: false,
+      enumerable: false,
+      writable: true,
+      value: false
+    }); // self and source are DEV only properties.
+
+    Object.defineProperty(element, '_self', {
+      configurable: false,
+      enumerable: false,
+      writable: false,
+      value: self
+    }); // Two elements created in two different places should be considered
+    // equal for testing purposes and therefore we hide it from enumeration.
+
+    Object.defineProperty(element, '_source', {
+      configurable: false,
+      enumerable: false,
+      writable: false,
+      value: source
+    });
+
+    if (Object.freeze) {
+      Object.freeze(element.props);
+      Object.freeze(element);
+    }
+  }
+
+  return element;
+};
+/**
+ * https://github.com/reactjs/rfcs/pull/107
+ * @param {*} type
+ * @param {object} props
+ * @param {string} key
+ */
+
+function jsxDEV(type, config, maybeKey, source, self) {
+  {
+    var propName; // Reserved names are extracted
+
+    var props = {};
+    var key = null;
+    var ref = null; // Currently, key can be spread in as a prop. This causes a potential
+    // issue if key is also explicitly declared (ie. <div {...props} key="Hi" />
+    // or <div key="Hi" {...props} /> ). We want to deprecate key spread,
+    // but as an intermediary step, we will use jsxDEV for everything except
+    // <div {...props} key="Hi" />, because we aren't currently able to tell if
+    // key is explicitly declared to be undefined or not.
+
+    if (maybeKey !== undefined) {
+      key = '' + maybeKey;
+    }
+
+    if (hasValidKey(config)) {
+      key = '' + config.key;
+    }
+
+    if (hasValidRef(config)) {
+      ref = config.ref;
+      warnIfStringRefCannotBeAutoConverted(config, self);
+    } // Remaining properties are added to a new props object
+
+
+    for (propName in config) {
+      if (hasOwnProperty.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {
+        props[propName] = config[propName];
+      }
+    } // Resolve default props
+
+
+    if (type && type.defaultProps) {
+      var defaultProps = type.defaultProps;
+
+      for (propName in defaultProps) {
+        if (props[propName] === undefined) {
+          props[propName] = defaultProps[propName];
+        }
+      }
+    }
+
+    if (key || ref) {
+      var displayName = typeof type === 'function' ? type.displayName || type.name || 'Unknown' : type;
+
+      if (key) {
+        defineKeyPropWarningGetter(props, displayName);
+      }
+
+      if (ref) {
+        defineRefPropWarningGetter(props, displayName);
+      }
+    }
+
+    return ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props);
+  }
+}
+
+var ReactCurrentOwner$1 = ReactSharedInternals.ReactCurrentOwner;
+var ReactDebugCurrentFrame$1 = ReactSharedInternals.ReactDebugCurrentFrame;
+
+function setCurrentlyValidatingElement$1(element) {
+  {
+    if (element) {
+      var owner = element._owner;
+      var stack = describeUnknownElementTypeFrameInDEV(element.type, element._source, owner ? owner.type : null);
+      ReactDebugCurrentFrame$1.setExtraStackFrame(stack);
+    } else {
+      ReactDebugCurrentFrame$1.setExtraStackFrame(null);
+    }
+  }
+}
+
+var propTypesMisspellWarningShown;
+
+{
+  propTypesMisspellWarningShown = false;
+}
+/**
+ * Verifies the object is a ReactElement.
+ * See https://reactjs.org/docs/react-api.html#isvalidelement
+ * @param {?object} object
+ * @return {boolean} True if `object` is a ReactElement.
+ * @final
+ */
+
+function isValidElement(object) {
+  {
+    return typeof object === 'object' && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
+  }
+}
+
+function getDeclarationErrorAddendum() {
+  {
+    if (ReactCurrentOwner$1.current) {
+      var name = getComponentName(ReactCurrentOwner$1.current.type);
+
+      if (name) {
+        return '\n\nCheck the render method of `' + name + '`.';
+      }
+    }
+
+    return '';
+  }
+}
+
+function getSourceInfoErrorAddendum(source) {
+  {
+    if (source !== undefined) {
+      var fileName = source.fileName.replace(/^.*[\\\/]/, '');
+      var lineNumber = source.lineNumber;
+      return '\n\nCheck your code at ' + fileName + ':' + lineNumber + '.';
+    }
+
+    return '';
+  }
+}
+/**
+ * Warn if there's no key explicitly set on dynamic arrays of children or
+ * object keys are not valid. This allows us to keep track of children between
+ * updates.
+ */
+
+
+var ownerHasKeyUseWarning = {};
+
+function getCurrentComponentErrorInfo(parentType) {
+  {
+    var info = getDeclarationErrorAddendum();
+
+    if (!info) {
+      var parentName = typeof parentType === 'string' ? parentType : parentType.displayName || parentType.name;
+
+      if (parentName) {
+        info = "\n\nCheck the top-level render call using <" + parentName + ">.";
+      }
+    }
+
+    return info;
+  }
+}
+/**
+ * Warn if the element doesn't have an explicit key assigned to it.
+ * This element is in an array. The array could grow and shrink or be
+ * reordered. All children that haven't already been validated are required to
+ * have a "key" property assigned to it. Error statuses are cached so a warning
+ * will only be shown once.
+ *
+ * @internal
+ * @param {ReactElement} element Element that requires a key.
+ * @param {*} parentType element's parent's type.
+ */
+
+
+function validateExplicitKey(element, parentType) {
+  {
+    if (!element._store || element._store.validated || element.key != null) {
+      return;
+    }
+
+    element._store.validated = true;
+    var currentComponentErrorInfo = getCurrentComponentErrorInfo(parentType);
+
+    if (ownerHasKeyUseWarning[currentComponentErrorInfo]) {
+      return;
+    }
+
+    ownerHasKeyUseWarning[currentComponentErrorInfo] = true; // Usually the current owner is the offender, but if it accepts children as a
+    // property, it may be the creator of the child that's responsible for
+    // assigning it a key.
+
+    var childOwner = '';
+
+    if (element && element._owner && element._owner !== ReactCurrentOwner$1.current) {
+      // Give the component that originally created this child.
+      childOwner = " It was passed a child from " + getComponentName(element._owner.type) + ".";
+    }
+
+    setCurrentlyValidatingElement$1(element);
+
+    error('Each child in a list should have a unique "key" prop.' + '%s%s See https://reactjs.org/link/warning-keys for more information.', currentComponentErrorInfo, childOwner);
+
+    setCurrentlyValidatingElement$1(null);
+  }
+}
+/**
+ * Ensure that every element either is passed in a static location, in an
+ * array with an explicit keys property defined, or in an object literal
+ * with valid key property.
+ *
+ * @internal
+ * @param {ReactNode} node Statically passed child of any type.
+ * @param {*} parentType node's parent's type.
+ */
+
+
+function validateChildKeys(node, parentType) {
+  {
+    if (typeof node !== 'object') {
+      return;
+    }
+
+    if (Array.isArray(node)) {
+      for (var i = 0; i < node.length; i++) {
+        var child = node[i];
+
+        if (isValidElement(child)) {
+          validateExplicitKey(child, parentType);
+        }
+      }
+    } else if (isValidElement(node)) {
+      // This element was passed in a valid location.
+      if (node._store) {
+        node._store.validated = true;
+      }
+    } else if (node) {
+      var iteratorFn = getIteratorFn(node);
+
+      if (typeof iteratorFn === 'function') {
+        // Entry iterators used to provide implicit keys,
+        // but now we print a separate warning for them later.
+        if (iteratorFn !== node.entries) {
+          var iterator = iteratorFn.call(node);
+          var step;
+
+          while (!(step = iterator.next()).done) {
+            if (isValidElement(step.value)) {
+              validateExplicitKey(step.value, parentType);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+/**
+ * Given an element, validate that its props follow the propTypes definition,
+ * provided by the type.
+ *
+ * @param {ReactElement} element
+ */
+
+
+function validatePropTypes(element) {
+  {
+    var type = element.type;
+
+    if (type === null || type === undefined || typeof type === 'string') {
+      return;
+    }
+
+    var propTypes;
+
+    if (typeof type === 'function') {
+      propTypes = type.propTypes;
+    } else if (typeof type === 'object' && (type.$$typeof === REACT_FORWARD_REF_TYPE || // Note: Memo only checks outer props here.
+    // Inner props are checked in the reconciler.
+    type.$$typeof === REACT_MEMO_TYPE)) {
+      propTypes = type.propTypes;
+    } else {
+      return;
+    }
+
+    if (propTypes) {
+      // Intentionally inside to avoid triggering lazy initializers:
+      var name = getComponentName(type);
+      checkPropTypes(propTypes, element.props, 'prop', name, element);
+    } else if (type.PropTypes !== undefined && !propTypesMisspellWarningShown) {
+      propTypesMisspellWarningShown = true; // Intentionally inside to avoid triggering lazy initializers:
+
+      var _name = getComponentName(type);
+
+      error('Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?', _name || 'Unknown');
+    }
+
+    if (typeof type.getDefaultProps === 'function' && !type.getDefaultProps.isReactClassApproved) {
+      error('getDefaultProps is only used on classic React.createClass ' + 'definitions. Use a static property named `defaultProps` instead.');
+    }
+  }
+}
+/**
+ * Given a fragment, validate that it can only be provided with fragment props
+ * @param {ReactElement} fragment
+ */
+
+
+function validateFragmentProps(fragment) {
+  {
+    var keys = Object.keys(fragment.props);
+
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+
+      if (key !== 'children' && key !== 'key') {
+        setCurrentlyValidatingElement$1(fragment);
+
+        error('Invalid prop `%s` supplied to `React.Fragment`. ' + 'React.Fragment can only have `key` and `children` props.', key);
+
+        setCurrentlyValidatingElement$1(null);
+        break;
+      }
+    }
+
+    if (fragment.ref !== null) {
+      setCurrentlyValidatingElement$1(fragment);
+
+      error('Invalid attribute `ref` supplied to `React.Fragment`.');
+
+      setCurrentlyValidatingElement$1(null);
+    }
+  }
+}
+
+function jsxWithValidation(type, props, key, isStaticChildren, source, self) {
+  {
+    var validType = isValidElementType(type); // We warn in this case but don't throw. We expect the element creation to
+    // succeed and there will likely be errors in render.
+
+    if (!validType) {
+      var info = '';
+
+      if (type === undefined || typeof type === 'object' && type !== null && Object.keys(type).length === 0) {
+        info += ' You likely forgot to export your component from the file ' + "it's defined in, or you might have mixed up default and named imports.";
+      }
+
+      var sourceInfo = getSourceInfoErrorAddendum(source);
+
+      if (sourceInfo) {
+        info += sourceInfo;
+      } else {
+        info += getDeclarationErrorAddendum();
+      }
+
+      var typeString;
+
+      if (type === null) {
+        typeString = 'null';
+      } else if (Array.isArray(type)) {
+        typeString = 'array';
+      } else if (type !== undefined && type.$$typeof === REACT_ELEMENT_TYPE) {
+        typeString = "<" + (getComponentName(type.type) || 'Unknown') + " />";
+        info = ' Did you accidentally export a JSX literal instead of a component?';
+      } else {
+        typeString = typeof type;
+      }
+
+      error('React.jsx: type is invalid -- expected a string (for ' + 'built-in components) or a class/function (for composite ' + 'components) but got: %s.%s', typeString, info);
+    }
+
+    var element = jsxDEV(type, props, key, source, self); // The result can be nullish if a mock or a custom function is used.
+    // TODO: Drop this when these are no longer allowed as the type argument.
+
+    if (element == null) {
+      return element;
+    } // Skip key warning if the type isn't valid since our key validation logic
+    // doesn't expect a non-string/function type and can throw confusing errors.
+    // We don't want exception behavior to differ between dev and prod.
+    // (Rendering will throw with a helpful message and as soon as the type is
+    // fixed, the key warnings will appear.)
+
+
+    if (validType) {
+      var children = props.children;
+
+      if (children !== undefined) {
+        if (isStaticChildren) {
+          if (Array.isArray(children)) {
+            for (var i = 0; i < children.length; i++) {
+              validateChildKeys(children[i], type);
+            }
+
+            if (Object.freeze) {
+              Object.freeze(children);
+            }
+          } else {
+            error('React.jsx: Static children should always be an array. ' + 'You are likely explicitly calling React.jsxs or React.jsxDEV. ' + 'Use the Babel transform instead.');
+          }
+        } else {
+          validateChildKeys(children, type);
+        }
+      }
+    }
+
+    if (type === exports.Fragment) {
+      validateFragmentProps(element);
+    } else {
+      validatePropTypes(element);
+    }
+
+    return element;
+  }
+} // These two functions exist to still get child warnings in dev
+// even with the prod transform. This means that jsxDEV is purely
+// opt-in behavior for better messages but that we won't stop
+// giving you warnings if you use production apis.
+
+function jsxWithValidationStatic(type, props, key) {
+  {
+    return jsxWithValidation(type, props, key, true);
+  }
+}
+function jsxWithValidationDynamic(type, props, key) {
+  {
+    return jsxWithValidation(type, props, key, false);
+  }
+}
+
+var jsx =  jsxWithValidationDynamic ; // we may want to special case jsxs internally to take advantage of static children.
+// for now we can ship identical prod functions
+
+var jsxs =  jsxWithValidationStatic ;
+
+exports.jsx = jsx;
+exports.jsxs = jsxs;
+  })();
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/react/cjs/react.development.js":
 /*!*****************************************************!*\
   !*** ./node_modules/react/cjs/react.development.js ***!
@@ -51701,6 +59653,22 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/react/jsx-runtime.js":
+/*!*******************************************!*\
+  !*** ./node_modules/react/jsx-runtime.js ***!
+  \*******************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+if (false) {} else {
+  module.exports = __webpack_require__(/*! ./cjs/react-jsx-runtime.development.js */ "./node_modules/react/cjs/react-jsx-runtime.development.js");
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/scheduler/cjs/scheduler-tracing.development.js":
 /*!*********************************************************************!*\
   !*** ./node_modules/scheduler/cjs/scheduler-tracing.development.js ***!
@@ -52890,8 +60858,38 @@ module.exports = function getSideChannel() {
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var map = {
+	"./API/ApiTokenManager": "./resources/js/Pages/API/ApiTokenManager.tsx",
+	"./API/ApiTokenManager.tsx": "./resources/js/Pages/API/ApiTokenManager.tsx",
+	"./API/Index": "./resources/js/Pages/API/Index.jsx",
+	"./API/Index.jsx": "./resources/js/Pages/API/Index.jsx",
+	"./Auth/ConfirmPassword": "./resources/js/Pages/Auth/ConfirmPassword.tsx",
+	"./Auth/ConfirmPassword.tsx": "./resources/js/Pages/Auth/ConfirmPassword.tsx",
+	"./Auth/ForgotPassword": "./resources/js/Pages/Auth/ForgotPassword.tsx",
+	"./Auth/ForgotPassword.tsx": "./resources/js/Pages/Auth/ForgotPassword.tsx",
 	"./Auth/Login": "./resources/js/Pages/Auth/Login.tsx",
 	"./Auth/Login.tsx": "./resources/js/Pages/Auth/Login.tsx",
+	"./Auth/Register": "./resources/js/Pages/Auth/Register.tsx",
+	"./Auth/Register.tsx": "./resources/js/Pages/Auth/Register.tsx",
+	"./Auth/ResetPassword": "./resources/js/Pages/Auth/ResetPassword.tsx",
+	"./Auth/ResetPassword.tsx": "./resources/js/Pages/Auth/ResetPassword.tsx",
+	"./Auth/TwoFactorChallenge": "./resources/js/Pages/Auth/TwoFactorChallenge.tsx",
+	"./Auth/TwoFactorChallenge.tsx": "./resources/js/Pages/Auth/TwoFactorChallenge.tsx",
+	"./Auth/VerifyEmail": "./resources/js/Pages/Auth/VerifyEmail.tsx",
+	"./Auth/VerifyEmail.tsx": "./resources/js/Pages/Auth/VerifyEmail.tsx",
+	"./Dashboard": "./resources/js/Pages/Dashboard.tsx",
+	"./Dashboard.tsx": "./resources/js/Pages/Dashboard.tsx",
+	"./Profile/DeleteUserForm": "./resources/js/Pages/Profile/DeleteUserForm.tsx",
+	"./Profile/DeleteUserForm.tsx": "./resources/js/Pages/Profile/DeleteUserForm.tsx",
+	"./Profile/LogoutOtherBrowserSessionsForm": "./resources/js/Pages/Profile/LogoutOtherBrowserSessionsForm.tsx",
+	"./Profile/LogoutOtherBrowserSessionsForm.tsx": "./resources/js/Pages/Profile/LogoutOtherBrowserSessionsForm.tsx",
+	"./Profile/Show": "./resources/js/Pages/Profile/Show.tsx",
+	"./Profile/Show.tsx": "./resources/js/Pages/Profile/Show.tsx",
+	"./Profile/TwoFactorAuthenticationForm": "./resources/js/Pages/Profile/TwoFactorAuthenticationForm.tsx",
+	"./Profile/TwoFactorAuthenticationForm.tsx": "./resources/js/Pages/Profile/TwoFactorAuthenticationForm.tsx",
+	"./Profile/UpdatePasswordForm": "./resources/js/Pages/Profile/UpdatePasswordForm.tsx",
+	"./Profile/UpdatePasswordForm.tsx": "./resources/js/Pages/Profile/UpdatePasswordForm.tsx",
+	"./Profile/UpdateProfileInformationForm": "./resources/js/Pages/Profile/UpdateProfileInformationForm.tsx",
+	"./Profile/UpdateProfileInformationForm.tsx": "./resources/js/Pages/Profile/UpdateProfileInformationForm.tsx",
 	"./Welcome": "./resources/js/Pages/Welcome.tsx",
 	"./Welcome.tsx": "./resources/js/Pages/Welcome.tsx"
 };
@@ -52989,6 +60987,30 @@ webpackContext.id = "./resources/js/Pages sync recursive ^\\.\\/.*$";
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
 /******/ 		};
 /******/ 	})();
 /******/ 	

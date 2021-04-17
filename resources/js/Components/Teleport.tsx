@@ -5,6 +5,7 @@ type Props = {
   to: string;
 };
 
-export const Teleport: React.FC<Props> = ({ children, to }) => {
+const Teleport: React.FC<Props> = ({ children, to }) => {
   return <>{createPortal(<>{children}</>, document.querySelector(to)!)}</>;
 };
+export default Teleport;

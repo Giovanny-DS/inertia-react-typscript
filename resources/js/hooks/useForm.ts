@@ -1,7 +1,11 @@
 import React from 'react';
 import { usePage } from '@inertiajs/inertia-react';
 
-export default ({ errorBag = null, ...initialData }) => {
+// type Props = {
+//   errorBag: any;
+//   initialData: { [key: string]: string };
+// };
+export default ({ errorBag = {}, ...initialData }) => {
   const [data, setData] = React.useState(initialData);
   const [status, setStatus] = React.useState('idle');
   //@ts-ignore
@@ -21,7 +25,7 @@ export default ({ errorBag = null, ...initialData }) => {
       setData(initialData);
     } else {
       setData((currentData) =>
-        fields.reduce((carry: any, key: string | number) => ({ ...carry, [key]: initialData[key] }), currentData)
+        fields.reduce((carry: any, key: string) => ({ ...carry, [key]: initialData[key] }), currentData)
       );
     }
   };
@@ -55,7 +59,7 @@ export default ({ errorBag = null, ...initialData }) => {
     [setStatus]
   );
 
-  const setField = (field: string, value: string | CallableFunction) =>
+  const setField = (field: string, value: any) =>
     setData((oldData: any) => ({
       ...oldData,
       [field]: typeof value === 'function' ? value(oldData[field]) : value,

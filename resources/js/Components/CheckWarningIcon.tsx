@@ -4,7 +4,7 @@ type Props = {
   className?: string;
 };
 
-export const CheckWarningIcon: React.FC<Props> = ({ className }) => {
+const CheckWarningIcon: React.FC<Props> = ({ className }) => {
   return (
     <svg
       className={['w-5 h-5', className].join(' ')}
@@ -22,3 +22,4 @@ export const CheckWarningIcon: React.FC<Props> = ({ className }) => {
     </svg>
   );
 };
+export default CheckWarningIcon;

@@ -3,7 +3,7 @@ import React from 'react';
 type Props = {
   className?: string; //In case you want to pick another color
 };
-export const SectionBorder = ({ className = 'border-gray-200' }: Props) => {
+const SectionBorder = ({ className = 'border-gray-200' }: Props) => {
   return (
     <div className="hidden sm:block">
       <div className="py-8">
@@ -12,3 +12,4 @@ export const SectionBorder = ({ className = 'border-gray-200' }: Props) => {
     </div>
   );
 };
+export default SectionBorder;

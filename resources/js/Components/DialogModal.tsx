@@ -1,25 +1,22 @@
-import React, { useState } from 'react';
-import { Modal } from './Modal';
+import React, { useEffect, useState } from 'react';
+import Modal from './Modal';
 
 type Props = {
   on: boolean;
   title?: string | React.ReactNode;
+  onClose?: CallableFunction;
   content?: string | React.ReactNode;
   footer?: string | React.ReactNode;
   closeable?: boolean;
 };
 
-export const DialogModal: React.FC<Props> = ({
-  on,
-  content,
-  footer,
-  closeable = true,
-  title = 'modal title',
-  children,
-}) => {
+const DialogModal: React.FC<Props> = ({ on, onClose, content, footer, closeable = true, title = 'modal title' }) => {
   const [show, setShow] = useState(on);
+  useEffect(() => {
+    setShow(on);
+  }, [on]);
   return (
-    <Modal show={show} closeable={closeable} onClose={() => setShow(false)}>
+    <Modal show={show} closeable={closeable} onClose={() => (onClose ? onClose() : setShow(false))}>
       <div className="relative px-6 py-4">
         <div className="text-lg">{title}</div>
         <div className="mt-4">{content}</div>
@@ -30,3 +27,4 @@ export const DialogModal: React.FC<Props> = ({
     </Modal>
   );
 };
+export default DialogModal;

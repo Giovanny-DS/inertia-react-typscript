@@ -1,9 +1,9 @@
 import React, { useReducer, useRef } from 'react';
-import { DialogModal } from './DialogModal';
-import { Input } from './Input';
-import { InputError } from './InputError';
-import { Button } from './Button';
-import useKeyPress from '../hooks/useKeyPress';
+import DialogModal from './DialogModal';
+import Input from './Input';
+import InputError from './InputError';
+import Button from './Button';
+import useKeyPress from '../Hooks/useKeyPress';
 import axios from 'axios';
 
 const initialState = {
@@ -48,12 +48,12 @@ function reducer(state: any, action: any) {
   }
 }
 type Props = {
-  title: string | React.ReactNode;
-  content: string | React.ReactNode;
-  button: string;
+  title?: string | React.ReactNode;
+  content?: string | React.ReactNode;
+  button?: string;
   onConfirm: CallableFunction;
 };
-export const ConfirmsPassword: React.FC<Props> = ({
+const ConfirmsPassword: React.FC<Props> = ({
   children,
   title = 'Confirm Password',
   content = 'For your security, please confirm your password to continue.',
@@ -126,7 +126,7 @@ export const ConfirmsPassword: React.FC<Props> = ({
     <>
       <Button variant="secondary" onClick={closeModal}>
         Never Mind
-      </Button>{' '}
+      </Button>
       <Button
         className={['ml-2', formProcessing && 'opacity-25'].join(' ')}
         onClick={confirmPassword}
@@ -144,3 +144,5 @@ export const ConfirmsPassword: React.FC<Props> = ({
     </span>
   );
 };
+
+export default ConfirmsPassword;

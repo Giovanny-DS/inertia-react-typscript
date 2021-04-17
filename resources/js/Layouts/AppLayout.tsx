@@ -1,18 +1,18 @@
 import { InertiaLink, usePage } from '@inertiajs/inertia-react';
-import React, { useEffect, useState } from 'react';
-import { Banner } from '../Components/Banner';
-import { NavLink } from '../Components/NavLink';
-import { ResponsiveNavLink } from '../Components/ResponsiveNavLink';
-import { ApplicationMark } from '../Components/ApplicationMark';
-import { Dropdown } from '../Components/Dropdown';
-import { DropdownLink } from '../Components/DropdownLink';
-import usePreventDefault from '../hooks/usePreventDefault';
 import { Inertia } from '@inertiajs/inertia';
+import React, { useEffect, useState } from 'react';
+import Banner from '../Components/Banner';
+import NavLink from '../Components/NavLink';
+import ResponsiveNavLink from '../Components/ResponsiveNavLink';
+import ApplicationMark from '../Components/ApplicationMark';
+import Dropdown from '../Components/Dropdown';
+import DropdownLink from '../Components/DropdownLink';
+import usePreventDefault from '../Hooks/usePreventDefault';
 import { Team } from '../types/types';
 type Props = {
   header?: string | React.ReactNode;
 };
-export const AppLayout: React.FC<Props> = ({ header, children }) => {
+const AppLayout: React.FC<Props> = ({ header, children }) => {
   const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
   const [bannerToggle, setBannerToggle] = useState(false);
   //@ts-ignore
@@ -345,3 +345,4 @@ export const AppLayout: React.FC<Props> = ({ header, children }) => {
     </div>
   );
 };
+export default AppLayout;

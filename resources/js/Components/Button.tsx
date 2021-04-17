@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 
 type Props = {
   type?: 'button' | 'submit' | 'reset';
@@ -16,7 +16,7 @@ const color = {
     'inline-flex items-center justify-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-600 disabled:opacity-25 transition',
   clean: '',
 };
-export const Button: React.FC<React.PropsWithChildren<Props>> = ({
+const Button: React.FC<React.PropsWithChildren<Props>> = ({
   type = 'submit',
   variant = 'primary',
   disabled = false,
@@ -37,3 +37,5 @@ export const Button: React.FC<React.PropsWithChildren<Props>> = ({
     </button>
   );
 };
+
+export default Button;

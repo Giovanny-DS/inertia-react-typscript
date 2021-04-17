@@ -1,7 +1,6 @@
 import { Transition } from '@headlessui/react';
 import React from 'react';
-import { createPortal } from 'react-dom';
-import { Teleport } from './Teleport';
+import Teleport from './Teleport';
 
 type Props = {
   show: boolean;
@@ -9,7 +8,7 @@ type Props = {
   onClose?: CallableFunction;
 };
 
-export const Modal: React.FC<Props> = ({ children, show, closeable = true, onClose }) => {
+const Modal: React.FC<Props> = ({ children, show, closeable = true, onClose }) => {
   return (
     <Teleport to="#app">
       <Transition show={show} leave="duration-200">
@@ -49,3 +48,4 @@ export const Modal: React.FC<Props> = ({ children, show, closeable = true, onClo
     </Teleport>
   );
 };
+export default Modal;

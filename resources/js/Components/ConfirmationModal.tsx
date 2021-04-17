@@ -1,8 +1,8 @@
 import React from 'react';
-import { Modal } from './Modal';
+import Modal from './Modal';
 
 type Props = {
-  show: boolean;
+  on: boolean;
   title?: string | React.ReactNode;
   content?: string | React.ReactNode;
   footer?: string | React.ReactNode;
@@ -10,9 +10,9 @@ type Props = {
   onClose?: CallableFunction;
 };
 
-export const ConfirmationModal: React.FC<Props> = ({ show, title, content, footer, closeable = true, onClose }) => {
+const ConfirmationModal: React.FC<Props> = ({ on, title, content, footer, closeable = true, onClose }) => {
   return (
-    <Modal show={show} max-width="maxWidth" closeable={closeable} onClose={onClose}>
+    <Modal show={on} max-width="maxWidth" closeable={closeable} onClose={onClose}>
       <div className="px-4 pt-5 pb-4 bg-white sm:p-6 sm:pb-4">
         <div className="sm:flex sm:items-start">
           <div className="flex items-center justify-center flex-shrink-0 w-12 h-12 mx-auto bg-red-100 rounded-full sm:mx-0 sm:h-10 sm:w-10">
@@ -38,3 +38,4 @@ export const ConfirmationModal: React.FC<Props> = ({ show, title, content, foote
     </Modal>
   );
 };
+export default ConfirmationModal;

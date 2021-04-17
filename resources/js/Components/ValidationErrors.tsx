@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import { usePage } from '@inertiajs/inertia-react';
 type Props = {
   className: string;
 };
-export const ValidationErrors: React.FC<Props> = ({ className = '' }) => {
+const ValidationErrors: React.FC<Props> = ({ className = '' }) => {
   //@ts-ignore
   const { errors } = usePage().props;
   if (!errors || !Object.keys(errors).length) {
@@ -22,3 +22,4 @@ export const ValidationErrors: React.FC<Props> = ({ className = '' }) => {
     </div>
   );
 };
+export default ValidationErrors;

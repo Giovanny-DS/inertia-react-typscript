@@ -1,11 +1,11 @@
-import React, { DetailedHTMLProps, InputHTMLAttributes } from 'react';
+import React from 'react';
 
 type Props = React.ComponentPropsWithoutRef<'input'> & {
   value?: string;
   className?: string;
 };
 
-export const Checkbox: React.FC<Props> = ({ value = '', onChange, className = '' }) => {
+const Checkbox: React.FC<Props> = ({ value = '', onChange, className = '' }) => {
   return (
     <input
       type="checkbox"
@@ -18,3 +18,4 @@ export const Checkbox: React.FC<Props> = ({ value = '', onChange, className = ''
     />
   );
 };
+export default Checkbox;

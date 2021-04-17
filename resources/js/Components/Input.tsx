@@ -4,7 +4,7 @@ type Props = React.ComponentPropsWithoutRef<'input'> & {
   fieldRef?: RefObject<HTMLInputElement>;
 };
 
-export const Input: React.FC<Props> = ({ className, value, fieldRef: ref = null, onChange = (e) => null, ...rest }) => {
+const Input: React.FC<Props> = ({ className, value, fieldRef: ref = null, onChange = (e) => null, ...rest }) => {
   return (
     <input
       className={[
@@ -19,3 +19,4 @@ export const Input: React.FC<Props> = ({ className, value, fieldRef: ref = null,
     />
   );
 };
+export default Input;

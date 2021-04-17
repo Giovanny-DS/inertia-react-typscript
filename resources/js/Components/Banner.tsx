@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Transition } from '@headlessui/react';
-import { CheckFailIcon } from './CheckFailIcon';
-import { CheckPassesIcon } from './CheckPassesIcon';
-import { CheckInfoIcon } from './CheckInfoIcon';
-import { CheckWarningIcon } from './CheckWarningIcon';
-import { CheckCancelIcon } from './CheckCancelIcon';
-import { usePage } from '@inertiajs/inertia-react';
+import CheckFailIcon from './CheckFailIcon';
+import CheckPassesIcon from './CheckPassesIcon';
+import CheckInfoIcon from './CheckInfoIcon';
+import CheckWarningIcon from './CheckWarningIcon';
+import CheckCancelIcon from './CheckCancelIcon';
+import usePage from '@inertiajs/inertia-react';
 
 type Props = {
   message: string;
@@ -16,14 +16,7 @@ type Props = {
   time?: number;
 };
 
-export const Banner: React.FC<Props> = ({
-  on,
-  message,
-  onClose,
-  autoDeletion = false,
-  type = 'success',
-  time = 3000,
-}) => {
+const Banner: React.FC<Props> = ({ on, message, onClose, autoDeletion = false, type = 'success', time = 3000 }) => {
   useEffect(() => {
     if (autoDeletion) {
       const deletionTimeout = setTimeout(() => {
@@ -117,3 +110,4 @@ export const Banner: React.FC<Props> = ({
     </div>
   );
 };
+export default Banner;

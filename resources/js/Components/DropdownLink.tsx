@@ -6,7 +6,7 @@ type Props = {
   href?: string;
 };
 
-export const DropdownLink: React.FC<Props> = ({ as, href = '', children }) => {
+const DropdownLink: React.FC<Props> = ({ as, href = '', children }) => {
   return (
     <div>
       {as === 'button' ? (
@@ -34,3 +34,4 @@ export const DropdownLink: React.FC<Props> = ({ as, href = '', children }) => {
     </div>
   );
 };
+export default DropdownLink;

@@ -5,6 +5,7 @@ type Props = {
   className?: string;
 };
 
-export const InputError: React.FC<Props> = ({ message, className }) => {
+const InputError: React.FC<Props> = ({ message, className }) => {
   return <div>{message && <p className={['text-sm text-red-600', className].join(' ')}>{message}</p>}</div>;
 };
+export default InputError;

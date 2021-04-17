@@ -1,12 +1,12 @@
 import { Transition } from '@headlessui/react';
 import React from 'react';
 
-type Props = {
+type Props = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
   on: boolean;
   children: React.ReactNode;
 };
 
-export const ActionMessage: React.FC<Props> = ({ on = false, children, ...rest }) => {
+const ActionMessage: React.FC<Props> = ({ on = false, children, ...rest }) => {
   return (
     <div {...rest}>
       <Transition show={on} leave="transition ease-in duration-1000" leaveFrom="opacity-100" leaveTo="opacity-0">
@@ -15,3 +15,4 @@ export const ActionMessage: React.FC<Props> = ({ on = false, children, ...rest }
     </div>
   );
 };
+export default ActionMessage;

@@ -8,7 +8,7 @@ type Props = {
   active?: boolean;
 };
 
-export const NavLink: React.FC<Props> = ({ href, className = '', activeClassName = '', active = false, children }) => {
+const NavLink: React.FC<Props> = ({ href, className = '', activeClassName = '', active = false, children }) => {
   return (
     <InertiaLink
       href={href}
@@ -26,3 +26,4 @@ export const NavLink: React.FC<Props> = ({ href, className = '', activeClassName
     </InertiaLink>
   );
 };
+export default NavLink;
