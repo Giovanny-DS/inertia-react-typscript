@@ -7081,6 +7081,19 @@ exports.default = CheckWarningIcon;
 "use strict";
 
 
+var __rest = this && this.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) {
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  }
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -7093,20 +7106,19 @@ Object.defineProperty(exports, "__esModule", ({
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-var Checkbox = function Checkbox(_ref) {
-  var _ref$value = _ref.value,
-      value = _ref$value === void 0 ? '' : _ref$value,
-      _onChange = _ref.onChange,
-      _ref$className = _ref.className,
-      className = _ref$className === void 0 ? '' : _ref$className;
-  return react_1["default"].createElement("input", {
+var Checkbox = function Checkbox(_a) {
+  var _onChange = _a.onChange,
+      _a$className = _a.className,
+      className = _a$className === void 0 ? '' : _a$className,
+      props = __rest(_a, ["onChange", "className"]);
+
+  return react_1["default"].createElement("input", Object.assign({
     type: "checkbox",
-    value: value,
     onChange: function onChange(e) {
       return _onChange === null || _onChange === void 0 ? void 0 : _onChange(e);
     },
     className: ['text-indigo-600 border-gray-300 rounded shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50', className].join(' ')
-  });
+  }, props));
 };
 
 exports.default = Checkbox;
@@ -8611,60 +8623,6 @@ exports.default = function (e, callback) {
 
 /***/ }),
 
-/***/ "./resources/js/Hooks/useSlicedState.tsx":
-/*!***********************************************!*\
-  !*** ./resources/js/Hooks/useSlicedState.tsx ***!
-  \***********************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-exports.default = function (initialState) {
-  var _react_1$default$useS = react_1["default"].useState(initialState),
-      _react_1$default$useS2 = _slicedToArray(_react_1$default$useS, 2),
-      state = _react_1$default$useS2[0],
-      setState = _react_1$default$useS2[1];
-
-  var updateState = function updateState(patch) {
-    return setState(function (oldState) {
-      return Object.assign(Object.assign({}, oldState), patch);
-    });
-  };
-
-  return {
-    state: state,
-    setState: setState,
-    updateState: updateState
-  };
-};
-
-/***/ }),
-
 /***/ "./resources/js/Layouts/AppLayout.tsx":
 /*!********************************************!*\
   !*** ./resources/js/Layouts/AppLayout.tsx ***!
@@ -8772,7 +8730,6 @@ var AppLayout = function AppLayout(_ref) {
   var flash = jetstream.flash;
   var allTeams = user.allTeams;
   var currentTeam = user.current_team;
-  console.log(usePage_1.usePage());
   react_1.useEffect(function () {
     if (flash.message) {
       setBannerToggle(true);
@@ -9031,6 +8988,14 @@ exports.default = AppLayout;
 "use strict";
 
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -9077,6 +9042,12 @@ var __importStar = this && this.__importStar || function (mod) {
   return result;
 };
 
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
@@ -9084,6 +9055,30 @@ Object.defineProperty(exports, "__esModule", ({
 var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
 
 var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var ActionMessage_1 = __importDefault(__webpack_require__(/*! ../../Components/ActionMessage */ "./resources/js/Components/ActionMessage.tsx"));
+
+var ActionSection_1 = __importDefault(__webpack_require__(/*! ../../Components/ActionSection */ "./resources/js/Components/ActionSection.tsx"));
+
+var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
+
+var Checkbox_1 = __importDefault(__webpack_require__(/*! ../../Components/Checkbox */ "./resources/js/Components/Checkbox.tsx"));
+
+var ConfirmationModal_1 = __importDefault(__webpack_require__(/*! ../../Components/ConfirmationModal */ "./resources/js/Components/ConfirmationModal.tsx"));
+
+var DialogModal_1 = __importDefault(__webpack_require__(/*! ../../Components/DialogModal */ "./resources/js/Components/DialogModal.tsx"));
+
+var FormSection_1 = __importDefault(__webpack_require__(/*! ../../Components/FormSection */ "./resources/js/Components/FormSection.tsx"));
+
+var Input_1 = __importDefault(__webpack_require__(/*! ../../Components/Input */ "./resources/js/Components/Input.tsx"));
+
+var InputError_1 = __importDefault(__webpack_require__(/*! ../../Components/InputError */ "./resources/js/Components/InputError.tsx"));
+
+var Label_1 = __importDefault(__webpack_require__(/*! ../../Components/Label */ "./resources/js/Components/Label.tsx"));
+
+var SectionBorder_1 = __importDefault(__webpack_require__(/*! ../../Components/SectionBorder */ "./resources/js/Components/SectionBorder.tsx"));
+
+var usePage_1 = __webpack_require__(/*! ../../Hooks/usePage */ "./resources/js/Hooks/usePage.tsx");
 
 var ApiTokenManager = function ApiTokenManager(_ref) {
   var tokens = _ref.tokens,
@@ -9100,22 +9095,19 @@ var ApiTokenManager = function ApiTokenManager(_ref) {
       managingPermissionsFor = _react_1$useState4[0],
       setManagingPermissionsFor = _react_1$useState4[1];
 
-  var _react_1$useState5 = react_1.useState(false),
+  var _react_1$useState5 = react_1.useState(null),
       _react_1$useState6 = _slicedToArray(_react_1$useState5, 2),
       apiTokenBeingDeleted = _react_1$useState6[0],
       setApiTokenBeingDeleted = _react_1$useState6[1];
 
-  console.log({
-    tokens: tokens,
-    availablePermissions: availablePermissions,
-    defaultPermissions: defaultPermissions
-  });
+  var jetstream = usePage_1.usePage().props.jetstream; //   console.log({ tokens, availablePermissions, defaultPermissions });
+
   var createApiTokenForm = inertia_react_1.useForm({
     name: '',
     permissions: defaultPermissions
   });
   var updateApiTokenForm = inertia_react_1.useForm({
-    permissions: {}
+    permissions: ['']
   });
   var deleteApiTokenForm = inertia_react_1.useForm({});
 
@@ -9129,6 +9121,26 @@ var ApiTokenManager = function ApiTokenManager(_ref) {
     });
   };
 
+  var updateApiToken = function updateApiToken() {
+    return updateApiTokenForm.put(route('api-tokens.update', managingPermissionsFor), {
+      preserveScroll: true,
+      preserveState: true,
+      onSuccess: function onSuccess() {
+        return setManagingPermissionsFor(null);
+      }
+    });
+  };
+
+  var deleteApiToken = function deleteApiToken() {
+    return deleteApiTokenForm["delete"](route('api-tokens.destroy', apiTokenBeingDeleted === null || apiTokenBeingDeleted === void 0 ? void 0 : apiTokenBeingDeleted.id), {
+      preserveScroll: true,
+      preserveState: true,
+      onSuccess: function onSuccess() {
+        return setApiTokenBeingDeleted(null);
+      }
+    });
+  };
+
   var manageApiTokenPermissions = function manageApiTokenPermissions(token) {
     updateApiTokenForm.data.permissions = token.abilities;
     setManagingPermissionsFor(function () {
@@ -9136,187 +9148,29 @@ var ApiTokenManager = function ApiTokenManager(_ref) {
     });
   };
 
-  console.log({
-    createApiTokenForm: createApiTokenForm,
-    updateApiTokenForm: updateApiTokenForm,
-    deleteApiTokenForm: deleteApiTokenForm
-  });
-  return react_1["default"].createElement("div", null);
-};
-
-exports.default = ApiTokenManager;
-
-/***/ }),
-
-/***/ "./resources/js/Pages/API/ApiTokenManager2.tsx":
-/*!*****************************************************!*\
-  !*** ./resources/js/Pages/API/ApiTokenManager2.tsx ***!
-  \*****************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
-
-var ActionMessage_1 = __importDefault(__webpack_require__(/*! ../../Components/ActionMessage */ "./resources/js/Components/ActionMessage.tsx"));
-
-var ActionSection_1 = __importDefault(__webpack_require__(/*! ../../Components/ActionSection */ "./resources/js/Components/ActionSection.tsx"));
-
-var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
-
-var ConfirmationModal_1 = __importDefault(__webpack_require__(/*! ../../Components/ConfirmationModal */ "./resources/js/Components/ConfirmationModal.tsx"));
-
-var DialogModal_1 = __importDefault(__webpack_require__(/*! ../../Components/DialogModal */ "./resources/js/Components/DialogModal.tsx"));
-
-var FormSection_1 = __importDefault(__webpack_require__(/*! ../../Components/FormSection */ "./resources/js/Components/FormSection.tsx"));
-
-var Input_1 = __importDefault(__webpack_require__(/*! ../../Components/Input */ "./resources/js/Components/Input.tsx"));
-
-var Checkbox_1 = __importDefault(__webpack_require__(/*! ../../Components/Checkbox */ "./resources/js/Components/Checkbox.tsx"));
-
-var InputError_1 = __importDefault(__webpack_require__(/*! ../../Components/InputError */ "./resources/js/Components/InputError.tsx"));
-
-var Label_1 = __importDefault(__webpack_require__(/*! ../../Components/Label */ "./resources/js/Components/Label.tsx"));
-
-var SectionBorder_1 = __importDefault(__webpack_require__(/*! ../../Components/SectionBorder */ "./resources/js/Components/SectionBorder.tsx"));
-
-var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.tsx"));
-
-var useSlicedState_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useSlicedState */ "./resources/js/Hooks/useSlicedState.tsx"));
-
-var usePage_1 = __webpack_require__(/*! ../../Hooks/usePage */ "./resources/js/Hooks/usePage.tsx");
-
-var ApiTokenManager = function ApiTokenManager(_ref) {
-  var tokens = _ref.tokens,
-      availablePermissions = _ref.availablePermissions,
-      defaultPermissions = _ref.defaultPermissions;
-  var jetstream = usePage_1.usePage().props.jetstream;
-  var createApiTokenForm = useForm_1["default"]({
-    errorBag: 'createApiToken',
-    name: '',
-    permissions: defaultPermissions
-  });
-  var updateApiTokenForm = useForm_1["default"]({
-    permissions: []
-  });
-  var deleteApiTokenForm = useForm_1["default"]({});
-
-  var _useSlicedState_1$def = useSlicedState_1["default"]({
-    displayingToken: false,
-    managingPermissionsFor: false,
-    apiTokenBeingDeleted: false
-  }),
-      state = _useSlicedState_1$def.state,
-      updateState = _useSlicedState_1$def.updateState;
-
-  var createApiToken = function createApiToken() {
-    return createApiTokenForm.submit(new Promise(function (resolve) {
-      return inertia_1.Inertia.post(route('api-tokens.store'), createApiTokenForm.data, {
-        preserveScroll: true,
-        errorBag: 'createApiToken',
-        onSuccess: function onSuccess() {
-          console.log('success');
-          updateState({
-            displayingToken: true
-          });
-          createApiTokenForm.reset();
-        },
-        onFinish: function onFinish() {
-          console.log('success'); // @ts-ignore
-
-          resolve();
-        }
-      });
-    }));
-  };
-
-  var manageApiTokenPermissions = function manageApiTokenPermissions(token) {
-    updateApiTokenForm.setField('permissions', token.abilities);
-    updateState({
-      managingPermissionsFor: token
+  var checkboxArrayChangeHandler = function checkboxArrayChangeHandler(e, permision, form) {
+    var permissions = form.data.permissions;
+    console.log({
+      createApiTokenForm: createApiTokenForm,
+      updateApiTokenForm: updateApiTokenForm
     });
+
+    if (e.target.checked) {
+      permissions.includes(permision) ? form.setData('permissions', permissions) : form.setData('permissions', [].concat(_toConsumableArray(permissions), [permision]));
+    } else {
+      var index = permissions.indexOf(permision);
+      form.setData('permissions', index === -1 ? permissions : [].concat(_toConsumableArray(permissions.slice(0, index)), _toConsumableArray(permissions.slice(index + 1))));
+    }
   };
 
-  var updateApiToken = function updateApiToken() {
-    return updateApiTokenForm.submit(new Promise(function (resolve) {
-      return inertia_1.Inertia.put(route('api-tokens.update', state.managingPermissionsFor), updateApiTokenForm.data, {
-        preserveScroll: true,
-        preserveState: true,
-        onSuccess: function onSuccess() {
-          return updateState({
-            managingPermissionsFor: null
-          });
-        },
-        // @ts-ignore
-        onFinish: resolve
-      });
-    }));
-  };
-
-  var confirmApiTokenDeletion = function confirmApiTokenDeletion(token) {
-    return updateState({
-      apiTokenBeingDeleted: token
-    });
-  };
-
-  var deleteApiToken = function deleteApiToken() {
-    return deleteApiTokenForm.submit(new Promise(function (resolve) {
-      return inertia_1.Inertia["delete"](route('api-tokens.destroy', state.apiTokenBeingDeleted), {
-        preserveScroll: true,
-        preserveState: true,
-        onSuccess: function onSuccess() {
-          return updateState({
-            apiTokenBeingDeleted: null
-          });
-        },
-        // @ts-ignore
-        onFinish: resolve
-      });
-    }));
-  };
-
-  var isChecked = function isChecked(value, comparing) {
+  var isChecked = function isChecked(permission, comparing) {
     if (Array.isArray(comparing)) {
-      return comparing.includes(value);
+      console.log(comparing.includes(permission));
+      return comparing.includes(permission);
     }
 
-    return comparing === value;
-  };
-
-  var checkboxArrayChangeHandler = function checkboxArrayChangeHandler(value, values, stateHandler) {
-    return function (checked) {
-      if (checked) {
-        stateHandler(values.includes(value) ? values : [].concat(_toConsumableArray(values), [value]));
-      } else {
-        var index = values.indexOf(value);
-        stateHandler(index === -1 ? values : [].concat(_toConsumableArray(values.slice(0, index)), _toConsumableArray(values.slice(index + 1))));
-      }
-    };
+    console.log(comparing === permission);
+    return comparing === permission;
   };
 
   return react_1["default"].createElement("div", null, react_1["default"].createElement(FormSection_1["default"], {
@@ -9334,7 +9188,7 @@ var ApiTokenManager = function ApiTokenManager(_ref) {
       className: "block w-full mt-1",
       value: createApiTokenForm.data.name,
       onChange: function onChange(e) {
-        return createApiTokenForm.setField('name', e.target.value);
+        return createApiTokenForm.setData('name', e.target.value);
       },
       autoFocus: true
     }), react_1["default"].createElement(InputError_1["default"], {
@@ -9355,19 +9209,19 @@ var ApiTokenManager = function ApiTokenManager(_ref) {
       }, react_1["default"].createElement(Checkbox_1["default"], {
         value: permission,
         checked: isChecked(permission, createApiTokenForm.data.permissions),
-        onChange: checkboxArrayChangeHandler(permission, createApiTokenForm.data.permissions, function (newValue) {
-          return createApiTokenForm.setField('permissions', newValue);
-        })
+        onChange: function onChange(e) {
+          return checkboxArrayChangeHandler(e, permission, createApiTokenForm);
+        }
       }), react_1["default"].createElement("span", {
         className: "ml-2 text-sm text-gray-600"
       }, permission)));
     }))) : null),
     actions: react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(ActionMessage_1["default"], {
-      on: createApiTokenForm.data.recentlySuccessful,
+      on: createApiTokenForm.recentlySuccessful,
       className: "mr-3"
     }, "Created."), react_1["default"].createElement(Button_1["default"], {
-      className: createApiTokenForm.isProcessing ? 'opacity-25' : '',
-      disabled: createApiTokenForm.isProcessing
+      className: createApiTokenForm.processing ? 'opacity-25' : '',
+      disabled: createApiTokenForm.processing
     }, "Create"))
   }), tokens.length > 0 ? react_1["default"].createElement("div", null, react_1["default"].createElement(SectionBorder_1["default"], null), react_1["default"].createElement("div", {
     className: "mt-10 sm:mt-0"
@@ -9394,16 +9248,14 @@ var ApiTokenManager = function ApiTokenManager(_ref) {
         type: "button",
         className: "ml-6 text-sm text-red-500 cursor-pointer",
         onClick: function onClick() {
-          return confirmApiTokenDeletion(token);
+          return setApiTokenBeingDeleted(token);
         }
       }, "Delete")));
     }))
   }))) : null, react_1["default"].createElement(DialogModal_1["default"], {
-    on: state.displayingToken,
+    on: displayingToken,
     onClose: function onClose() {
-      return updateState({
-        displayingToken: false
-      });
+      return setDisplayingToken(false);
     },
     title: "API Token",
     content: react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", null, "Please copy your new API token. For your security, it won't be shown again."), jetstream.flash.token ? react_1["default"].createElement("div", {
@@ -9412,17 +9264,13 @@ var ApiTokenManager = function ApiTokenManager(_ref) {
     footer: react_1["default"].createElement(Button_1["default"], {
       variant: "secondary",
       onClick: function onClick() {
-        return updateState({
-          displayingToken: false
-        });
+        return setDisplayingToken(false);
       }
     }, "Close")
   }), react_1["default"].createElement(DialogModal_1["default"], {
-    on: !!state.managingPermissionsFor,
+    on: !!managingPermissionsFor,
     onClose: function onClose() {
-      return updateState({
-        managingPermissionsFor: null
-      });
+      return setManagingPermissionsFor(null);
     },
     title: "API Token Permissions",
     content: react_1["default"].createElement("div", {
@@ -9435,9 +9283,9 @@ var ApiTokenManager = function ApiTokenManager(_ref) {
       }, react_1["default"].createElement(Checkbox_1["default"], {
         value: permission,
         checked: isChecked(permission, updateApiTokenForm.data.permissions),
-        onChange: checkboxArrayChangeHandler(permission, updateApiTokenForm.data.permissions, function (newValue) {
-          return updateApiTokenForm.setField('permissions', newValue);
-        })
+        onChange: function onChange(e) {
+          return checkboxArrayChangeHandler(e, permission, updateApiTokenForm);
+        }
       }), react_1["default"].createElement("span", {
         className: "ml-2 text-sm text-gray-600"
       }, permission)));
@@ -9445,36 +9293,30 @@ var ApiTokenManager = function ApiTokenManager(_ref) {
     footer: react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(Button_1["default"], {
       variant: "secondary",
       onClick: function onClick() {
-        return updateState({
-          managingPermissionsFor: null
-        });
+        return setManagingPermissionsFor(null);
       }
     }, "Never Mind"), react_1["default"].createElement(Button_1["default"], {
       onClick: updateApiToken,
-      className: ['ml-2', updateApiTokenForm.isProcessing ? 'opacity-25' : ''].join(' '),
-      disabled: updateApiTokenForm.isProcessing
+      className: ['ml-2', updateApiTokenForm.processing ? 'opacity-25' : ''].join(' '),
+      disabled: updateApiTokenForm.processing
     }, "Save"))
   }), react_1["default"].createElement(ConfirmationModal_1["default"], {
-    on: !!state.apiTokenBeingDeleted,
+    on: !!apiTokenBeingDeleted,
     onClose: function onClose() {
-      return updateState({
-        apiTokenBeingDeleted: null
-      });
+      return setApiTokenBeingDeleted(null);
     },
     title: "Delete API Token",
     content: "Are you sure you would like to delete this API token?",
     footer: react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(Button_1["default"], {
       variant: "secondary",
       onClick: function onClick() {
-        return updateState({
-          apiTokenBeingDeleted: null
-        });
+        return setApiTokenBeingDeleted(null);
       }
     }, "Never Mind"), react_1["default"].createElement(Button_1["default"], {
       variant: "danger",
       onClick: deleteApiToken,
-      className: ['ml-2', deleteApiTokenForm.isProcessing ? 'opacity-25' : ''].join(' '),
-      disabled: deleteApiTokenForm.isProcessing
+      className: ['ml-2', deleteApiTokenForm.processing ? 'opacity-25' : ''].join(' '),
+      disabled: deleteApiTokenForm.processing
     }, "Delete"))
   }));
 };
@@ -61945,8 +61787,6 @@ module.exports = function getSideChannel() {
 var map = {
 	"./API/ApiTokenManager": "./resources/js/Pages/API/ApiTokenManager.tsx",
 	"./API/ApiTokenManager.tsx": "./resources/js/Pages/API/ApiTokenManager.tsx",
-	"./API/ApiTokenManager2": "./resources/js/Pages/API/ApiTokenManager2.tsx",
-	"./API/ApiTokenManager2.tsx": "./resources/js/Pages/API/ApiTokenManager2.tsx",
 	"./API/Index": "./resources/js/Pages/API/Index.tsx",
 	"./API/Index.tsx": "./resources/js/Pages/API/Index.tsx",
 	"./Auth/ConfirmPassword": "./resources/js/Pages/Auth/ConfirmPassword.tsx",

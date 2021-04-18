@@ -77,8 +77,10 @@ const ApiTokenManager: React.FC<Props> = ({ tokens, availablePermissions, defaul
   };
   const isChecked = (permission: string, comparing: string[] | string) => {
     if (Array.isArray(comparing)) {
+      console.log(comparing.includes(permission));
       return comparing.includes(permission);
     }
+    console.log(comparing === permission);
     return comparing === permission;
   };
   return (
