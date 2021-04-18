@@ -20,7 +20,6 @@ const AppLayout: React.FC<Props> = ({ header, children }) => {
   const { flash } = jetstream;
   const allTeams = user.allTeams;
   const currentTeam = user.current_team;
-  console.log(usePage());
   useEffect(() => {
     if (flash.message) {
       setBannerToggle(true);

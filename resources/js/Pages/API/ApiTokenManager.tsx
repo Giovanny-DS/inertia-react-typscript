@@ -1,20 +1,18 @@
-import React from 'react';
-import { Inertia } from '@inertiajs/inertia';
-import { usePage } from '@inertiajs/inertia-react';
+import { useForm } from '@inertiajs/inertia-react';
+import React, { useState } from 'react';
 import ActionMessage from '../../Components/ActionMessage';
 import ActionSection from '../../Components/ActionSection';
 import Button from '../../Components/Button';
+import Checkbox from '../../Components/Checkbox';
 import ConfirmationModal from '../../Components/ConfirmationModal';
 import DialogModal from '../../Components/DialogModal';
 import FormSection from '../../Components/FormSection';
 import Input from '../../Components/Input';
-import Checkbox from '../../Components/Checkbox';
 import InputError from '../../Components/InputError';
 import Label from '../../Components/Label';
 import SectionBorder from '../../Components/SectionBorder';
-import useForm from '../../Hooks/useForm';
-import useSlicedState from '../../Hooks/useSlicedState';
-import { Tokens, Token } from '../../types/types';
+import { usePage } from '../../Hooks/usePage';
+import { Token, Tokens } from '../../types/types';
 
 type Props = {
   tokens: Tokens;
@@ -23,95 +21,66 @@ type Props = {
 };
 
 const ApiTokenManager: React.FC<Props> = ({ tokens, availablePermissions, defaultPermissions }) => {
-  // @ts-ignore
+  const [displayingToken, setDisplayingToken] = useState(false);
+  const [managingPermissionsFor, setManagingPermissionsFor] = useState<null | {}>(null);
+  const [apiTokenBeingDeleted, setApiTokenBeingDeleted] = useState<null | Token>(null);
   const { jetstream } = usePage().props;
 
+  //   console.log({ tokens, availablePermissions, defaultPermissions });
   const createApiTokenForm = useForm({
-    errorBag: 'createApiToken',
     name: '',
     permissions: defaultPermissions,
   });
-
   const updateApiTokenForm = useForm({
-    permissions: [],
+    permissions: [''],
   });
-
   const deleteApiTokenForm = useForm({});
-
-  const { state, updateState } = useSlicedState({
-    displayingToken: false,
-    managingPermissionsFor: false,
-    apiTokenBeingDeleted: false,
-  });
-
-  const createApiToken = () =>
-    createApiTokenForm.submit(
-      new Promise((resolve) =>
-        // @ts-ignore
-        Inertia.post(route('api-tokens.store'), createApiTokenForm.data, {
-          preserveScroll: true,
-          errorBag: 'createApiToken',
-          onSuccess: () => {
-            updateState({ displayingToken: true });
-            createApiTokenForm.reset();
-          },
-          // @ts-ignore
-          onFinish: resolve,
-        })
-      )
-    );
-
-  const manageApiTokenPermissions = (token: Token) => {
-    updateApiTokenForm.setField('permissions', token.abilities);
-    updateState({ managingPermissionsFor: token });
+  const createApiToken = () => {
+    createApiTokenForm.post(route('api-tokens.store'), {
+      preserveScroll: true,
+      onSuccess: () => {
+        setDisplayingToken(true);
+        createApiTokenForm.reset();
+      },
+    });
   };
-
   const updateApiToken = () =>
-    updateApiTokenForm.submit(
-      new Promise((resolve) =>
-        // @ts-ignore
-        Inertia.put(route('api-tokens.update', state.managingPermissionsFor), updateApiTokenForm.data, {
-          preserveScroll: true,
-          preserveState: true,
-          onSuccess: () => updateState({ managingPermissionsFor: null }),
-          // @ts-ignore
-          onFinish: resolve,
-        })
-      )
-    );
-
-  const confirmApiTokenDeletion = (token: Token) => updateState({ apiTokenBeingDeleted: token });
-
+    updateApiTokenForm.put(route('api-tokens.update', managingPermissionsFor), {
+      preserveScroll: true,
+      preserveState: true,
+      onSuccess: () => setManagingPermissionsFor(null),
+    });
   const deleteApiToken = () =>
-    deleteApiTokenForm.submit(
-      new Promise((resolve) =>
-        // @ts-ignore
-        Inertia.delete(route('api-tokens.destroy', state.apiTokenBeingDeleted), {
-          preserveScroll: true,
-          preserveState: true,
-          onSuccess: () => updateState({ apiTokenBeingDeleted: null }),
-          // @ts-ignore
-          onFinish: resolve,
-        })
-      )
-    );
-
-  const isChecked = (value: string, comparing: string[] | string) => {
-    if (Array.isArray(comparing)) {
-      return comparing.includes(value);
-    }
-    return comparing === value;
+    deleteApiTokenForm.delete(route('api-tokens.destroy', apiTokenBeingDeleted?.id), {
+      preserveScroll: true,
+      preserveState: true,
+      onSuccess: () => setApiTokenBeingDeleted(null),
+    });
+  const manageApiTokenPermissions = (token: Token) => {
+    updateApiTokenForm.data.permissions = token.abilities;
+    setManagingPermissionsFor(() => token);
   };
-
-  const checkboxArrayChangeHandler = (value: any, values: any, stateHandler: any) => (checked: any) => {
-    if (checked) {
-      stateHandler(values.includes(value) ? values : [...values, value]);
+  const checkboxArrayChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, permision: string, form: any) => {
+    const permissions = form.data.permissions;
+    console.log({ createApiTokenForm, updateApiTokenForm });
+    if (e.target.checked) {
+      permissions.includes(permision)
+        ? form.setData('permissions', permissions)
+        : form.setData('permissions', [...permissions, permision]);
     } else {
-      const index = values.indexOf(value);
-      stateHandler(index === -1 ? values : [...values.slice(0, index), ...values.slice(index + 1)]);
+      const index = permissions.indexOf(permision);
+      form.setData(
+        'permissions',
+        index === -1 ? permissions : [...permissions.slice(0, index), ...permissions.slice(index + 1)]
+      );
     }
   };
-
+  const isChecked = (permission: string, comparing: string[] | string) => {
+    if (Array.isArray(comparing)) {
+      return comparing.includes(permission);
+    }
+    return comparing === permission;
+  };
   return (
     <div>
       {/* Generate API Token */}
@@ -129,7 +98,7 @@ const ApiTokenManager: React.FC<Props> = ({ tokens, availablePermissions, defaul
                 type="text"
                 className="block w-full mt-1"
                 value={createApiTokenForm.data.name}
-                onChange={(e) => createApiTokenForm.setField('name', e.target.value)}
+                onChange={(e) => createApiTokenForm.setData('name', e.target.value)}
                 autoFocus
               />
               <InputError message={createApiTokenForm.errors.name} className="mt-2" />
@@ -147,11 +116,7 @@ const ApiTokenManager: React.FC<Props> = ({ tokens, availablePermissions, defaul
                         <Checkbox
                           value={permission}
                           checked={isChecked(permission, createApiTokenForm.data.permissions)}
-                          onChange={checkboxArrayChangeHandler(
-                            permission,
-                            createApiTokenForm.data.permissions,
-                            (newValue: React.ChangeEvent) => createApiTokenForm.setField('permissions', newValue)
-                          )}
+                          onChange={(e) => checkboxArrayChangeHandler(e, permission, createApiTokenForm)}
                         />
                         <span className="ml-2 text-sm text-gray-600">{permission}</span>
                       </label>
@@ -164,12 +129,12 @@ const ApiTokenManager: React.FC<Props> = ({ tokens, availablePermissions, defaul
         }
         actions={
           <>
-            <ActionMessage on={createApiTokenForm.data.recentlySuccessful} className="mr-3">
+            <ActionMessage on={createApiTokenForm.recentlySuccessful} className="mr-3">
               Created.
             </ActionMessage>
             <Button
-              className={createApiTokenForm.isProcessing ? 'opacity-25' : ''}
-              disabled={createApiTokenForm.isProcessing}
+              className={createApiTokenForm.processing ? 'opacity-25' : ''}
+              disabled={createApiTokenForm.processing}
             >
               Create
             </Button>
@@ -211,7 +176,7 @@ const ApiTokenManager: React.FC<Props> = ({ tokens, availablePermissions, defaul
                         <button
                           type="button"
                           className="ml-6 text-sm text-red-500 cursor-pointer"
-                          onClick={() => confirmApiTokenDeletion(token)}
+                          onClick={() => setApiTokenBeingDeleted(token)}
                         >
                           Delete
                         </button>
@@ -224,11 +189,10 @@ const ApiTokenManager: React.FC<Props> = ({ tokens, availablePermissions, defaul
           </div>
         </div>
       ) : null}
-
       {/* Token Value Modal */}
       <DialogModal
-        on={state.displayingToken}
-        onClose={() => updateState({ displayingToken: false })}
+        on={displayingToken}
+        onClose={() => setDisplayingToken(false)}
         title="API Token"
         content={
           <>
@@ -242,7 +206,7 @@ const ApiTokenManager: React.FC<Props> = ({ tokens, availablePermissions, defaul
           </>
         }
         footer={
-          <Button variant="secondary" onClick={() => updateState({ displayingToken: false })}>
+          <Button variant="secondary" onClick={() => setDisplayingToken(false)}>
             Close
           </Button>
         }
@@ -250,8 +214,8 @@ const ApiTokenManager: React.FC<Props> = ({ tokens, availablePermissions, defaul
 
       {/* API Token Permissions Modal */}
       <DialogModal
-        on={!!state.managingPermissionsFor}
-        onClose={() => updateState({ managingPermissionsFor: null })}
+        on={!!managingPermissionsFor}
+        onClose={() => setManagingPermissionsFor(null)}
         title="API Token Permissions"
         content={
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -261,11 +225,7 @@ const ApiTokenManager: React.FC<Props> = ({ tokens, availablePermissions, defaul
                   <Checkbox
                     value={permission}
                     checked={isChecked(permission, updateApiTokenForm.data.permissions)}
-                    onChange={checkboxArrayChangeHandler(
-                      permission,
-                      updateApiTokenForm.data.permissions,
-                      (newValue: React.ChangeEvent) => updateApiTokenForm.setField('permissions', newValue)
-                    )}
+                    onChange={(e) => checkboxArrayChangeHandler(e, permission, updateApiTokenForm)}
                   />
                   <span className="ml-2 text-sm text-gray-600">{permission}</span>
                 </label>
@@ -275,36 +235,35 @@ const ApiTokenManager: React.FC<Props> = ({ tokens, availablePermissions, defaul
         }
         footer={
           <>
-            <Button variant="secondary" onClick={() => updateState({ managingPermissionsFor: null })}>
+            <Button variant="secondary" onClick={() => setManagingPermissionsFor(null)}>
               Never Mind
             </Button>
             <Button
               onClick={updateApiToken}
-              className={['ml-2', updateApiTokenForm.isProcessing ? 'opacity-25' : ''].join(' ')}
-              disabled={updateApiTokenForm.isProcessing}
+              className={['ml-2', updateApiTokenForm.processing ? 'opacity-25' : ''].join(' ')}
+              disabled={updateApiTokenForm.processing}
             >
               Save
             </Button>
           </>
         }
       />
-
       {/* Delete Token Confirmation Modal */}
       <ConfirmationModal
-        on={!!state.apiTokenBeingDeleted}
-        onClose={() => updateState({ apiTokenBeingDeleted: null })}
+        on={!!apiTokenBeingDeleted}
+        onClose={() => setApiTokenBeingDeleted(null)}
         title="Delete API Token"
         content="Are you sure you would like to delete this API token?"
         footer={
           <>
-            <Button variant="secondary" onClick={() => updateState({ apiTokenBeingDeleted: null })}>
+            <Button variant="secondary" onClick={() => setApiTokenBeingDeleted(null)}>
               Never Mind
             </Button>
             <Button
               variant="danger"
               onClick={deleteApiToken}
-              className={['ml-2', deleteApiTokenForm.isProcessing ? 'opacity-25' : ''].join(' ')}
-              disabled={deleteApiTokenForm.isProcessing}
+              className={['ml-2', deleteApiTokenForm.processing ? 'opacity-25' : ''].join(' ')}
+              disabled={deleteApiTokenForm.processing}
             >
               Delete
             </Button>
