@@ -1,6 +1,6 @@
 import React from 'react';
 import { Inertia } from '@inertiajs/inertia';
-import { InertiaLink, usePage } from '@inertiajs/inertia-react';
+import { InertiaLink } from '@inertiajs/inertia-react';
 import AuthenticationCard from '../../Components/AuthenticationCard';
 import AuthenticationCardLogo from '../../Components/AuthenticationCardLogo';
 import ValidationErrors from '../../Components/ValidationErrors';
@@ -9,6 +9,7 @@ import Label from '../../Components/Label';
 import Button from '../../Components/Button';
 import Checkbox from '../../Components/Checkbox';
 import useForm from '../../Hooks/useForm';
+import { usePage } from '../../Hooks/usePage';
 
 const Register = () => {
   const { data, useField, status: formStatus, submit, reset } = useForm({
@@ -24,7 +25,6 @@ const Register = () => {
   const [password, setPassword] = useField('password');
   const [passwordConfirmation, setPasswordConfirmation] = useField('password_confirmation');
   const [terms, setTerms] = useField('terms');
-  //   @ts-ignore
   const { jetstream } = usePage().props;
 
   const formHandler = (e: React.FormEvent) => {
@@ -32,7 +32,6 @@ const Register = () => {
 
     submit(
       new Promise((resolve) => {
-        //   @ts-ignore
         Inertia.post(route('register'), data, {
           onFinish: () => {
             //   @ts-ignore
@@ -111,7 +110,6 @@ const Register = () => {
                   <a
                     target="_blank"
                     rel="noreferrer"
-                    //   @ts-ignore
                     href={route('terms.show')}
                     className="text-sm text-gray-600 underline hover:text-gray-900"
                   >
@@ -121,7 +119,6 @@ const Register = () => {
                   <a
                     target="_blank"
                     rel="noreferrer"
-                    //   @ts-ignore
                     href={route('policy.show')}
                     className="text-sm text-gray-600 underline hover:text-gray-900"
                   >
@@ -134,7 +131,6 @@ const Register = () => {
         ) : null}
 
         <div className="flex items-center justify-end mt-4">
-          {/* @ts-ignore */}
           <InertiaLink href={route('login')} className="text-sm text-gray-600 underline hover:text-gray-900">
             Already registered?
           </InertiaLink>

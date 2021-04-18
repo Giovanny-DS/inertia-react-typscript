@@ -1,4 +1,4 @@
-import { InertiaLink, usePage } from '@inertiajs/inertia-react';
+import { InertiaLink } from '@inertiajs/inertia-react';
 import { Inertia } from '@inertiajs/inertia';
 import React, { useEffect, useState } from 'react';
 import Banner from '../Components/Banner';
@@ -9,18 +9,18 @@ import Dropdown from '../Components/Dropdown';
 import DropdownLink from '../Components/DropdownLink';
 import usePreventDefault from '../Hooks/usePreventDefault';
 import { Team } from '../types/types';
+import { usePage } from './../Hooks/usePage';
 type Props = {
   header?: string | React.ReactNode;
 };
 const AppLayout: React.FC<Props> = ({ header, children }) => {
   const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
   const [bannerToggle, setBannerToggle] = useState(false);
-  //@ts-ignore
   const { user, jetstream } = usePage().props;
   const { flash } = jetstream;
   const allTeams = user.allTeams;
   const currentTeam = user.current_team;
-  console.log(flash);
+  console.log(usePage());
   useEffect(() => {
     if (flash.message) {
       setBannerToggle(true);
@@ -28,7 +28,6 @@ const AppLayout: React.FC<Props> = ({ header, children }) => {
   }, [flash]);
   const switchToTeam = (team: any) => {
     Inertia.put(
-      //@ts-ignore
       route('current-team.update'),
       {
         team_id: team.id,
@@ -40,7 +39,6 @@ const AppLayout: React.FC<Props> = ({ header, children }) => {
   };
 
   const logout = () => {
-    //@ts-ignore
     Inertia.post(route('logout'));
   };
   return (
@@ -54,7 +52,6 @@ const AppLayout: React.FC<Props> = ({ header, children }) => {
               <div className="flex">
                 {/* <!-- Logo --> */}
                 <div className="flex items-center flex-shrink-0">
-                  {/* @ts-ignore */}
                   <InertiaLink href={route('dashboard')}>
                     <ApplicationMark className="block w-auto h-9" />
                   </InertiaLink>
@@ -62,7 +59,6 @@ const AppLayout: React.FC<Props> = ({ header, children }) => {
 
                 {/* <!-- Navigation Links --> */}
                 <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                  {/* @ts-ignore */}
                   <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                     Dashboard
                   </NavLink>
@@ -107,10 +103,9 @@ const AppLayout: React.FC<Props> = ({ header, children }) => {
                             <div className="block px-4 py-2 text-xs text-gray-400">Manage Team</div>
 
                             {/* <!-- Team Settings --> */}
-                            {/* @ts-ignore */}
+
                             <DropdownLink href={route('teams.show', user.current_team)}>Team Settings</DropdownLink>
                             {jetstream.canCreateTeams && (
-                              // @ts-ignore
                               <DropdownLink href={route('teams.create')}>Create New Team</DropdownLink>
                             )}
                             <div className="border-t border-gray-100"></div>
@@ -186,10 +181,9 @@ const AppLayout: React.FC<Props> = ({ header, children }) => {
                   >
                     {/* <!-- Account Management --> */}
                     <div className="block px-4 py-2 text-xs text-gray-400">Manage Account</div>
-                    {/* @ts-ignore */}
+
                     <DropdownLink href={route('profile.show')}> Profile </DropdownLink>
                     {jetstream.hasApiFeatures && (
-                      // @ts-ignore
                       <DropdownLink href={route('api-tokens.index')}>API Tokens</DropdownLink>
                     )}
 
@@ -231,7 +225,6 @@ const AppLayout: React.FC<Props> = ({ header, children }) => {
             {/* <!-- Responsive Navigation Menu --> */}
             <div className={['sm:hidden', showingNavigationDropdown ? 'block' : 'hidden'].join(' ')}>
               <div className="pt-2 pb-3 space-y-1">
-                {/* @ts-ignore */}
                 <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                   Dashboard
                 </ResponsiveNavLink>
@@ -257,12 +250,10 @@ const AppLayout: React.FC<Props> = ({ header, children }) => {
                 </div>
 
                 <div className="mt-3 space-y-1">
-                  {/* @ts-ignore */}
                   <ResponsiveNavLink href={route('profile.show')} active={route().current('profile.show')}>
                     Profile
                   </ResponsiveNavLink>
                   {jetstream.hasApiFeatures && (
-                    // @ts-ignore
                     <ResponsiveNavLink href={route('api-tokens.index')} active={route().current('api-tokens.index')}>
                       API Tokens
                     </ResponsiveNavLink>
@@ -282,14 +273,12 @@ const AppLayout: React.FC<Props> = ({ header, children }) => {
 
                       {/* <!-- Team Settings --> */}
                       <ResponsiveNavLink
-                        // @ts-ignore
                         href={route('teams.show', user.current_team)}
-                        // @ts-ignore
                         active={route().current('teams.show')}
                       >
                         Team Settings
                       </ResponsiveNavLink>
-                      {/* @ts-ignore */}
+
                       <ResponsiveNavLink href={route('teams.create')} active={route().current('teams.create')}>
                         Create New Team
                       </ResponsiveNavLink>

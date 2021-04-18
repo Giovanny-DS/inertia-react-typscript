@@ -30,7 +30,6 @@ const ResetPassword: React.FC<Props> = ({ email, token }) => {
 
     submit(
       new Promise((resolve) => {
-        // @ts-ignore
         Inertia.post(route('password.update'), data, {
           onFinish: () => {
             // @ts-ignore

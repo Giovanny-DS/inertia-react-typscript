@@ -9,8 +9,10 @@ import Input from '../../Components/Input';
 import InputError from '../../Components/InputError';
 import Button from '../../Components/Button';
 import ActionMessage from '../../Components/ActionMessage';
-type Props = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
-const UpdatePasswordForm: React.FC<Props> = ({ ...props }) => {
+type Props = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
+  name?: string;
+};
+const UpdatePasswordForm: React.FC<Props> = ({ name, ...props }) => {
   const { data, isProcessing, status, submit, reset, useField, errors } = useForm({
     current_password: '',
     password: '',
@@ -19,13 +21,12 @@ const UpdatePasswordForm: React.FC<Props> = ({ ...props }) => {
   const [currentPassword, setCurrentPassword] = useField('current_password');
   const [password, setPassword] = useField('password');
   const [passwordConfirmation, setPasswordConfirmation] = useField('password_confirmation');
-  const passwordRef = React.useRef(null);
-  const currentPasswordRef = React.useRef(null);
+  const passwordRef = React.useRef<HTMLInputElement>(null);
+  const currentPasswordRef = React.useRef<HTMLInputElement>(null);
 
   const updatePassword = () => {
     submit(
       new Promise((resolve) => {
-        // @ts-ignore
         Inertia.put(route('user-password.update'), data, {
           errorBag: 'updatePassword',
           preserveScroll: true,
@@ -36,14 +37,14 @@ const UpdatePasswordForm: React.FC<Props> = ({ ...props }) => {
           onError: () => {
             if (errors?.updatePassword?.password) {
               reset('password', 'password_confirmation');
-              // @ts-ignore
-              passwordRef.current.focus();
+
+              passwordRef.current?.focus();
             }
 
             if (errors?.updatePassword?.current_password) {
               reset('current_password');
-              // @ts-ignore
-              currentPasswordRef.current.focus();
+
+              currentPasswordRef.current?.focus();
             }
           },
         });
@@ -59,6 +60,8 @@ const UpdatePasswordForm: React.FC<Props> = ({ ...props }) => {
       description="Ensure your account is using a long, random password to stay secure."
       form={
         <>
+          {/* This is only for Accesibilty purposes */}
+          {name && <Input id="username" type="text" value={name} hidden autoComplete="username" />}
           <div className="col-span-6 sm:col-span-4">
             <Label htmlFor="current_password" value="Current Password" />
             <Input

@@ -1,9 +1,38 @@
+import { Page } from '@inertiajs/inertia';
+
+export interface UsePageProps extends Page<Inertia.PageProps> {
+  component: string;
+  props: {
+    user: any;
+    jetstream: Jetstream;
+    errors: any;
+    errorBags: any[];
+  };
+  rememberedState: {};
+  scrollRegions: any[];
+  url: string;
+  version: string;
+}
+
+export type Jetstream = {
+  canCreateTeams: boolean;
+  canManageTwoFactorAuthentication: boolean;
+  canUpdatePassword: boolean;
+  canUpdateProfileInformation: boolean;
+  flash: any;
+  hasAccountDeletionFeatures: boolean;
+  hasApiFeatures: boolean;
+  hasTeamFeatures: boolean;
+  hasTermsAndPrivacyPolicyFeature: boolean;
+  managesProfilePhotos: boolean;
+};
+
 export type Team = {
   id: number;
   name: string;
   personal_team: boolean;
 };
-export type Jetstream = {
+export type Welcome = {
   canLogin: boolean;
   canRegister: boolean;
   laravelVersion: string;

@@ -29,7 +29,7 @@ const Button: React.FC<React.PropsWithChildren<Props>> = ({
     <button
       type={type}
       className={[color[variant], className].join(' ')}
-      {...(onclick ? { onclick } : {})}
+      onClick={(e) => onClick?.(e)}
       disabled={disabled}
       {...rest}
     >

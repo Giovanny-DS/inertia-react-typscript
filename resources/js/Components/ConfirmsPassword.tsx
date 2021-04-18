@@ -60,7 +60,7 @@ const ConfirmsPassword: React.FC<Props> = ({
   button = 'Confirm',
   onConfirm,
 }) => {
-  const passwordRef = useRef(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const [state, dispatch] = useReducer(reducer, initialState);
   const { confirmingPassword, password, error: formError, processing: formProcessing } = state;
 
@@ -69,13 +69,11 @@ const ConfirmsPassword: React.FC<Props> = ({
   };
 
   const startConfirmingPassword = () => {
-    //@ts-ignore
     axios.get(route('password.confirmation')).then(({ data }) => {
       if (data.confirmed) {
         onConfirm();
       } else {
         dispatch({ type: 'CONFIRMING_PASSWORD' });
-        //@ts-ignore
         setTimeout(() => passwordRef.current?.focus(), 250);
       }
     });
@@ -85,7 +83,6 @@ const ConfirmsPassword: React.FC<Props> = ({
     dispatch({ type: 'PROCESSING' });
 
     axios
-      //@ts-ignore
       .post(route('password.confirm'), { password })
       .then(() => {
         closeModal();
@@ -93,7 +90,6 @@ const ConfirmsPassword: React.FC<Props> = ({
       })
       .catch((error) => {
         dispatch({ type: 'ERROR', error: error.response.data.errors.password[0] });
-        //@ts-ignore
         passwordRef.current?.focus()!;
       });
   };

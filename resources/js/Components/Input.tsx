@@ -1,4 +1,4 @@
-import React, { DetailedHTMLProps, InputHTMLAttributes, RefObject } from 'react';
+import React, { RefObject } from 'react';
 
 type Props = React.ComponentPropsWithoutRef<'input'> & {
   fieldRef?: RefObject<HTMLInputElement>;
@@ -12,7 +12,6 @@ const Input: React.FC<Props> = ({ className, value, fieldRef: ref = null, onChan
         className,
       ].join(' ')}
       value={value}
-      //@ts-ignore
       onChange={(e) => onChange?.(e)}
       {...(ref ? { ref } : {})}
       {...rest}

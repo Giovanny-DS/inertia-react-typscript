@@ -24,7 +24,6 @@ const VerifyEmail: React.FC<Props> = ({ status = '' }) => {
     submit(
       new Promise((resolve) => {
         Inertia.post(
-          // @ts-ignore
           route('verification.send'),
           {},
           {
@@ -57,7 +56,6 @@ const VerifyEmail: React.FC<Props> = ({ status = '' }) => {
             Resend Verification Email
           </Button>
           <InertiaLink
-            // @ts-ignore
             href={route('logout')}
             className="text-sm text-gray-600 underline hover:text-gray-900"
             method="post"

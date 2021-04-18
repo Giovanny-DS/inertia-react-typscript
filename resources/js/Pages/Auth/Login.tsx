@@ -32,7 +32,6 @@ const Login = ({ status = '', canResetPassword }: Props) => {
     submit(
       new Promise((resolve) => {
         Inertia.post(
-          //@ts-ignore
           route('login'),
           {
             ...data,
@@ -98,7 +97,6 @@ const Login = ({ status = '', canResetPassword }: Props) => {
           {canResetPassword ? (
             <>
               <InertiaLink
-                //@ts-ignore
                 href={route('password.request')}
                 className="text-sm text-gray-600 underline hover:text-gray-900"
               >

@@ -21,12 +21,11 @@ const LogoutOtherBrowserSessionsForm: React.FC<Props> = ({ sessions, ...props })
     password: '',
   });
   const [password, setPassword] = useField('password');
-  const passwordRef = React.useRef(null);
+  const passwordRef = React.useRef<HTMLInputElement>(null);
 
   const confirmLogout = () => {
     setConfirmingLogout(true);
-    // @ts-ignore
-    setTimeout(() => passwordRef.current.focus(), 250);
+    setTimeout(() => passwordRef.current?.focus(), 250);
   };
 
   const closeModal = () => {
@@ -37,13 +36,12 @@ const LogoutOtherBrowserSessionsForm: React.FC<Props> = ({ sessions, ...props })
   const logoutOtherBrowserSessions = () => {
     submit(
       new Promise((resolve) => {
-        // @ts-ignore
         Inertia.delete(route('other-browser-sessions.destroy'), {
           preserveScroll: true,
           errorBag: 'logoutOtherBrowserSessions',
           onSuccess: () => closeModal(),
-          // @ts-ignore
-          onError: () => passwordRef.current.focus(),
+
+          onError: () => passwordRef.current?.focus(),
           // @ts-ignore
           onFinish: () => resolve(),
         });

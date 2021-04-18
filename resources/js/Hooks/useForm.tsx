@@ -1,14 +1,9 @@
 import React from 'react';
-import { usePage } from '@inertiajs/inertia-react';
+import { usePage } from './usePage';
 
-// type Props = {
-//   errorBag: any;
-//   initialData: { [key: string]: string };
-// };
 export default ({ errorBag = {}, ...initialData }) => {
   const [data, setData] = React.useState(initialData);
   const [status, setStatus] = React.useState('idle');
-  //@ts-ignore
   const { errors } = usePage().props;
 
   const mounted = React.useRef(false);

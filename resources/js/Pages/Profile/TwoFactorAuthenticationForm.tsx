@@ -1,11 +1,11 @@
 import React from 'react';
 import { Inertia } from '@inertiajs/inertia';
-import { usePage } from '@inertiajs/inertia-react';
 
 import ActionSection from '../../Components/ActionSection';
 import Button from '../../Components/Button';
 import ConfirmsPassword from '../../Components/ConfirmsPassword';
 import axios from 'axios';
+import { usePage } from './../../Hooks/usePage';
 type Props = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
 const TwoFactorAuthenticationForm: React.FC<Props> = ({ ...props }) => {
@@ -13,7 +13,6 @@ const TwoFactorAuthenticationForm: React.FC<Props> = ({ ...props }) => {
   const [disabling, setDisabling] = React.useState(false);
   const [qrCode, setQrCode] = React.useState('');
   const [recoveryCodes, setRecoveryCodes] = React.useState([]);
-  // @ts-ignore
   const { user } = usePage().props;
 
   const twoFactorEnabled = !enabling && user.two_factor_enabled;

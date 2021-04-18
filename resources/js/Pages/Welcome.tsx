@@ -1,10 +1,10 @@
 /* eslint-disable max-len */
 import React from 'react';
-import { InertiaLink, usePage } from '@inertiajs/inertia-react';
-import { Jetstream } from '../types/types';
+import { InertiaLink } from '@inertiajs/inertia-react';
+import { Welcome } from '../types/types';
+import { usePage } from '../Hooks/usePage';
 
-const Welcome = ({ canLogin, canRegister, laravelVersion, phpVersion }: Jetstream) => {
-  // @ts-ignore
+const Welcome = ({ canLogin, canRegister, laravelVersion, phpVersion }: Welcome) => {
   const signedIn = usePage().props.user;
   return (
     <div className="relative flex justify-center min-h-screen bg-gray-100 items-top dark:bg-gray-900 sm:items-center sm:pt-0">
@@ -16,13 +16,11 @@ const Welcome = ({ canLogin, canRegister, laravelVersion, phpVersion }: Jetstrea
             </InertiaLink>
           ) : (
             <>
-              {/* @ts-ignore */}
               <InertiaLink href={route('login')} className="text-sm text-gray-700 underline">
                 Log in
               </InertiaLink>
 
               {canRegister ? (
-                // @ts-ignore
                 <InertiaLink href={route('register')} className="ml-4 text-sm text-gray-700 underline">
                   Register
                 </InertiaLink>

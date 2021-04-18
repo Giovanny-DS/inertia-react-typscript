@@ -23,7 +23,6 @@ const TwoFactorChallenge = () => {
 
     submit(
       new Promise((resolve) => {
-        // @ts-ignore
         Inertia.post(route('two-factor.login'), data, {
           onFinish: () => {
             // @ts-ignore

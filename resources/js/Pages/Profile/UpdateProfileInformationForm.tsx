@@ -1,6 +1,4 @@
 import React from 'react';
-import { usePage } from '@inertiajs/inertia-react';
-
 import useForm from '../../Hooks/useForm';
 import usePreventDefault from '../../Hooks/usePreventDefault';
 
@@ -11,17 +9,18 @@ import Input from '../../Components/Input';
 import InputError from '../../Components/InputError';
 import Button from '../../Components/Button';
 import { Inertia } from '@inertiajs/inertia';
+import { usePage } from './../../Hooks/usePage';
 type Props = {
   user: {
     name: string;
     email: string;
     profile_photo_url: string;
+    profile_photo_path: string;
   };
 };
 const UpdateProfileInformationForm: React.FC<Props> = ({ user }) => {
-  const [photoPreview, setPhotoPreview] = React.useState(null);
-  const photoRef = React.useRef(null);
-  // @ts-ignore
+  const [photoPreview, setPhotoPreview] = React.useState<string | ArrayBuffer | null>(null);
+  const photoRef = React.useRef<HTMLInputElement>(null);
   const { jetstream } = usePage().props;
 
   const { data, isProcessing, status, submit, useField, errors } = useForm({
@@ -36,13 +35,11 @@ const UpdateProfileInformationForm: React.FC<Props> = ({ user }) => {
     submit(
       new Promise((resolve) => {
         Inertia.post(
-          // @ts-ignore
           route('user-profile-information.update'),
           {
             _method: 'PUT',
             ...data,
-            // @ts-ignore
-            photo: photoRef.current ? photoRef.current.files[0] : null,
+            photo: photoRef.current ? photoRef.current.files?.[0] : null,
           },
           {
             errorBag: 'updateProfileInformation',
@@ -57,23 +54,19 @@ const UpdateProfileInformationForm: React.FC<Props> = ({ user }) => {
   };
 
   const selectNewPhoto = () => {
-    // @ts-ignore
-    photoRef.current.click();
+    photoRef.current?.click();
   };
 
   const updatePhotoPreview = () => {
     const reader: FileReader = new FileReader();
-    reader.onload = (e: Event) => {
-      // @ts-ignore
+    reader.onload = () => {
       setPhotoPreview(reader.result);
     };
-
     // @ts-ignore
-    reader.readAsDataURL(photoRef.current.files[0]);
+    reader.readAsDataURL(photoRef.current.files?.[0]);
   };
 
   const deletePhoto = () => {
-    // @ts-ignore
     Inertia.delete(route('current-user-photo.destroy'), {
       preserveScroll: true,
       onSuccess: () => setPhotoPreview(null),
@@ -124,7 +117,7 @@ const UpdateProfileInformationForm: React.FC<Props> = ({ user }) => {
                 Select A New Photo
               </Button>
 
-              {user.profile_photo_url ? (
+              {user.profile_photo_path ? (
                 <Button
                   variant="secondary"
                   type="button"

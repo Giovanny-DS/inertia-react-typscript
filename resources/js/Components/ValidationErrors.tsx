@@ -1,10 +1,10 @@
 import React from 'react';
-import { usePage } from '@inertiajs/inertia-react';
+import { UsePageProps } from '../types/types';
+import { usePage } from './../Hooks/usePage';
 type Props = {
   className: string;
 };
 const ValidationErrors: React.FC<Props> = ({ className = '' }) => {
-  //@ts-ignore
   const { errors } = usePage().props;
   if (!errors || !Object.keys(errors).length) {
     return null;

@@ -1,5 +1,5 @@
 import React from 'react';
-import Inertia from '@inertiajs/inertia';
+import { Inertia } from '@inertiajs/inertia';
 import AuthenticationCard from '../../Components/AuthenticationCard';
 import AuthenticationCardLogo from '../../Components/AuthenticationCardLogo';
 import ValidationErrors from '../../Components/ValidationErrors';
@@ -18,7 +18,6 @@ const ConfirmPassword = () => {
 
     submit(
       new Promise((resolve) => {
-        // @ts-ignore
         Inertia.post(route('password.confirm'), data, {
           onFinish: () => resolve('reset'),
         });

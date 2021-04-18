@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { usePage } from '@inertiajs/inertia-react';
 
 import AppLayout from '../../Layouts/AppLayout';
 import SectionBorder from '../../Components/SectionBorder';
@@ -8,6 +7,7 @@ import LogoutOtherBrowserSessionsForm from './LogoutOtherBrowserSessionsForm';
 import TwoFactorAuthenticationForm from './TwoFactorAuthenticationForm';
 import UpdatePasswordForm from './UpdatePasswordForm';
 import UpdateProfileInformationForm from './UpdateProfileInformationForm';
+import { usePage } from './../../Hooks/usePage';
 
 type Props = {
   sessions: {
@@ -23,7 +23,6 @@ type Props = {
 };
 
 const Show = ({ sessions }: Props) => {
-  // @ts-ignore
   const { jetstream, user } = usePage().props;
 
   return (
@@ -40,7 +39,7 @@ const Show = ({ sessions }: Props) => {
 
           {jetstream.canUpdatePassword ? (
             <div>
-              <UpdatePasswordForm className="mt-10 sm:mt-0" />
+              <UpdatePasswordForm name={user.name} className="mt-10 sm:mt-0" />
 
               <SectionBorder />
             </div>

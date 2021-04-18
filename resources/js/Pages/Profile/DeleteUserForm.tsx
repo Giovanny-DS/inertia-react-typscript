@@ -14,7 +14,7 @@ const DeleteUserForm: React.FC<Props> = ({ ...props }) => {
   const [confirmingUserDeletion, setConfirmingUserDeletion] = React.useState(false);
   const { data, useField, isProcessing, submit, errors, reset } = useForm({ password: '' });
   const [password, setPassword] = useField('password');
-  const passwordRef = React.useRef(null);
+  const passwordRef = React.useRef<HTMLInputElement>(null);
 
   const closeModal = () => {
     setConfirmingUserDeletion(false);
@@ -24,13 +24,11 @@ const DeleteUserForm: React.FC<Props> = ({ ...props }) => {
   const deleteUser = () => {
     submit(
       new Promise((resolve) => {
-        // @ts-ignore
         Inertia.delete(route('current-user.destroy'), {
           errorBag: 'deleteUser',
           preserveScroll: true,
           onSuccess: () => closeModal(),
-          // @ts-ignore
-          onError: () => passwordRef.current.focus(),
+          onError: () => passwordRef.current?.focus(),
           onFinish: () => resolve('reset'),
         });
       })
