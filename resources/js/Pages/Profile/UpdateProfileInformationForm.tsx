@@ -1,6 +1,7 @@
 import React from 'react';
-import useForm from '../../Hooks/useForm';
 import usePreventDefault from '../../Hooks/usePreventDefault';
+import { usePage } from './../../Hooks/usePage';
+import { useForm } from '@inertiajs/inertia-react';
 
 import FormSection from '../../Components/FormSection';
 import ActionMessage from '../../Components/ActionMessage';
@@ -8,8 +9,8 @@ import Label from '../../Components/Label';
 import Input from '../../Components/Input';
 import InputError from '../../Components/InputError';
 import Button from '../../Components/Button';
-import { Inertia } from '@inertiajs/inertia';
-import { usePage } from './../../Hooks/usePage';
+import { UpdateProfileForm } from '../../types/types';
+
 type Props = {
   user: {
     name: string;
@@ -23,36 +24,28 @@ const UpdateProfileInformationForm: React.FC<Props> = ({ user }) => {
   const photoRef = React.useRef<HTMLInputElement>(null);
   const { jetstream } = usePage().props;
 
-  const { data, isProcessing, status, submit, useField, errors } = useForm({
+  const UpdateProfileForm = useForm<UpdateProfileForm>({
+    _method: 'put',
     name: user.name,
     email: user.email,
     photo: null,
   });
-  const [name, setName] = useField('name');
-  const [email, setEmail] = useField('email');
-
-  const updateProfileInformation = () => {
-    submit(
-      new Promise((resolve) => {
-        Inertia.post(
-          route('user-profile-information.update'),
-          {
-            _method: 'PUT',
-            ...data,
-            photo: photoRef.current ? photoRef.current.files?.[0] : null,
-          },
-          {
-            errorBag: 'updateProfileInformation',
-            preserveScroll: true,
-            onSuccess: () => {
-              resolve('success');
-            },
-          }
-        );
-      })
-    );
+  const {
+    setData,
+    post,
+    data: { name, email },
+    processing,
+  } = UpdateProfileForm;
+  const updateProfileInformation = async () => {
+    console.log(photoRef.current?.files?.[0]);
+    if (photoRef.current?.files?.[0]) {
+      setData('photo', photoRef.current?.files[0]);
+    }
+    post(route('user-profile-information.update'), {
+      errorBag: 'updateProfileInformation',
+      preserveScroll: true,
+    });
   };
-
   const selectNewPhoto = () => {
     photoRef.current?.click();
   };
@@ -63,11 +56,11 @@ const UpdateProfileInformationForm: React.FC<Props> = ({ user }) => {
       setPhotoPreview(reader.result);
     };
     // @ts-ignore
-    reader.readAsDataURL(photoRef.current.files?.[0]);
+    reader.readAsDataURL(photoRef.current?.files?.[0]);
   };
 
   const deletePhoto = () => {
-    Inertia.delete(route('current-user-photo.destroy'), {
+    UpdateProfileForm.delete(route('current-user-photo.destroy'), {
       preserveScroll: true,
       onSuccess: () => setPhotoPreview(null),
     });
@@ -128,7 +121,7 @@ const UpdateProfileInformationForm: React.FC<Props> = ({ user }) => {
                 </Button>
               ) : null}
 
-              <InputError message={errors?.updateProfileInformation?.photo} className="mt-2" />
+              <InputError message={UpdateProfileForm.errors?.photo} className="mt-2" />
             </div>
           ) : null}
 
@@ -139,11 +132,11 @@ const UpdateProfileInformationForm: React.FC<Props> = ({ user }) => {
               id="name"
               type="text"
               className="block w-full mt-1"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={UpdateProfileForm.data.name}
+              onChange={(e) => UpdateProfileForm.setData('name', e.target.value)}
               autoComplete="name"
             />
-            <InputError message={errors?.updateProfileInformation?.name} className="mt-2" />
+            <InputError message={UpdateProfileForm.errors?.name} className="mt-2" />
           </div>
 
           {/* Email */}
@@ -153,10 +146,10 @@ const UpdateProfileInformationForm: React.FC<Props> = ({ user }) => {
               id="email"
               type="email"
               className="block w-full mt-1"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={UpdateProfileForm.data.email}
+              onChange={(e) => UpdateProfileForm.setData('name', e.target.value)}
             />
-            <InputError message={errors?.updateProfileInformation?.email} className="mt-2" />
+            <InputError message={UpdateProfileForm.errors?.email} className="mt-2" />
           </div>
         </>
       }
@@ -165,7 +158,7 @@ const UpdateProfileInformationForm: React.FC<Props> = ({ user }) => {
           <ActionMessage on={status === 'recentlySuccessful'} className="mr-3">
             Saved.
           </ActionMessage>
-          <Button className={isProcessing ? 'opacity-25' : ''} disabled={isProcessing}>
+          <Button className={processing ? 'opacity-25' : ''} disabled={processing}>
             Save
           </Button>
         </>

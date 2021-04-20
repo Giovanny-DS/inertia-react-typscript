@@ -72,3 +72,10 @@ export type Session = {
   ];
   props: any;
 };
+
+export type UpdateProfileForm = {
+  _method: string;
+  name: string;
+  email: string;
+  photo: File | string | null | undefined;
+};
