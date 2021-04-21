@@ -23,7 +23,7 @@ This is a Laravel Jetstream scaffolding Using the Inertia stack but React instea
 
 ### With Teams:
 
-// This is on Development proccess
+* This is on Development proccess
 
 ## About Laravel
 
