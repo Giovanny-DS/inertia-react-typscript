@@ -6,6 +6,8 @@ This is a Laravel Jetstream scaffolding Using the Inertia stack but React instea
 
 ## Instructions
 
+### Without Teams:
+
 * `Git clone https://github.com/Giovanny-DS/inertia-react-typscript.git <YourFolderName>`
 * `cd <YourFolderName>`
 * `composer install`
@@ -19,7 +21,9 @@ This is a Laravel Jetstream scaffolding Using the Inertia stack but React instea
 * user: `admin@admin.com` 
 * password: `password`
 
+### With Teams:
 
+// This is on Development proccess
 
 ## About Laravel
 
