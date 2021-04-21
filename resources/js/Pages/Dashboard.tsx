@@ -1,5 +1,5 @@
 import * as React from 'react';
-import AppLayout from '..//Layouts/AppLayout';
+import AppLayout from '../Layouts/AppLayout';
 import Welcome from './../Components/Welcome';
 
 const Dashboard = () => (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Inertia } from '@inertiajs/inertia';
-import { InertiaLink } from '@inertiajs/inertia-react';
+import { InertiaLink, useForm } from '@inertiajs/inertia-react';
 import AuthenticationCard from '../../Components/AuthenticationCard';
 import AuthenticationCardLogo from '../../Components/AuthenticationCardLogo';
 import ValidationErrors from '../../Components/ValidationErrors';
@@ -8,39 +8,30 @@ import Input from '../../Components/Input';
 import Label from '../../Components/Label';
 import Button from '../../Components/Button';
 import Checkbox from '../../Components/Checkbox';
-import useForm from '../../Hooks/useForm';
 import { usePage } from '../../Hooks/usePage';
 
 const Register = () => {
-  const { data, useField, status: formStatus, submit, reset } = useForm({
+  const registerForm = useForm({
     name: '',
     email: '',
     password: '',
     password_confirmation: '',
     terms: false,
   });
-  const isProcessing = formStatus === 'processing';
-  const [name, setName] = useField('name');
-  const [email, setEmail] = useField('email');
-  const [password, setPassword] = useField('password');
-  const [passwordConfirmation, setPasswordConfirmation] = useField('password_confirmation');
-  const [terms, setTerms] = useField('terms');
+  const {
+    data: { name, email, password, password_confirmation, terms },
+    setData,
+    processing,
+    reset,
+  } = registerForm;
   const { jetstream } = usePage().props;
 
   const formHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
-    submit(
-      new Promise((resolve) => {
-        Inertia.post(route('register'), data, {
-          onFinish: () => {
-            //   @ts-ignore
-            resolve();
-            reset('password', 'password_confirmation');
-          },
-        });
-      })
-    );
+    registerForm.post(route('register'), {
+      onFinish: () => reset('password', 'password_confirmation'),
+    });
   };
 
   return (
@@ -55,7 +46,7 @@ const Register = () => {
             type="text"
             className="block w-full mt-1"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setData('name', e.target.value)}
             required
             autoFocus
             autoComplete="name"
@@ -69,7 +60,7 @@ const Register = () => {
             type="email"
             className="block w-full mt-1"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setData('email', e.target.value)}
             required
           />
         </div>
@@ -81,7 +72,7 @@ const Register = () => {
             type="password"
             className="block w-full mt-1"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setData('password', e.target.value)}
             required
             autoComplete="new-password"
           />
@@ -93,8 +84,8 @@ const Register = () => {
             id="password_confirmation"
             type="password"
             className="block w-full mt-1"
-            value={passwordConfirmation}
-            onChange={(e) => setPasswordConfirmation(e.target.value)}
+            value={password_confirmation}
+            onChange={(e) => setData('password_confirmation', e.target.value)}
             required
             autoComplete="new-password"
           />
@@ -104,7 +95,12 @@ const Register = () => {
           <div className="mt-4">
             <Label htmlFor="terms">
               <div className="flex items-center">
-                <Checkbox name="terms" id="terms" checked={terms} onChange={(e) => setTerms(e.target.value)} />
+                <Checkbox
+                  name="terms"
+                  id="terms"
+                  checked={terms}
+                  onChange={(e) => setData('terms', e.target.checked)}
+                />
                 <div className="ml-2">
                   I agree to the
                   <a
@@ -134,7 +130,7 @@ const Register = () => {
           <InertiaLink href={route('login')} className="text-sm text-gray-600 underline hover:text-gray-900">
             Already registered?
           </InertiaLink>
-          <Button className={['ml-4', isProcessing ? 'opacity-25' : ''].join(' ')} disabled={isProcessing}>
+          <Button className={['ml-4', processing ? 'opacity-25' : ''].join(' ')} disabled={processing}>
             Register
           </Button>
         </div>

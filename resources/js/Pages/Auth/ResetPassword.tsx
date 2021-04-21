@@ -6,7 +6,7 @@ import ValidationErrors from '../../Components/ValidationErrors';
 import Input from '../../Components/Input';
 import Label from '../../Components/Label';
 import Button from '../../Components/Button';
-import useForm from '../../Hooks/useForm';
+import { useForm } from '@inertiajs/inertia-react';
 
 type Props = {
   email: string;
@@ -14,31 +14,27 @@ type Props = {
 };
 
 const ResetPassword: React.FC<Props> = ({ email, token }) => {
-  const { data, useField, status: formStatus, submit, reset } = useForm({
-    email,
-    token,
+  const resetPasswordForm = useForm({
+    form_email: email,
+    form_token: token,
     password: '',
     password_confirmation: '',
   });
-  const isProcessing = formStatus === 'processing';
-  const [formEmail, setFormEmail] = useField('email');
-  const [password, setPassword] = useField('password');
-  const [passwordConfirmation, setPasswordConfirmation] = useField('password_confirmation');
+  const {
+    data: { form_email, password, password_confirmation },
+    setData,
+    processing,
+    reset,
+  } = resetPasswordForm;
 
   const formHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
-    submit(
-      new Promise((resolve) => {
-        Inertia.post(route('password.update'), data, {
-          onFinish: () => {
-            // @ts-ignore
-            resolve();
-            reset('password', 'password_confirmation');
-          },
-        });
-      })
-    );
+    resetPasswordForm.post(route('password.update'), {
+      onFinish: () => {
+        reset('password', 'password_confirmation');
+      },
+    });
   };
 
   return (
@@ -52,8 +48,8 @@ const ResetPassword: React.FC<Props> = ({ email, token }) => {
             id="email"
             type="email"
             className="block w-full mt-1"
-            value={formEmail}
-            onChange={(e) => setFormEmail(e.target.value)}
+            value={form_email}
+            onChange={(e) => setData('form_email', e.target.value)}
             required
             autoFocus
           />
@@ -66,7 +62,7 @@ const ResetPassword: React.FC<Props> = ({ email, token }) => {
             type="password"
             className="block w-full mt-1"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setData('password', e.target.value)}
             required
             autoComplete="new-password"
           />
@@ -78,15 +74,15 @@ const ResetPassword: React.FC<Props> = ({ email, token }) => {
             id="password_confirmation"
             type="password"
             className="block w-full mt-1"
-            value={passwordConfirmation}
-            onChange={(e) => setPasswordConfirmation(e.target.value)}
+            value={password_confirmation}
+            onChange={(e) => setData('password_confirmation', e.target.value)}
             required
             autoComplete="new-password"
           />
         </div>
 
         <div className="flex items-center justify-end mt-4">
-          <Button className={['ml-4', isProcessing ? 'opacity-25' : ''].join(' ')} disabled={isProcessing}>
+          <Button className={['ml-4', processing ? 'opacity-25' : ''].join(' ')} disabled={processing}>
             Reset Password
           </Button>
         </div>

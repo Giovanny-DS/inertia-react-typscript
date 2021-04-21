@@ -1,19 +1,25 @@
 import React from 'react';
-import { Inertia } from '@inertiajs/inertia';
+import { useForm } from '@inertiajs/inertia-react';
 
 import useKeyPress from '../../Hooks/useKeyPress';
-import useForm from '../../Hooks/useForm';
 
 import ActionSection from '../../Components/ActionSection';
 import DialogModal from '../../Components/ConfirmationModal';
 import Button from '../../Components/Button';
 import Input from '../../Components/Input';
 import InputError from '../../Components/InputError';
+
 type Props = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 const DeleteUserForm: React.FC<Props> = ({ ...props }) => {
   const [confirmingUserDeletion, setConfirmingUserDeletion] = React.useState(false);
-  const { data, useField, isProcessing, submit, errors, reset } = useForm({ password: '' });
-  const [password, setPassword] = useField('password');
+  const deleteUserForm = useForm({ password: '' });
+  const {
+    data: { password },
+    setData,
+    processing,
+    errors,
+    reset,
+  } = deleteUserForm;
   const passwordRef = React.useRef<HTMLInputElement>(null);
 
   const closeModal = () => {
@@ -22,17 +28,12 @@ const DeleteUserForm: React.FC<Props> = ({ ...props }) => {
   };
 
   const deleteUser = () => {
-    submit(
-      new Promise((resolve) => {
-        Inertia.delete(route('current-user.destroy'), {
-          errorBag: 'deleteUser',
-          preserveScroll: true,
-          onSuccess: () => closeModal(),
-          onError: () => passwordRef.current?.focus(),
-          onFinish: () => resolve('reset'),
-        });
-      })
-    );
+    deleteUserForm.delete(route('current-user.destroy'), {
+      errorBag: 'deleteUser',
+      preserveScroll: true,
+      onSuccess: () => closeModal(),
+      onError: () => passwordRef.current?.focus(),
+    });
   };
 
   return (
@@ -70,11 +71,11 @@ const DeleteUserForm: React.FC<Props> = ({ ...props }) => {
                     className="block w-3/4 mt-1"
                     placeholder="Password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => setData('password', e.target.value)}
                     onKeyPress={useKeyPress('Enter', deleteUser)}
                   />
 
-                  <InputError message={errors?.deleteUser?.password} className="mt-2" />
+                  <InputError message={errors?.password} className="mt-2" />
                 </div>
               </>
             }
@@ -85,9 +86,9 @@ const DeleteUserForm: React.FC<Props> = ({ ...props }) => {
                 </Button>
                 <Button
                   variant="danger"
-                  className={['ml-2', isProcessing ? 'opacity-25' : ''].join(' ')}
+                  className={['ml-2', processing ? 'opacity-25' : ''].join(' ')}
                   onClick={deleteUser}
-                  disabled={isProcessing}
+                  disabled={processing}
                 >
                   Delete Account
                 </Button>

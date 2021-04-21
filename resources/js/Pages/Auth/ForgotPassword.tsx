@@ -1,31 +1,25 @@
 import React from 'react';
-import { Inertia } from '@inertiajs/inertia';
+import { useForm } from '@inertiajs/inertia-react';
+
 import AuthenticationCard from '../../Components/AuthenticationCard';
 import AuthenticationCardLogo from '../../Components/AuthenticationCardLogo';
 import ValidationErrors from '../../Components/ValidationErrors';
 import Input from '../../Components/Input';
 import Label from '../../Components/Label';
 import Button from '../../Components/Button';
-import useForm from '../../Hooks/useForm';
 
 const ForgotPassword = ({ status = '' }) => {
-  const { data, useField, status: formStatus, submit } = useForm({ email: '' });
-  const isProcessing = formStatus === 'processing';
-  const [email, setEmail] = useField('email');
+  const forgotPasswordForm = useForm({ email: '' });
+  const {
+    data: { email },
+    setData,
+    processing,
+  } = useForm({ email: '' });
 
   const formHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
-    submit(
-      new Promise((resolve) => {
-        Inertia.post(route('password.email'), data, {
-          onFinish: () => {
-            //   @ts-ignore
-            resolve();
-          },
-        });
-      })
-    );
+    forgotPasswordForm.post(route('password.email'));
   };
 
   return (
@@ -47,14 +41,14 @@ const ForgotPassword = ({ status = '' }) => {
             type="email"
             className="block w-full mt-1"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setData('email', e.target.value)}
             required
             autoFocus
           />
         </div>
 
         <div className="flex items-center justify-end mt-4">
-          <Button className={isProcessing ? 'opacity-25' : ''} disabled={isProcessing}>
+          <Button className={processing ? 'opacity-25' : ''} disabled={processing}>
             Email Password Reset Link
           </Button>
         </div>

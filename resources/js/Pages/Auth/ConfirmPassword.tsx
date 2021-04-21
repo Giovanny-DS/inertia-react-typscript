@@ -1,28 +1,25 @@
 import React from 'react';
-import { Inertia } from '@inertiajs/inertia';
+import { useForm } from '@inertiajs/inertia-react';
+
 import AuthenticationCard from '../../Components/AuthenticationCard';
 import AuthenticationCardLogo from '../../Components/AuthenticationCardLogo';
 import ValidationErrors from '../../Components/ValidationErrors';
 import Input from '../../Components/Input';
 import Label from '../../Components/Label';
 import Button from '../../Components/Button';
-import useForm from '../../Hooks/useForm';
 
 const ConfirmPassword = () => {
-  const { data, useField, status, submit } = useForm({ password: '' });
-  const isProcessing = status === 'processing';
-  const [password, setPassword] = useField('password');
+  const confirmPasswordForm = useForm({ password: '' });
+  const {
+    data: { password },
+    setData,
+    processing,
+  } = confirmPasswordForm;
 
   const formHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
-    submit(
-      new Promise((resolve) => {
-        Inertia.post(route('password.confirm'), data, {
-          onFinish: () => resolve('reset'),
-        });
-      })
-    );
+    confirmPasswordForm.post(route('password.confirm'));
   };
 
   return (
@@ -41,7 +38,7 @@ const ConfirmPassword = () => {
             type="password"
             className="block w-full mt-1"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setData('password', e.target.value)}
             required
             autoComplete="current-password"
             autoFocus
@@ -49,7 +46,7 @@ const ConfirmPassword = () => {
         </div>
 
         <div className="flex justify-end mt-4">
-          <Button className={['ml-4', isProcessing ? 'opacity-25' : ''].join(' ')} disabled={isProcessing}>
+          <Button className={['ml-4', processing ? 'opacity-25' : ''].join(' ')} disabled={processing}>
             Confirm
           </Button>
         </div>

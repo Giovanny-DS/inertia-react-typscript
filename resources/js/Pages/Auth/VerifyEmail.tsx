@@ -1,40 +1,21 @@
 import React from 'react';
 import { Inertia } from '@inertiajs/inertia';
-import { InertiaLink } from '@inertiajs/inertia-react';
+import { InertiaLink, useForm } from '@inertiajs/inertia-react';
 import AuthenticationCard from '../../Components/AuthenticationCard';
 import AuthenticationCardLogo from '../../Components/AuthenticationCardLogo';
 import Button from '../../Components/Button';
-import useForm from '../../Hooks/useForm';
 
 type Props = {
   status: string;
 };
 
 const VerifyEmail: React.FC<Props> = ({ status = '' }) => {
-  const { status: formStatus, submit } = useForm({
-    email: '',
-    password: '',
-    remember: false,
-  });
-  const isProcessing = formStatus === 'processing';
+  const verifyEmailForm = useForm({});
+  const { processing } = verifyEmailForm;
 
   const formHandler = (e: React.FormEvent) => {
     e.preventDefault();
-
-    submit(
-      new Promise((resolve) => {
-        Inertia.post(
-          route('verification.send'),
-          {},
-          {
-            onFinish: () => {
-              // @ts-ignore
-              resolve();
-            },
-          }
-        );
-      })
-    );
+    verifyEmailForm.post(route('verification.send'));
   };
 
   return (
@@ -52,7 +33,7 @@ const VerifyEmail: React.FC<Props> = ({ status = '' }) => {
 
       <form onSubmit={formHandler}>
         <div className="flex items-center justify-between mt-4">
-          <Button className={['ml-4', isProcessing ? 'opacity-25' : ''].join(' ')} disabled={isProcessing}>
+          <Button className={['ml-4', processing ? 'opacity-25' : ''].join(' ')} disabled={processing}>
             Resend Verification Email
           </Button>
           <InertiaLink

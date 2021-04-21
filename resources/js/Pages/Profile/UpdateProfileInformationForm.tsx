@@ -35,6 +35,7 @@ const UpdateProfileInformationForm: React.FC<Props> = ({ user }) => {
     post,
     data: { name, email },
     processing,
+    recentlySuccessful,
   } = UpdateProfileForm;
   const updateProfileInformation = () => {
     post(route('user-profile-information.update'), {
@@ -152,7 +153,7 @@ const UpdateProfileInformationForm: React.FC<Props> = ({ user }) => {
       }
       actions={
         <>
-          <ActionMessage on={status === 'recentlySuccessful'} className="mr-3">
+          <ActionMessage on={recentlySuccessful} className="mr-3">
             Saved.
           </ActionMessage>
           <Button className={processing ? 'opacity-25' : ''} disabled={processing}>

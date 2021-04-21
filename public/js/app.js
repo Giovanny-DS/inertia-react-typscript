@@ -8404,158 +8404,6 @@ exports.default = Welcome;
 
 /***/ }),
 
-/***/ "./resources/js/Hooks/useForm.tsx":
-/*!****************************************!*\
-  !*** ./resources/js/Hooks/useForm.tsx ***!
-  \****************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var __rest = this && this.__rest || function (s, e) {
-  var t = {};
-
-  for (var p in s) {
-    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
-  }
-
-  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
-  }
-  return t;
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var usePage_1 = __webpack_require__(/*! ./usePage */ "./resources/js/Hooks/usePage.tsx");
-
-exports.default = function (_a) {
-  var _a$errorBag = _a.errorBag,
-      errorBag = _a$errorBag === void 0 ? {} : _a$errorBag,
-      initialData = __rest(_a, ["errorBag"]);
-
-  var _react_1$default$useS = react_1["default"].useState(initialData),
-      _react_1$default$useS2 = _slicedToArray(_react_1$default$useS, 2),
-      data = _react_1$default$useS2[0],
-      setData = _react_1$default$useS2[1];
-
-  var _react_1$default$useS3 = react_1["default"].useState('idle'),
-      _react_1$default$useS4 = _slicedToArray(_react_1$default$useS3, 2),
-      status = _react_1$default$useS4[0],
-      setStatus = _react_1$default$useS4[1];
-
-  var errors = usePage_1.usePage().props.errors;
-  var mounted = react_1["default"].useRef(false);
-  react_1["default"].useEffect(function () {
-    mounted.current = true;
-    return function () {
-      mounted.current = false;
-    };
-  }, []);
-
-  var reset = function reset() {
-    for (var _len = arguments.length, fields = new Array(_len), _key = 0; _key < _len; _key++) {
-      fields[_key] = arguments[_key];
-    }
-
-    if (fields.length === 0) {
-      setData(initialData);
-    } else {
-      setData(function (currentData) {
-        return fields.reduce(function (carry, key) {
-          return Object.assign(Object.assign({}, carry), _defineProperty({}, key, initialData[key]));
-        }, currentData);
-      });
-    }
-  }; // Avoid state updates to unmounted components.
-
-
-  var safeSetStatus = react_1["default"].useCallback(function (newStatus) {
-    return mounted.current && setStatus(newStatus);
-  }, [mounted]);
-  var safeReset = react_1["default"].useCallback(function () {
-    return mounted.current && reset.apply(void 0, arguments);
-  }, [mounted]);
-  var submit = react_1["default"].useCallback(function (promise) {
-    if (!promise) {
-      return;
-    }
-
-    safeSetStatus('processing');
-    promise.then(function () {
-      var newStatus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-      if (newStatus === 'success') {
-        safeSetStatus('recentlySuccessful');
-        setTimeout(function () {
-          safeSetStatus(function (oldStatus) {
-            return oldStatus === 'recentlySuccessful' ? 'idle' : oldStatus;
-          });
-        }, 2000);
-      } else {
-        safeSetStatus('idle');
-      }
-
-      if (newStatus === 'reset') {
-        safeReset();
-      }
-    });
-  }, [setStatus]);
-
-  var setField = function setField(field, value) {
-    return setData(function (oldData) {
-      return Object.assign(Object.assign({}, oldData), _defineProperty({}, field, typeof value === 'function' ? value(oldData[field]) : value));
-    });
-  };
-
-  var useField = function useField(field) {
-    return [data[field], function (value) {
-      return setField(field, value);
-    }];
-  };
-
-  return {
-    useField: useField,
-    setField: setField,
-    data: data,
-    setData: setData,
-    status: status,
-    isProcessing: status === 'processing',
-    setStatus: setStatus,
-    submit: submit,
-    reset: reset,
-    // @ts-ignore
-    errors: (errorBag ? errors === null || errors === void 0 ? void 0 : errors[errorBag] : errors) || {}
-  };
-};
-
-/***/ }),
-
 /***/ "./resources/js/Hooks/useKeyPress.tsx":
 /*!********************************************!*\
   !*** ./resources/js/Hooks/useKeyPress.tsx ***!
@@ -9100,8 +8948,7 @@ var ApiTokenManager = function ApiTokenManager(_ref) {
       apiTokenBeingDeleted = _react_1$useState6[0],
       setApiTokenBeingDeleted = _react_1$useState6[1];
 
-  var jetstream = usePage_1.usePage().props.jetstream; //   console.log({ tokens, availablePermissions, defaultPermissions });
-
+  var jetstream = usePage_1.usePage().props.jetstream;
   var createApiTokenForm = inertia_react_1.useForm({
     name: '',
     permissions: defaultPermissions
@@ -9150,10 +8997,6 @@ var ApiTokenManager = function ApiTokenManager(_ref) {
 
   var checkboxArrayChangeHandler = function checkboxArrayChangeHandler(e, permision, form) {
     var permissions = form.data.permissions;
-    console.log({
-      createApiTokenForm: createApiTokenForm,
-      updateApiTokenForm: updateApiTokenForm
-    });
 
     if (e.target.checked) {
       permissions.includes(permision) ? form.setData('permissions', permissions) : form.setData('permissions', [].concat(_toConsumableArray(permissions), [permision]));
@@ -9165,11 +9008,9 @@ var ApiTokenManager = function ApiTokenManager(_ref) {
 
   var isChecked = function isChecked(permission, comparing) {
     if (Array.isArray(comparing)) {
-      console.log(comparing.includes(permission));
       return comparing.includes(permission);
     }
 
-    console.log(comparing === permission);
     return comparing === permission;
   };
 
@@ -9380,18 +9221,6 @@ exports.default = Index;
 "use strict";
 
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -9404,7 +9233,7 @@ Object.defineProperty(exports, "__esModule", ({
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
 
 var AuthenticationCard_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCard */ "./resources/js/Components/AuthenticationCard.tsx"));
 
@@ -9418,33 +9247,17 @@ var Label_1 = __importDefault(__webpack_require__(/*! ../../Components/Label */ 
 
 var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
 
-var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.tsx"));
-
 var ConfirmPassword = function ConfirmPassword() {
-  var _useForm_1$default = useForm_1["default"]({
+  var confirmPasswordForm = inertia_react_1.useForm({
     password: ''
-  }),
-      data = _useForm_1$default.data,
-      useField = _useForm_1$default.useField,
-      status = _useForm_1$default.status,
-      submit = _useForm_1$default.submit;
-
-  var isProcessing = status === 'processing';
-
-  var _useField = useField('password'),
-      _useField2 = _slicedToArray(_useField, 2),
-      password = _useField2[0],
-      setPassword = _useField2[1];
+  });
+  var password = confirmPasswordForm.data.password,
+      setData = confirmPasswordForm.setData,
+      processing = confirmPasswordForm.processing;
 
   var formHandler = function formHandler(e) {
     e.preventDefault();
-    submit(new Promise(function (resolve) {
-      inertia_1.Inertia.post(route('password.confirm'), data, {
-        onFinish: function onFinish() {
-          return resolve('reset');
-        }
-      });
-    }));
+    confirmPasswordForm.post(route('password.confirm'));
   };
 
   return react_1["default"].createElement(AuthenticationCard_1["default"], {
@@ -9464,7 +9277,7 @@ var ConfirmPassword = function ConfirmPassword() {
     className: "block w-full mt-1",
     value: password,
     onChange: function onChange(e) {
-      return setPassword(e.target.value);
+      return setData('password', e.target.value);
     },
     required: true,
     autoComplete: "current-password",
@@ -9472,8 +9285,8 @@ var ConfirmPassword = function ConfirmPassword() {
   })), react_1["default"].createElement("div", {
     className: "flex justify-end mt-4"
   }, react_1["default"].createElement(Button_1["default"], {
-    className: ['ml-4', isProcessing ? 'opacity-25' : ''].join(' '),
-    disabled: isProcessing
+    className: ['ml-4', processing ? 'opacity-25' : ''].join(' '),
+    disabled: processing
   }, "Confirm"))));
 };
 
@@ -9490,18 +9303,6 @@ exports.default = ConfirmPassword;
 "use strict";
 
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -9514,7 +9315,7 @@ Object.defineProperty(exports, "__esModule", ({
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
 
 var AuthenticationCard_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCard */ "./resources/js/Components/AuthenticationCard.tsx"));
 
@@ -9528,37 +9329,23 @@ var Label_1 = __importDefault(__webpack_require__(/*! ../../Components/Label */ 
 
 var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
 
-var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.tsx"));
-
 var ForgotPassword = function ForgotPassword(_ref) {
   var _ref$status = _ref.status,
       status = _ref$status === void 0 ? '' : _ref$status;
+  var forgotPasswordForm = inertia_react_1.useForm({
+    email: ''
+  });
 
-  var _useForm_1$default = useForm_1["default"]({
+  var _inertia_react_1$useF = inertia_react_1.useForm({
     email: ''
   }),
-      data = _useForm_1$default.data,
-      useField = _useForm_1$default.useField,
-      formStatus = _useForm_1$default.status,
-      submit = _useForm_1$default.submit;
-
-  var isProcessing = formStatus === 'processing';
-
-  var _useField = useField('email'),
-      _useField2 = _slicedToArray(_useField, 2),
-      email = _useField2[0],
-      setEmail = _useField2[1];
+      email = _inertia_react_1$useF.data.email,
+      setData = _inertia_react_1$useF.setData,
+      processing = _inertia_react_1$useF.processing;
 
   var formHandler = function formHandler(e) {
     e.preventDefault();
-    submit(new Promise(function (resolve) {
-      inertia_1.Inertia.post(route('password.email'), data, {
-        onFinish: function onFinish() {
-          //   @ts-ignore
-          resolve();
-        }
-      });
-    }));
+    forgotPasswordForm.post(route('password.email'));
   };
 
   return react_1["default"].createElement(AuthenticationCard_1["default"], {
@@ -9580,15 +9367,15 @@ var ForgotPassword = function ForgotPassword(_ref) {
     className: "block w-full mt-1",
     value: email,
     onChange: function onChange(e) {
-      return setEmail(e.target.value);
+      return setData('email', e.target.value);
     },
     required: true,
     autoFocus: true
   })), react_1["default"].createElement("div", {
     className: "flex items-center justify-end mt-4"
   }, react_1["default"].createElement(Button_1["default"], {
-    className: isProcessing ? 'opacity-25' : '',
-    disabled: isProcessing
+    className: processing ? 'opacity-25' : '',
+    disabled: processing
   }, "Email Password Reset Link"))));
 };
 
@@ -9605,18 +9392,6 @@ exports.default = ForgotPassword;
 "use strict";
 
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -9628,8 +9403,6 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
 
 var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
 
@@ -9647,54 +9420,30 @@ var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button *
 
 var Checkbox_1 = __importDefault(__webpack_require__(/*! ../../Components/Checkbox */ "./resources/js/Components/Checkbox.tsx"));
 
-var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.tsx"));
-
 var Login = function Login(_ref) {
   var _ref$status = _ref.status,
       status = _ref$status === void 0 ? '' : _ref$status,
       canResetPassword = _ref.canResetPassword;
-
-  var _useForm_1$default = useForm_1["default"]({
+  var loginForm = inertia_react_1.useForm({
     email: '',
     password: '',
     remember: false
-  }),
-      data = _useForm_1$default.data,
-      useField = _useForm_1$default.useField,
-      formStatus = _useForm_1$default.status,
-      submit = _useForm_1$default.submit,
-      reset = _useForm_1$default.reset;
-
-  var isProcessing = formStatus === 'processing';
-
-  var _useField = useField('email'),
-      _useField2 = _slicedToArray(_useField, 2),
-      email = _useField2[0],
-      setEmail = _useField2[1];
-
-  var _useField3 = useField('password'),
-      _useField4 = _slicedToArray(_useField3, 2),
-      password = _useField4[0],
-      setPassword = _useField4[1];
-
-  var _useField5 = useField('remember'),
-      _useField6 = _slicedToArray(_useField5, 2),
-      remember = _useField6[0],
-      setRemember = _useField6[1];
+  });
+  var _loginForm$data = loginForm.data,
+      email = _loginForm$data.email,
+      password = _loginForm$data.password,
+      remember = _loginForm$data.remember,
+      setData = loginForm.setData,
+      processing = loginForm.processing,
+      reset = loginForm.reset;
 
   var formHandler = function formHandler(e) {
     e.preventDefault();
-    submit(new Promise(function (resolve) {
-      inertia_1.Inertia.post(route('login'), Object.assign(Object.assign({}, data), {
-        remember: remember ? 'on' : ''
-      }), {
-        onError: function onError() {
-          //@ts-ignore
-          resolve();
-          reset('password');
-        }
-      });
-    }));
+    loginForm.post(route('login'), {
+      onError: function onError() {
+        reset('password');
+      }
+    });
   };
 
   return react_1["default"].createElement(AuthenticationCard_1["default"], {
@@ -9716,7 +9465,7 @@ var Login = function Login(_ref) {
     className: "block w-full mt-1",
     value: email,
     onChange: function onChange(e) {
-      return setEmail(e.target.value);
+      return setData('email', e.target.value);
     },
     required: true,
     autoFocus: true
@@ -9731,7 +9480,7 @@ var Login = function Login(_ref) {
     className: "block w-full mt-1",
     value: password,
     onChange: function onChange(e) {
-      return setPassword(e.target.value);
+      return setData('password', e.target.value);
     },
     required: true,
     autoComplete: "current-password"
@@ -9743,7 +9492,7 @@ var Login = function Login(_ref) {
     name: "remember",
     checked: remember,
     onChange: function onChange(e) {
-      return setRemember(e.target.value);
+      return setData('remember', e.target.checked);
     }
   }), react_1["default"].createElement("span", {
     className: "ml-2 text-sm text-gray-600"
@@ -9753,8 +9502,8 @@ var Login = function Login(_ref) {
     href: route('password.request'),
     className: "text-sm text-gray-600 underline hover:text-gray-900"
   }, "Forgot your password?")) : null, react_1["default"].createElement(Button_1["default"], {
-    className: ['ml-4', isProcessing ? 'opacity-25' : ''].join(' '),
-    disabled: isProcessing
+    className: ['ml-4', processing ? 'opacity-25' : ''].join(' '),
+    disabled: processing
   }, "Log in"))));
 };
 
@@ -9771,18 +9520,6 @@ exports.default = Login;
 "use strict";
 
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -9794,8 +9531,6 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
 
 var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
 
@@ -9813,64 +9548,34 @@ var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button *
 
 var Checkbox_1 = __importDefault(__webpack_require__(/*! ../../Components/Checkbox */ "./resources/js/Components/Checkbox.tsx"));
 
-var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.tsx"));
-
 var usePage_1 = __webpack_require__(/*! ../../Hooks/usePage */ "./resources/js/Hooks/usePage.tsx");
 
 var Register = function Register() {
-  var _useForm_1$default = useForm_1["default"]({
+  var registerForm = inertia_react_1.useForm({
     name: '',
     email: '',
     password: '',
     password_confirmation: '',
     terms: false
-  }),
-      data = _useForm_1$default.data,
-      useField = _useForm_1$default.useField,
-      formStatus = _useForm_1$default.status,
-      submit = _useForm_1$default.submit,
-      reset = _useForm_1$default.reset;
-
-  var isProcessing = formStatus === 'processing';
-
-  var _useField = useField('name'),
-      _useField2 = _slicedToArray(_useField, 2),
-      name = _useField2[0],
-      setName = _useField2[1];
-
-  var _useField3 = useField('email'),
-      _useField4 = _slicedToArray(_useField3, 2),
-      email = _useField4[0],
-      setEmail = _useField4[1];
-
-  var _useField5 = useField('password'),
-      _useField6 = _slicedToArray(_useField5, 2),
-      password = _useField6[0],
-      setPassword = _useField6[1];
-
-  var _useField7 = useField('password_confirmation'),
-      _useField8 = _slicedToArray(_useField7, 2),
-      passwordConfirmation = _useField8[0],
-      setPasswordConfirmation = _useField8[1];
-
-  var _useField9 = useField('terms'),
-      _useField10 = _slicedToArray(_useField9, 2),
-      terms = _useField10[0],
-      setTerms = _useField10[1];
-
+  });
+  var _registerForm$data = registerForm.data,
+      name = _registerForm$data.name,
+      email = _registerForm$data.email,
+      password = _registerForm$data.password,
+      password_confirmation = _registerForm$data.password_confirmation,
+      terms = _registerForm$data.terms,
+      setData = registerForm.setData,
+      processing = registerForm.processing,
+      reset = registerForm.reset;
   var jetstream = usePage_1.usePage().props.jetstream;
 
   var formHandler = function formHandler(e) {
     e.preventDefault();
-    submit(new Promise(function (resolve) {
-      inertia_1.Inertia.post(route('register'), data, {
-        onFinish: function onFinish() {
-          //   @ts-ignore
-          resolve();
-          reset('password', 'password_confirmation');
-        }
-      });
-    }));
+    registerForm.post(route('register'), {
+      onFinish: function onFinish() {
+        return reset('password', 'password_confirmation');
+      }
+    });
   };
 
   return react_1["default"].createElement(AuthenticationCard_1["default"], {
@@ -9888,7 +9593,7 @@ var Register = function Register() {
     className: "block w-full mt-1",
     value: name,
     onChange: function onChange(e) {
-      return setName(e.target.value);
+      return setData('name', e.target.value);
     },
     required: true,
     autoFocus: true,
@@ -9904,7 +9609,7 @@ var Register = function Register() {
     className: "block w-full mt-1",
     value: email,
     onChange: function onChange(e) {
-      return setEmail(e.target.value);
+      return setData('email', e.target.value);
     },
     required: true
   })), react_1["default"].createElement("div", {
@@ -9918,7 +9623,7 @@ var Register = function Register() {
     className: "block w-full mt-1",
     value: password,
     onChange: function onChange(e) {
-      return setPassword(e.target.value);
+      return setData('password', e.target.value);
     },
     required: true,
     autoComplete: "new-password"
@@ -9931,9 +9636,9 @@ var Register = function Register() {
     id: "password_confirmation",
     type: "password",
     className: "block w-full mt-1",
-    value: passwordConfirmation,
+    value: password_confirmation,
     onChange: function onChange(e) {
-      return setPasswordConfirmation(e.target.value);
+      return setData('password_confirmation', e.target.value);
     },
     required: true,
     autoComplete: "new-password"
@@ -9948,7 +9653,7 @@ var Register = function Register() {
     id: "terms",
     checked: terms,
     onChange: function onChange(e) {
-      return setTerms(e.target.value);
+      return setData('terms', e.target.checked);
     }
   }), react_1["default"].createElement("div", {
     className: "ml-2"
@@ -9968,8 +9673,8 @@ var Register = function Register() {
     href: route('login'),
     className: "text-sm text-gray-600 underline hover:text-gray-900"
   }, "Already registered?"), react_1["default"].createElement(Button_1["default"], {
-    className: ['ml-4', isProcessing ? 'opacity-25' : ''].join(' '),
-    disabled: isProcessing
+    className: ['ml-4', processing ? 'opacity-25' : ''].join(' '),
+    disabled: processing
   }, "Register"))));
 };
 
@@ -9986,18 +9691,6 @@ exports.default = Register;
 "use strict";
 
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -10009,8 +9702,6 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
 
 var AuthenticationCard_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCard */ "./resources/js/Components/AuthenticationCard.tsx"));
 
@@ -10024,52 +9715,32 @@ var Label_1 = __importDefault(__webpack_require__(/*! ../../Components/Label */ 
 
 var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
 
-var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.tsx"));
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
 
 var ResetPassword = function ResetPassword(_ref) {
   var email = _ref.email,
       token = _ref.token;
-
-  var _useForm_1$default = useForm_1["default"]({
-    email: email,
-    token: token,
+  var resetPasswordForm = inertia_react_1.useForm({
+    form_email: email,
+    form_token: token,
     password: '',
     password_confirmation: ''
-  }),
-      data = _useForm_1$default.data,
-      useField = _useForm_1$default.useField,
-      formStatus = _useForm_1$default.status,
-      submit = _useForm_1$default.submit,
-      reset = _useForm_1$default.reset;
-
-  var isProcessing = formStatus === 'processing';
-
-  var _useField = useField('email'),
-      _useField2 = _slicedToArray(_useField, 2),
-      formEmail = _useField2[0],
-      setFormEmail = _useField2[1];
-
-  var _useField3 = useField('password'),
-      _useField4 = _slicedToArray(_useField3, 2),
-      password = _useField4[0],
-      setPassword = _useField4[1];
-
-  var _useField5 = useField('password_confirmation'),
-      _useField6 = _slicedToArray(_useField5, 2),
-      passwordConfirmation = _useField6[0],
-      setPasswordConfirmation = _useField6[1];
+  });
+  var _resetPasswordForm$da = resetPasswordForm.data,
+      form_email = _resetPasswordForm$da.form_email,
+      password = _resetPasswordForm$da.password,
+      password_confirmation = _resetPasswordForm$da.password_confirmation,
+      setData = resetPasswordForm.setData,
+      processing = resetPasswordForm.processing,
+      reset = resetPasswordForm.reset;
 
   var formHandler = function formHandler(e) {
     e.preventDefault();
-    submit(new Promise(function (resolve) {
-      inertia_1.Inertia.post(route('password.update'), data, {
-        onFinish: function onFinish() {
-          // @ts-ignore
-          resolve();
-          reset('password', 'password_confirmation');
-        }
-      });
-    }));
+    resetPasswordForm.post(route('password.update'), {
+      onFinish: function onFinish() {
+        reset('password', 'password_confirmation');
+      }
+    });
   };
 
   return react_1["default"].createElement(AuthenticationCard_1["default"], {
@@ -10085,9 +9756,9 @@ var ResetPassword = function ResetPassword(_ref) {
     id: "email",
     type: "email",
     className: "block w-full mt-1",
-    value: formEmail,
+    value: form_email,
     onChange: function onChange(e) {
-      return setFormEmail(e.target.value);
+      return setData('form_email', e.target.value);
     },
     required: true,
     autoFocus: true
@@ -10102,7 +9773,7 @@ var ResetPassword = function ResetPassword(_ref) {
     className: "block w-full mt-1",
     value: password,
     onChange: function onChange(e) {
-      return setPassword(e.target.value);
+      return setData('password', e.target.value);
     },
     required: true,
     autoComplete: "new-password"
@@ -10115,17 +9786,17 @@ var ResetPassword = function ResetPassword(_ref) {
     id: "password_confirmation",
     type: "password",
     className: "block w-full mt-1",
-    value: passwordConfirmation,
+    value: password_confirmation,
     onChange: function onChange(e) {
-      return setPasswordConfirmation(e.target.value);
+      return setData('password_confirmation', e.target.value);
     },
     required: true,
     autoComplete: "new-password"
   })), react_1["default"].createElement("div", {
     className: "flex items-center justify-end mt-4"
   }, react_1["default"].createElement(Button_1["default"], {
-    className: ['ml-4', isProcessing ? 'opacity-25' : ''].join(' '),
-    disabled: isProcessing
+    className: ['ml-4', processing ? 'opacity-25' : ''].join(' '),
+    disabled: processing
   }, "Reset Password"))));
 };
 
@@ -10166,8 +9837,6 @@ Object.defineProperty(exports, "__esModule", ({
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
-
 var AuthenticationCard_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCard */ "./resources/js/Components/AuthenticationCard.tsx"));
 
 var AuthenticationCardLogo_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCardLogo */ "./resources/js/Components/AuthenticationCardLogo.tsx"));
@@ -10180,29 +9849,19 @@ var Label_1 = __importDefault(__webpack_require__(/*! ../../Components/Label */ 
 
 var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
 
-var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.tsx"));
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
 
 var TwoFactorChallenge = function TwoFactorChallenge() {
-  var _useForm_1$default = useForm_1["default"]({
+  var twoFactorChallengeForm = inertia_react_1.useForm({
     code: '',
     recovery_code: ''
-  }),
-      data = _useForm_1$default.data,
-      useField = _useForm_1$default.useField,
-      formStatus = _useForm_1$default.status,
-      submit = _useForm_1$default.submit;
-
-  var isProcessing = formStatus === 'processing';
-
-  var _useField = useField('code'),
-      _useField2 = _slicedToArray(_useField, 2),
-      code = _useField2[0],
-      setCode = _useField2[1];
-
-  var _useField3 = useField('recovery_code'),
-      _useField4 = _slicedToArray(_useField3, 2),
-      recoveryCode = _useField4[0],
-      setRecoveryCode = _useField4[1];
+  });
+  var _twoFactorChallengeFo = twoFactorChallengeForm.data,
+      code = _twoFactorChallengeFo.code,
+      recovery_code = _twoFactorChallengeFo.recovery_code,
+      setData = twoFactorChallengeForm.setData,
+      processing = twoFactorChallengeForm.processing,
+      submit = twoFactorChallengeForm.submit;
 
   var _react_1$default$useS = react_1["default"].useState(false),
       _react_1$default$useS2 = _slicedToArray(_react_1$default$useS, 2),
@@ -10211,14 +9870,7 @@ var TwoFactorChallenge = function TwoFactorChallenge() {
 
   var formHandler = function formHandler(e) {
     e.preventDefault();
-    submit(new Promise(function (resolve) {
-      inertia_1.Inertia.post(route('two-factor.login'), data, {
-        onFinish: function onFinish() {
-          // @ts-ignore
-          resolve();
-        }
-      });
-    }));
+    twoFactorChallengeForm.post(route('two-factor.login'));
   };
 
   return react_1["default"].createElement(AuthenticationCard_1["default"], {
@@ -10239,7 +9891,7 @@ var TwoFactorChallenge = function TwoFactorChallenge() {
     className: "block w-full mt-1",
     value: code,
     onChange: function onChange(e) {
-      return setCode(e.target.value);
+      return setData('code', e.target.value);
     },
     autoFocus: true,
     autoComplete: "one-time-code"
@@ -10250,9 +9902,9 @@ var TwoFactorChallenge = function TwoFactorChallenge() {
     id: "recovery_code",
     type: "text",
     className: "block w-full mt-1",
-    value: recoveryCode,
+    value: recovery_code,
     onChange: function onChange(e) {
-      return setRecoveryCode(e.target.value);
+      return setData('recovery_code', e.target.value);
     },
     autoComplete: "one-time-code"
   })), react_1["default"].createElement("div", {
@@ -10264,8 +9916,8 @@ var TwoFactorChallenge = function TwoFactorChallenge() {
       return setRecovery(!recovery);
     }
   }, !recovery ? 'Use a recovery code' : 'Use an authentication code'), react_1["default"].createElement(Button_1["default"], {
-    className: ['ml-4', isProcessing ? 'opacity-25' : ''].join(' '),
-    disabled: isProcessing
+    className: ['ml-4', processing ? 'opacity-25' : ''].join(' '),
+    disabled: processing
   }, "Log in"))));
 };
 
@@ -10294,8 +9946,6 @@ Object.defineProperty(exports, "__esModule", ({
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
-
 var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
 
 var AuthenticationCard_1 = __importDefault(__webpack_require__(/*! ../../Components/AuthenticationCard */ "./resources/js/Components/AuthenticationCard.tsx"));
@@ -10304,32 +9954,15 @@ var AuthenticationCardLogo_1 = __importDefault(__webpack_require__(/*! ../../Com
 
 var Button_1 = __importDefault(__webpack_require__(/*! ../../Components/Button */ "./resources/js/Components/Button.tsx"));
 
-var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.tsx"));
-
 var VerifyEmail = function VerifyEmail(_ref) {
   var _ref$status = _ref.status,
       status = _ref$status === void 0 ? '' : _ref$status;
-
-  var _useForm_1$default = useForm_1["default"]({
-    email: '',
-    password: '',
-    remember: false
-  }),
-      formStatus = _useForm_1$default.status,
-      submit = _useForm_1$default.submit;
-
-  var isProcessing = formStatus === 'processing';
+  var verifyEmailForm = inertia_react_1.useForm({});
+  var processing = verifyEmailForm.processing;
 
   var formHandler = function formHandler(e) {
     e.preventDefault();
-    submit(new Promise(function (resolve) {
-      inertia_1.Inertia.post(route('verification.send'), {}, {
-        onFinish: function onFinish() {
-          // @ts-ignore
-          resolve();
-        }
-      });
-    }));
+    verifyEmailForm.post(route('verification.send'));
   };
 
   return react_1["default"].createElement(AuthenticationCard_1["default"], {
@@ -10343,8 +9976,8 @@ var VerifyEmail = function VerifyEmail(_ref) {
   }, react_1["default"].createElement("div", {
     className: "flex items-center justify-between mt-4"
   }, react_1["default"].createElement(Button_1["default"], {
-    className: ['ml-4', isProcessing ? 'opacity-25' : ''].join(' '),
-    disabled: isProcessing
+    className: ['ml-4', processing ? 'opacity-25' : ''].join(' '),
+    disabled: processing
   }, "Resend Verification Email"), react_1["default"].createElement(inertia_react_1.InertiaLink, {
     href: route('logout'),
     className: "text-sm text-gray-600 underline hover:text-gray-900",
@@ -10412,7 +10045,7 @@ Object.defineProperty(exports, "__esModule", ({
 
 var React = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-var AppLayout_1 = __importDefault(__webpack_require__(/*! ..//Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.tsx"));
+var AppLayout_1 = __importDefault(__webpack_require__(/*! ../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.tsx"));
 
 var Welcome_1 = __importDefault(__webpack_require__(/*! ./../Components/Welcome */ "./resources/js/Components/Welcome.tsx"));
 
@@ -10480,11 +10113,9 @@ Object.defineProperty(exports, "__esModule", ({
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
 
 var useKeyPress_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useKeyPress */ "./resources/js/Hooks/useKeyPress.tsx"));
-
-var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.tsx"));
 
 var ActionSection_1 = __importDefault(__webpack_require__(/*! ../../Components/ActionSection */ "./resources/js/Components/ActionSection.tsx"));
 
@@ -10497,8 +10128,6 @@ var Input_1 = __importDefault(__webpack_require__(/*! ../../Components/Input */ 
 var InputError_1 = __importDefault(__webpack_require__(/*! ../../Components/InputError */ "./resources/js/Components/InputError.tsx"));
 
 var DeleteUserForm = function DeleteUserForm(_a) {
-  var _b;
-
   var props = __rest(_a, []);
 
   var _react_1$default$useS = react_1["default"].useState(false),
@@ -10506,21 +10135,14 @@ var DeleteUserForm = function DeleteUserForm(_a) {
       confirmingUserDeletion = _react_1$default$useS2[0],
       setConfirmingUserDeletion = _react_1$default$useS2[1];
 
-  var _useForm_1$default = useForm_1["default"]({
+  var deleteUserForm = inertia_react_1.useForm({
     password: ''
-  }),
-      data = _useForm_1$default.data,
-      useField = _useForm_1$default.useField,
-      isProcessing = _useForm_1$default.isProcessing,
-      submit = _useForm_1$default.submit,
-      errors = _useForm_1$default.errors,
-      reset = _useForm_1$default.reset;
-
-  var _useField = useField('password'),
-      _useField2 = _slicedToArray(_useField, 2),
-      password = _useField2[0],
-      setPassword = _useField2[1];
-
+  });
+  var password = deleteUserForm.data.password,
+      setData = deleteUserForm.setData,
+      processing = deleteUserForm.processing,
+      errors = deleteUserForm.errors,
+      reset = deleteUserForm.reset;
   var passwordRef = react_1["default"].useRef(null);
 
   var closeModal = function closeModal() {
@@ -10529,23 +10151,18 @@ var DeleteUserForm = function DeleteUserForm(_a) {
   };
 
   var deleteUser = function deleteUser() {
-    submit(new Promise(function (resolve) {
-      inertia_1.Inertia["delete"](route('current-user.destroy'), {
-        errorBag: 'deleteUser',
-        preserveScroll: true,
-        onSuccess: function onSuccess() {
-          return closeModal();
-        },
-        onError: function onError() {
-          var _a;
+    deleteUserForm["delete"](route('current-user.destroy'), {
+      errorBag: 'deleteUser',
+      preserveScroll: true,
+      onSuccess: function onSuccess() {
+        return closeModal();
+      },
+      onError: function onError() {
+        var _a;
 
-          return (_a = passwordRef.current) === null || _a === void 0 ? void 0 : _a.focus();
-        },
-        onFinish: function onFinish() {
-          return resolve('reset');
-        }
-      });
-    }));
+        return (_a = passwordRef.current) === null || _a === void 0 ? void 0 : _a.focus();
+      }
+    });
   };
 
   return react_1["default"].createElement(ActionSection_1["default"], Object.assign({}, props, {
@@ -10573,11 +10190,11 @@ var DeleteUserForm = function DeleteUserForm(_a) {
         placeholder: "Password",
         value: password,
         onChange: function onChange(e) {
-          return setPassword(e.target.value);
+          return setData('password', e.target.value);
         },
         onKeyPress: useKeyPress_1["default"]('Enter', deleteUser)
       }), react_1["default"].createElement(InputError_1["default"], {
-        message: (_b = errors === null || errors === void 0 ? void 0 : errors.deleteUser) === null || _b === void 0 ? void 0 : _b.password,
+        message: errors === null || errors === void 0 ? void 0 : errors.password,
         className: "mt-2"
       }))),
       footer: react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(Button_1["default"], {
@@ -10585,9 +10202,9 @@ var DeleteUserForm = function DeleteUserForm(_a) {
         onClick: closeModal
       }, "Never mind"), react_1["default"].createElement(Button_1["default"], {
         variant: "danger",
-        className: ['ml-2', isProcessing ? 'opacity-25' : ''].join(' '),
+        className: ['ml-2', processing ? 'opacity-25' : ''].join(' '),
         onClick: deleteUser,
-        disabled: isProcessing
+        disabled: processing
       }, "Delete Account"))
     }))
   }));
@@ -10657,9 +10274,7 @@ var InputError_1 = __importDefault(__webpack_require__(/*! ../../Components/Inpu
 
 var useKeyPress_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useKeyPress */ "./resources/js/Hooks/useKeyPress.tsx"));
 
-var useForm_1 = __importDefault(__webpack_require__(/*! ../../Hooks/useForm */ "./resources/js/Hooks/useForm.tsx"));
-
-var inertia_1 = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+var inertia_react_1 = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
 
 var LogoutOtherBrowserSessionsForm = function LogoutOtherBrowserSessionsForm(_a) {
   var sessions = _a.sessions,
@@ -10670,23 +10285,16 @@ var LogoutOtherBrowserSessionsForm = function LogoutOtherBrowserSessionsForm(_a)
       confirmingLogout = _react_1$default$useS2[0],
       setConfirmingLogout = _react_1$default$useS2[1];
 
-  var _useForm_1$default = useForm_1["default"]({
+  var logoutOtherBrowserForm = inertia_react_1.useForm({
     errorBag: 'logoutOtherBrowserSessions',
     password: ''
-  }),
-      data = _useForm_1$default.data,
-      useField = _useForm_1$default.useField,
-      isProcessing = _useForm_1$default.isProcessing,
-      submit = _useForm_1$default.submit,
-      reset = _useForm_1$default.reset,
-      errors = _useForm_1$default.errors,
-      status = _useForm_1$default.status;
-
-  var _useField = useField('password'),
-      _useField2 = _slicedToArray(_useField, 2),
-      password = _useField2[0],
-      setPassword = _useField2[1];
-
+  });
+  var password = logoutOtherBrowserForm.data.password,
+      setData = logoutOtherBrowserForm.setData,
+      processing = logoutOtherBrowserForm.processing,
+      reset = logoutOtherBrowserForm.reset,
+      errors = logoutOtherBrowserForm.errors,
+      recentlySuccessful = logoutOtherBrowserForm.recentlySuccessful;
   var passwordRef = react_1["default"].useRef(null);
 
   var confirmLogout = function confirmLogout() {
@@ -10704,24 +10312,18 @@ var LogoutOtherBrowserSessionsForm = function LogoutOtherBrowserSessionsForm(_a)
   };
 
   var logoutOtherBrowserSessions = function logoutOtherBrowserSessions() {
-    submit(new Promise(function (resolve) {
-      inertia_1.Inertia["delete"](route('other-browser-sessions.destroy'), {
-        preserveScroll: true,
-        errorBag: 'logoutOtherBrowserSessions',
-        onSuccess: function onSuccess() {
-          return closeModal();
-        },
-        onError: function onError() {
-          var _a;
+    logoutOtherBrowserForm["delete"](route('other-browser-sessions.destroy'), {
+      preserveScroll: true,
+      errorBag: 'logoutOtherBrowserSessions',
+      onSuccess: function onSuccess() {
+        return closeModal();
+      },
+      onError: function onError() {
+        var _a;
 
-          return (_a = passwordRef.current) === null || _a === void 0 ? void 0 : _a.focus();
-        },
-        // @ts-ignore
-        onFinish: function onFinish() {
-          return resolve();
-        }
-      });
-    }));
+        return (_a = passwordRef.current) === null || _a === void 0 ? void 0 : _a.focus();
+      }
+    });
   };
 
   return react_1["default"].createElement(ActionSection_1["default"], Object.assign({}, props, {
@@ -10781,7 +10383,7 @@ var LogoutOtherBrowserSessionsForm = function LogoutOtherBrowserSessionsForm(_a)
     }, react_1["default"].createElement(Button_1["default"], {
       onClick: confirmLogout
     }, "Log Out Other Browser Sessions"), react_1["default"].createElement(ActionMessage_1["default"], {
-      on: status === 'recentlySuccessful',
+      on: recentlySuccessful,
       className: "ml-3"
     }, "Done.")), react_1["default"].createElement(ConfirmationModal_1["default"], {
       on: confirmingLogout,
@@ -10796,7 +10398,7 @@ var LogoutOtherBrowserSessionsForm = function LogoutOtherBrowserSessionsForm(_a)
         placeholder: "Password",
         value: password,
         onChange: function onChange(e) {
-          return setPassword(e.target.value);
+          return setData('password', e.target.value);
         },
         onKeyPress: useKeyPress_1["default"]('Enter', logoutOtherBrowserSessions)
       }), react_1["default"].createElement(InputError_1["default"], {
@@ -10807,9 +10409,9 @@ var LogoutOtherBrowserSessionsForm = function LogoutOtherBrowserSessionsForm(_a)
         variant: "secondary",
         onClick: closeModal
       }, "Never Mind"), react_1["default"].createElement(Button_1["default"], {
-        className: ['ml-2', isProcessing ? 'opacity-25' : ''].join(' '),
+        className: ['ml-2', processing ? 'opacity-25' : ''].join(' '),
         onClick: logoutOtherBrowserSessions,
-        disabled: isProcessing
+        disabled: processing
       }, "Log Out Other Browser Sessions"))
     }))
   }));
@@ -11336,7 +10938,8 @@ var UpdateProfileInformationForm = function UpdateProfileInformationForm(_ref) {
       _UpdateProfileForm$da = UpdateProfileForm.data,
       name = _UpdateProfileForm$da.name,
       email = _UpdateProfileForm$da.email,
-      processing = UpdateProfileForm.processing;
+      processing = UpdateProfileForm.processing,
+      recentlySuccessful = UpdateProfileForm.recentlySuccessful;
 
   var updateProfileInformation = function updateProfileInformation() {
     post(route('user-profile-information.update'), {
@@ -11457,7 +11060,7 @@ var UpdateProfileInformationForm = function UpdateProfileInformationForm(_ref) {
       className: "mt-2"
     }))),
     actions: react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(ActionMessage_1["default"], {
-      on: status === 'recentlySuccessful',
+      on: recentlySuccessful,
       className: "mr-3"
     }, "Saved."), react_1["default"].createElement(Button_1["default"], {
       className: processing ? 'opacity-25' : '',
@@ -11467,93 +11070,6 @@ var UpdateProfileInformationForm = function UpdateProfileInformationForm(_ref) {
 };
 
 exports.default = UpdateProfileInformationForm;
-
-/***/ }),
-
-/***/ "./resources/js/Pages/Test.tsx":
-/*!*************************************!*\
-  !*** ./resources/js/Pages/Test.tsx ***!
-  \*************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function get() {
-      return m[k];
-    }
-  });
-} : function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  o[k2] = m[k];
-});
-
-var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
-  Object.defineProperty(o, "default", {
-    enumerable: true,
-    value: v
-  });
-} : function (o, v) {
-  o["default"] = v;
-});
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-  }
-
-  __setModuleDefault(result, mod);
-
-  return result;
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-
-var React = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var AppLayout_1 = __importDefault(__webpack_require__(/*! ..//Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.tsx"));
-
-var Button_1 = __importDefault(__webpack_require__(/*! ../Components/Button */ "./resources/js/Components/Button.tsx"));
-
-var usePreventDefault_1 = __importDefault(__webpack_require__(/*! ../Hooks/usePreventDefault */ "./resources/js/Hooks/usePreventDefault.tsx"));
-
-var Test = function Test() {
-  var handleSubmit = function handleSubmit(e) {
-    console.log('excet');
-  };
-
-  return React.createElement(AppLayout_1["default"], {
-    header: React.createElement("h2", {
-      className: "text-xl font-semibold leading-tight text-gray-800"
-    }, "Test")
-  }, React.createElement("div", {
-    className: "py-12"
-  }, React.createElement("div", {
-    className: "mx-auto max-w-7xl sm:px-6 lg:px-8"
-  }, React.createElement("div", {
-    className: "overflow-hidden bg-white shadow-xl sm:rounded-lg"
-  }, React.createElement("form", {
-    onSubmit: function onSubmit(e) {
-      return usePreventDefault_1["default"](e, handleSubmit);
-    }
-  }, React.createElement(Button_1["default"], null, "click"))))));
-};
-
-exports.default = Test;
 
 /***/ }),
 
@@ -61836,8 +61352,6 @@ var map = {
 	"./Profile/UpdatePasswordForm.tsx": "./resources/js/Pages/Profile/UpdatePasswordForm.tsx",
 	"./Profile/UpdateProfileInformationForm": "./resources/js/Pages/Profile/UpdateProfileInformationForm.tsx",
 	"./Profile/UpdateProfileInformationForm.tsx": "./resources/js/Pages/Profile/UpdateProfileInformationForm.tsx",
-	"./Test": "./resources/js/Pages/Test.tsx",
-	"./Test.tsx": "./resources/js/Pages/Test.tsx",
 	"./Welcome": "./resources/js/Pages/Welcome.tsx",
 	"./Welcome.tsx": "./resources/js/Pages/Welcome.tsx"
 };

@@ -26,7 +26,6 @@ const ApiTokenManager: React.FC<Props> = ({ tokens, availablePermissions, defaul
   const [apiTokenBeingDeleted, setApiTokenBeingDeleted] = useState<null | Token>(null);
   const { jetstream } = usePage().props;
 
-  //   console.log({ tokens, availablePermissions, defaultPermissions });
   const createApiTokenForm = useForm({
     name: '',
     permissions: defaultPermissions,
@@ -62,7 +61,6 @@ const ApiTokenManager: React.FC<Props> = ({ tokens, availablePermissions, defaul
   };
   const checkboxArrayChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, permision: string, form: any) => {
     const permissions = form.data.permissions;
-    console.log({ createApiTokenForm, updateApiTokenForm });
     if (e.target.checked) {
       permissions.includes(permision)
         ? form.setData('permissions', permissions)
@@ -77,10 +75,8 @@ const ApiTokenManager: React.FC<Props> = ({ tokens, availablePermissions, defaul
   };
   const isChecked = (permission: string, comparing: string[] | string) => {
     if (Array.isArray(comparing)) {
-      console.log(comparing.includes(permission));
       return comparing.includes(permission);
     }
-    console.log(comparing === permission);
     return comparing === permission;
   };
   return (

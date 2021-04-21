@@ -6,31 +6,24 @@ import ValidationErrors from '../../Components/ValidationErrors';
 import Input from '../../Components/Input';
 import Label from '../../Components/Label';
 import Button from '../../Components/Button';
-import useForm from '../../Hooks/useForm';
+import { useForm } from '@inertiajs/inertia-react';
 
 const TwoFactorChallenge = () => {
-  const { data, useField, status: formStatus, submit } = useForm({
+  const twoFactorChallengeForm = useForm({
     code: '',
     recovery_code: '',
   });
-  const isProcessing = formStatus === 'processing';
-  const [code, setCode] = useField('code');
-  const [recoveryCode, setRecoveryCode] = useField('recovery_code');
+  const {
+    data: { code, recovery_code },
+    setData,
+    processing,
+    submit,
+  } = twoFactorChallengeForm;
   const [recovery, setRecovery] = React.useState(false);
 
   const formHandler = (e: React.FormEvent) => {
     e.preventDefault();
-
-    submit(
-      new Promise((resolve) => {
-        Inertia.post(route('two-factor.login'), data, {
-          onFinish: () => {
-            // @ts-ignore
-            resolve();
-          },
-        });
-      })
-    );
+    twoFactorChallengeForm.post(route('two-factor.login'));
   };
 
   return (
@@ -53,7 +46,7 @@ const TwoFactorChallenge = () => {
               inputMode="numeric"
               className="block w-full mt-1"
               value={code}
-              onChange={(e) => setCode(e.target.value)}
+              onChange={(e) => setData('code', e.target.value)}
               autoFocus
               autoComplete="one-time-code"
             />
@@ -65,8 +58,8 @@ const TwoFactorChallenge = () => {
               id="recovery_code"
               type="text"
               className="block w-full mt-1"
-              value={recoveryCode}
-              onChange={(e) => setRecoveryCode(e.target.value)}
+              value={recovery_code}
+              onChange={(e) => setData('recovery_code', e.target.value)}
               autoComplete="one-time-code"
             />
           </div>
@@ -80,7 +73,7 @@ const TwoFactorChallenge = () => {
           >
             {!recovery ? 'Use a recovery code' : 'Use an authentication code'}
           </button>
-          <Button className={['ml-4', isProcessing ? 'opacity-25' : ''].join(' ')} disabled={isProcessing}>
+          <Button className={['ml-4', processing ? 'opacity-25' : ''].join(' ')} disabled={processing}>
             Log in
           </Button>
         </div>

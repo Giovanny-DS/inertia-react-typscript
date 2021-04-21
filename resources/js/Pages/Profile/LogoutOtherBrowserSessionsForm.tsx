@@ -6,9 +6,7 @@ import Button from '../../Components/Button';
 import Input from '../../Components/Input';
 import InputError from '../../Components/InputError';
 import useKeyPress from '../../Hooks/useKeyPress';
-import useForm from '../../Hooks/useForm';
-import { Inertia } from '@inertiajs/inertia';
-import { Session } from '../../types/types';
+import { useForm } from '@inertiajs/inertia-react';
 
 type Props = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
   sessions: any;
@@ -16,11 +14,18 @@ type Props = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLD
 
 const LogoutOtherBrowserSessionsForm: React.FC<Props> = ({ sessions, ...props }) => {
   const [confirmingLogout, setConfirmingLogout] = React.useState(false);
-  const { data, useField, isProcessing, submit, reset, errors, status } = useForm({
+  const logoutOtherBrowserForm = useForm({
     errorBag: 'logoutOtherBrowserSessions',
     password: '',
   });
-  const [password, setPassword] = useField('password');
+  const {
+    data: { password },
+    setData,
+    processing,
+    reset,
+    errors,
+    recentlySuccessful,
+  } = logoutOtherBrowserForm;
   const passwordRef = React.useRef<HTMLInputElement>(null);
 
   const confirmLogout = () => {
@@ -34,19 +39,12 @@ const LogoutOtherBrowserSessionsForm: React.FC<Props> = ({ sessions, ...props })
   };
 
   const logoutOtherBrowserSessions = () => {
-    submit(
-      new Promise((resolve) => {
-        Inertia.delete(route('other-browser-sessions.destroy'), {
-          preserveScroll: true,
-          errorBag: 'logoutOtherBrowserSessions',
-          onSuccess: () => closeModal(),
-
-          onError: () => passwordRef.current?.focus(),
-          // @ts-ignore
-          onFinish: () => resolve(),
-        });
-      })
-    );
+    logoutOtherBrowserForm.delete(route('other-browser-sessions.destroy'), {
+      preserveScroll: true,
+      errorBag: 'logoutOtherBrowserSessions',
+      onSuccess: () => closeModal(),
+      onError: () => passwordRef.current?.focus(),
+    });
   };
 
   return (
@@ -123,7 +121,7 @@ const LogoutOtherBrowserSessionsForm: React.FC<Props> = ({ sessions, ...props })
           <div className="flex items-center mt-5">
             <Button onClick={confirmLogout}>Log Out Other Browser Sessions</Button>
 
-            <ActionMessage on={status === 'recentlySuccessful'} className="ml-3">
+            <ActionMessage on={recentlySuccessful} className="ml-3">
               Done.
             </ActionMessage>
           </div>
@@ -144,7 +142,7 @@ const LogoutOtherBrowserSessionsForm: React.FC<Props> = ({ sessions, ...props })
                     className="block w-3/4 mt-1"
                     placeholder="Password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => setData('password', e.target.value)}
                     onKeyPress={useKeyPress('Enter', logoutOtherBrowserSessions)}
                   />
 
@@ -158,9 +156,9 @@ const LogoutOtherBrowserSessionsForm: React.FC<Props> = ({ sessions, ...props })
                   Never Mind
                 </Button>
                 <Button
-                  className={['ml-2', isProcessing ? 'opacity-25' : ''].join(' ')}
+                  className={['ml-2', processing ? 'opacity-25' : ''].join(' ')}
                   onClick={logoutOtherBrowserSessions}
-                  disabled={isProcessing}
+                  disabled={processing}
                 >
                   Log Out Other Browser Sessions
                 </Button>

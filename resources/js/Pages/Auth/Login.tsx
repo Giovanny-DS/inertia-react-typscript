@@ -1,6 +1,6 @@
 import React from 'react';
 import { Inertia } from '@inertiajs/inertia';
-import { InertiaLink } from '@inertiajs/inertia-react';
+import { InertiaLink, useForm } from '@inertiajs/inertia-react';
 import AuthenticationCard from '../../Components/AuthenticationCard';
 import AuthenticationCardLogo from '../../Components/AuthenticationCardLogo';
 import ValidationErrors from '../../Components/ValidationErrors';
@@ -8,7 +8,6 @@ import Input from '../../Components/Input';
 import Label from '../../Components/Label';
 import Button from '../../Components/Button';
 import Checkbox from '../../Components/Checkbox';
-import useForm from '../../Hooks/useForm';
 
 type Props = {
   status?: string;
@@ -16,37 +15,26 @@ type Props = {
 };
 
 const Login = ({ status = '', canResetPassword }: Props) => {
-  const { data, useField, status: formStatus, submit, reset } = useForm({
+  const loginForm = useForm({
     email: '',
     password: '',
     remember: false,
   });
-  const isProcessing = formStatus === 'processing';
-  const [email, setEmail] = useField('email');
-  const [password, setPassword] = useField('password');
-  const [remember, setRemember] = useField('remember');
+  const {
+    data: { email, password, remember },
+    setData,
+    processing,
+    reset,
+  } = loginForm;
 
   const formHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
-    submit(
-      new Promise((resolve) => {
-        Inertia.post(
-          route('login'),
-          {
-            ...data,
-            remember: remember ? 'on' : '',
-          },
-          {
-            onError: () => {
-              //@ts-ignore
-              resolve();
-              reset('password');
-            },
-          }
-        );
-      })
-    );
+    loginForm.post(route('login'), {
+      onError: () => {
+        reset('password');
+      },
+    });
   };
 
   return (
@@ -67,7 +55,7 @@ const Login = ({ status = '', canResetPassword }: Props) => {
             type="email"
             className="block w-full mt-1"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setData('email', e.target.value)}
             required
             autoFocus
           />
@@ -80,7 +68,7 @@ const Login = ({ status = '', canResetPassword }: Props) => {
             type="password"
             className="block w-full mt-1"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setData('password', e.target.value)}
             required
             autoComplete="current-password"
           />
@@ -88,7 +76,7 @@ const Login = ({ status = '', canResetPassword }: Props) => {
 
         <div className="block mt-4">
           <label className="flex items-center">
-            <Checkbox name="remember" checked={remember} onChange={(e) => setRemember(e.target.value)} />
+            <Checkbox name="remember" checked={remember} onChange={(e) => setData('remember', e.target.checked)} />
             <span className="ml-2 text-sm text-gray-600">Remember me</span>
           </label>
         </div>
@@ -104,7 +92,7 @@ const Login = ({ status = '', canResetPassword }: Props) => {
               </InertiaLink>
             </>
           ) : null}
-          <Button className={['ml-4', isProcessing ? 'opacity-25' : ''].join(' ')} disabled={isProcessing}>
+          <Button className={['ml-4', processing ? 'opacity-25' : ''].join(' ')} disabled={processing}>
             Log in
           </Button>
         </div>
