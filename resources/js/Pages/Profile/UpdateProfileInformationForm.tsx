@@ -36,11 +36,7 @@ const UpdateProfileInformationForm: React.FC<Props> = ({ user }) => {
     data: { name, email },
     processing,
   } = UpdateProfileForm;
-  const updateProfileInformation = async () => {
-    console.log(photoRef.current?.files?.[0]);
-    if (photoRef.current?.files?.[0]) {
-      setData('photo', photoRef.current?.files[0]);
-    }
+  const updateProfileInformation = () => {
     post(route('user-profile-information.update'), {
       errorBag: 'updateProfileInformation',
       preserveScroll: true,
@@ -55,6 +51,7 @@ const UpdateProfileInformationForm: React.FC<Props> = ({ user }) => {
     reader.onload = () => {
       setPhotoPreview(reader.result);
     };
+    setData('photo', photoRef.current?.files?.[0]);
     // @ts-ignore
     reader.readAsDataURL(photoRef.current?.files?.[0]);
   };
