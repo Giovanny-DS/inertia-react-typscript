@@ -17,7 +17,7 @@ This is a Laravel Jetstream scaffolding Using the Inertia stack but React instea
     * your **`APP_URL`** including the port. Example: (**`http://127.0.0.1:8080`**)
     * set **`SANCTUM_STATEFUL_DOMAINS`**, **`APP_URL`**, **`SESSION_DOMAIN`**. if you Get code 419, Page Expired, or cors errores. please check these Configurations.*
 * `php artisan migrate --seed`
-* `php artisan serve`. if you ser a custom host and port. use `php artisan serve --host=<yourhost> --port=<yourposrt>`. and config your .Env variables.
+* `php artisan serve`. if you set a custom host and port. use `php artisan serve --host=<yourhost> --port=<yourposrt>`. and config your .Env variables.
 * user: `admin@admin.com` 
 * password: `password`
 
